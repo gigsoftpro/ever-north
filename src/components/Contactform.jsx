@@ -1,0 +1,122 @@
+import { useState } from "react";
+import contactBg from "../assets/images/rectangle_30_copy_2.jpg";
+
+export default function ContactForm() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("Message sent! We will get back to you shortly.");
+    setForm({ name: "", email: "", phone: "", subject: "", message: "" });
+  };
+
+  const inputClass =
+    "w-full bg-[#f3f3f3] rounded-[15px] text-[#848484] text-base sm:text-lg px-6 py-4 outline-none focus:ring-2 focus:ring-[#b7a170] transition-all placeholder-[#848484]";
+
+  return (
+    <section
+      className="w-full py-16 sm:py-20 lg:py-28 px-4 sm:px-8 lg:px-16 xl:px-32"
+      style={{
+        backgroundImage: `url(${contactBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="max-w-[1920px] mx-auto">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-10 lg:gap-16 xl:gap-24">
+          {/* Left Side Text */}
+          <div className="lg:flex-1 text-white">
+            <h2 className="text-4xl sm:text-5xl xl:text-7xl font-semibold leading-tight mb-6">
+              Want more
+              <br />
+              information?
+            </h2>
+            <p className="text-base sm:text-lg xl:text-xl font-semibold leading-8 max-w-[392px] opacity-90">
+              We're excited to connect with you! Required fields are marked *
+            </p>
+          </div>
+
+          {/* Form Card */}
+          <div className="w-full lg:w-auto lg:min-w-[480px] xl:min-w-[700px] bg-white rounded-[40px] p-8 sm:p-10 xl:p-12">
+            <h3 className="text-[#303030] text-2xl sm:text-3xl font-normal mb-8">
+              Leave Us A Message
+            </h3>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Name + Email */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                  value={form.name}
+                  onChange={handleChange}
+                  className={inputClass}
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={form.email}
+                  onChange={handleChange}
+                  className={inputClass}
+                />
+              </div>
+
+              {/* Phone + Subject */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone"
+                  value={form.phone}
+                  onChange={handleChange}
+                  className={inputClass}
+                />
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder="Subject"
+                  value={form.subject}
+                  onChange={handleChange}
+                  className={inputClass}
+                />
+              </div>
+
+              {/* Message */}
+              <textarea
+                name="message"
+                placeholder="Message"
+                rows={5}
+                value={form.message}
+                onChange={handleChange}
+                className={`${inputClass} resize-none`}
+              />
+
+              {/* Submit */}
+              <button
+                type="submit"
+                className="font-semibold text-white text-sm tracking-widest uppercase px-8 py-3 hover:opacity-90 transition-opacity rounded-sm mt-4"
+                style={{
+                  background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)",
+                }}
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
