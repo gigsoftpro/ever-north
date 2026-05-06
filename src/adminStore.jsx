@@ -1,70 +1,158 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+// src/adminStore.jsx
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
 import { defaultContent, STORAGE_KEYS } from "./contentSchema";
+import {
+  apiLogin,
+  apiMe,
+  apiChangePassword,
+  storeToken,
+  clearToken,
+  getStoredToken,
+  isTokenExpired,
+} from "./services/authApi";
 
-const defaultUser = {
-  name: "Admin User",
-  email: "admin@evernorth.com",
-  password: "Admin@123",
-};
 const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
   const [content, setContent] = useState(defaultContent);
-  const [user, setUser] = useState(defaultUser);
+  const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true); // hydrating session
 
+  /* ── Hydrate session on mount ──────────────────────────────────────────── */
   useEffect(() => {
     const savedContent = localStorage.getItem(STORAGE_KEYS.content);
-    const savedUser = localStorage.getItem(STORAGE_KEYS.user);
-    const savedSession = localStorage.getItem(STORAGE_KEYS.session);
-    if (savedContent) setContent(JSON.parse(savedContent));
-    if (savedUser) setUser(JSON.parse(savedUser));
-    if (savedSession)
-      setIsLoggedIn(JSON.parse(savedSession).isLoggedIn === true);
+    if (savedContent) {
+      try {
+        setContent(JSON.parse(savedContent));
+      } catch {}
+    }
+
+    const token = getStoredToken();
+
+    if (!token || isTokenExpired()) {
+      clearToken();
+      setAuthLoading(false);
+      return;
+    }
+
+    // Validate token with server
+    apiMe()
+      .then(({ admin }) => {
+        setUser(admin);
+        setIsLoggedIn(true);
+      })
+      .catch(() => {
+        clearToken();
+      })
+      .finally(() => setAuthLoading(false));
   }, []);
 
-  const persistContent = (next) => {
+  /* ── Content ───────────────────────────────────────────────────────────── */
+  const persistContent = useCallback((next) => {
     setContent(next);
     localStorage.setItem(STORAGE_KEYS.content, JSON.stringify(next));
-  };
+  }, []);
 
-  const login = (email, password) => {
-    const ok = email === user.email && password === user.password;
-    if (!ok) return false;
-    localStorage.setItem(
-      STORAGE_KEYS.session,
-      JSON.stringify({ isLoggedIn: true, at: Date.now() }),
-    );
-    setIsLoggedIn(true);
-    return true;
-  };
+  const resetContent = useCallback(
+    () => persistContent(defaultContent),
+    [persistContent],
+  );
 
-  const logout = () => {
-    localStorage.removeItem(STORAGE_KEYS.session);
+  /* ── Auth ──────────────────────────────────────────────────────────────── */
+
+  /**
+   * login(identifier, password, rememberMe)
+   * Returns { success, message }
+   */
+  const login = useCallback(
+    async (identifier, password, rememberMe = false) => {
+      try {
+        const data = await apiLogin(identifier, password);
+
+        storeToken(data.token, rememberMe);
+        setUser(data.admin);
+        setIsLoggedIn(true);
+
+        return { success: true };
+      } catch (err) {
+        return { success: false, message: err.message || "Login failed" };
+      }
+    },
+    [],
+  );
+
+  const logout = useCallback(() => {
+    clearToken();
+    setUser(null);
     setIsLoggedIn(false);
-  };
+  }, []);
 
-  const updateProfile = (nextUser) => {
-    const merged = { ...user, ...nextUser };
-    setUser(merged);
-    localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(merged));
-  };
+  /**
+   * changePassword(currentPassword, newPassword)
+   * Returns { success, message }
+   */
+  const changePassword = useCallback(async (currentPassword, newPassword) => {
+    try {
+      await apiChangePassword(currentPassword, newPassword);
+      return { success: true, message: "Password updated successfully" };
+    } catch (err) {
+      return {
+        success: false,
+        message: err.message || "Failed to update password",
+      };
+    }
+  }, []);
 
-  const resetContent = () => persistContent(defaultContent);
+  /**
+   * Refresh user from server (useful after profile edits)
+   */
+  const refreshUser = useCallback(async () => {
+    try {
+      const { admin } = await apiMe();
+      setUser(admin);
+    } catch {
+      logout();
+    }
+  }, [logout]);
 
+  /* ── Context value ─────────────────────────────────────────────────────── */
   const value = useMemo(
     () => ({
+      // content
+      content,
+      persistContent,
+      resetContent,
+      // auth
+      user,
+      isLoggedIn,
+      authLoading,
+      login,
+      logout,
+      changePassword,
+      refreshUser,
+    }),
+    [
       content,
       persistContent,
       resetContent,
       user,
+      isLoggedIn,
+      authLoading,
       login,
       logout,
-      isLoggedIn,
-      updateProfile,
-    }),
-    [content, user, isLoggedIn],
+      changePassword,
+      refreshUser,
+    ],
   );
+
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
 

@@ -4,3 +4,10 @@
 * {
   font-family: "Montserrat", sans-serif;
 }
+
+*::-webkit-scrollbar{
+  display: none;
+}
+.displaynoscrollbar::-webkit-scrollbar{
+  display: none;
+}

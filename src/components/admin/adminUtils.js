@@ -1,5 +1,6 @@
 export const getIn = (obj, path) =>
   path.split(".").reduce((a, k) => a?.[k], obj);
+
 export const setIn = (obj, path, value) => {
   const keys = path.split(".");
   const copy = structuredClone(obj);

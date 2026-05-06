@@ -1,27 +1,80 @@
 import { useState } from "react";
 import contactBg from "../assets/images/rectangle_30_copy_2.jpg";
+import { BaseUrl } from "./Config/BaseUrl";
+
+const INITIAL_FORM = {
+  name: "",
+  email: "",
+  phone: "",
+  subject: "",
+  message: "",
+};
+
+// ── Submission states ──────────────────────────────────────────────────────────
+const STATUS = {
+  IDLE: "idle",
+  LOADING: "loading",
+  SUCCESS: "success",
+  ERROR: "error",
+};
 
 export default function ContactForm() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
+  const [form, setForm] = useState(INITIAL_FORM);
+  const [status, setStatus] = useState(STATUS.IDLE);
+  const [errMsg, setErrMsg] = useState("");
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    // Clear error when user starts typing again
+    if (status === STATUS.ERROR) setStatus(STATUS.IDLE);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Message sent! We will get back to you shortly.");
-    setForm({ name: "", email: "", phone: "", subject: "", message: "" });
+    if (status === STATUS.LOADING) return;
+
+    // Basic client-side validation
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      setStatus(STATUS.ERROR);
+      setErrMsg("Name, email, and message are required.");
+      return;
+    }
+
+    setStatus(STATUS.LOADING);
+    setErrMsg("");
+
+    try {
+      const res = await fetch(`${BaseUrl}content/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim() || undefined,
+          subject: form.subject.trim() || undefined,
+          message: form.message.trim(),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setStatus(STATUS.SUCCESS);
+        setForm(INITIAL_FORM);
+      } else {
+        setStatus(STATUS.ERROR);
+        setErrMsg(data.message || "Submission failed. Please try again.");
+      }
+    } catch {
+      setStatus(STATUS.ERROR);
+      setErrMsg("Network error. Please check your connection and try again.");
+    }
   };
 
   const inputClass =
-    "w-full bg-[#f3f3f3] rounded-[15px] text-[#848484] text-base sm:text-lg px-6 py-4 outline-none focus:ring-2 focus:ring-[#b7a170] transition-all placeholder-[#848484]";
+    "w-full bg-[#f3f3f3] rounded-[15px] text-[#848484] text-base sm:text-lg px-6 py-4 outline-none focus:ring-2 focus:ring-[#b7a170] transition-all placeholder-[#848484] disabled:opacity-60";
+
+  const isLoading = status === STATUS.LOADING;
 
   return (
     <section
@@ -34,7 +87,7 @@ export default function ContactForm() {
     >
       <div className="max-w-[1920px] mx-auto">
         <div className="flex flex-col lg:flex-row items-start lg:items-center gap-10 lg:gap-16 xl:gap-24">
-          {/* Left Side Text */}
+          {/* ── Left Side Text ──────────────────────────────────────────── */}
           <div className="lg:flex-1 text-white">
             <h2 className="text-4xl sm:text-5xl xl:text-7xl font-semibold leading-tight mb-6">
               Want more
@@ -46,11 +99,25 @@ export default function ContactForm() {
             </p>
           </div>
 
-          {/* Form Card */}
+          {/* ── Form Card ───────────────────────────────────────────────── */}
           <div className="w-full lg:w-auto lg:min-w-[480px] xl:min-w-[700px] bg-white rounded-[40px] p-8 sm:p-10 xl:p-12">
             <h3 className="text-[#303030] text-2xl sm:text-3xl font-normal mb-8">
               Leave Us A Message
             </h3>
+
+            {/* ── Success banner ─────────────────────────────────────────── */}
+            {status === STATUS.SUCCESS && (
+              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-2xl text-green-700 text-sm font-medium">
+                ✓ Message sent! We'll be in touch with you shortly.
+              </div>
+            )}
+
+            {/* ── Error banner ───────────────────────────────────────────── */}
+            {status === STATUS.ERROR && errMsg && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl text-red-600 text-sm font-medium">
+                {errMsg}
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Name + Email */}
@@ -58,18 +125,22 @@ export default function ContactForm() {
                 <input
                   type="text"
                   name="name"
-                  placeholder="Name"
+                  placeholder="Name *"
                   value={form.name}
                   onChange={handleChange}
+                  disabled={isLoading}
                   className={inputClass}
+                  required
                 />
                 <input
                   type="email"
                   name="email"
-                  placeholder="Email"
+                  placeholder="Email *"
                   value={form.email}
                   onChange={handleChange}
+                  disabled={isLoading}
                   className={inputClass}
+                  required
                 />
               </div>
 
@@ -81,6 +152,7 @@ export default function ContactForm() {
                   placeholder="Phone"
                   value={form.phone}
                   onChange={handleChange}
+                  disabled={isLoading}
                   className={inputClass}
                 />
                 <input
@@ -89,6 +161,7 @@ export default function ContactForm() {
                   placeholder="Subject"
                   value={form.subject}
                   onChange={handleChange}
+                  disabled={isLoading}
                   className={inputClass}
                 />
               </div>
@@ -96,22 +169,32 @@ export default function ContactForm() {
               {/* Message */}
               <textarea
                 name="message"
-                placeholder="Message"
+                placeholder="Message *"
                 rows={5}
                 value={form.message}
                 onChange={handleChange}
+                disabled={isLoading}
                 className={`${inputClass} resize-none`}
+                required
               />
 
               {/* Submit */}
               <button
                 type="submit"
-                className="font-semibold text-white text-sm tracking-widest uppercase px-8 py-3 hover:opacity-90 transition-opacity rounded-sm mt-4"
+                disabled={isLoading}
+                className="font-semibold text-white text-sm tracking-widest uppercase px-8 py-3 hover:opacity-90 transition-opacity rounded-sm mt-4 disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
                 style={{
                   background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)",
                 }}
               >
-                Submit
+                {isLoading ? (
+                  <>
+                    <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Sending…
+                  </>
+                ) : (
+                  "Submit"
+                )}
               </button>
             </form>
           </div>

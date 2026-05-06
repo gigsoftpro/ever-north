@@ -1,133 +1,117 @@
-import { useMemo, useState } from "react";
-import { useAppStore } from "../../adminStore.jsx";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  FileText,
+  Image as ImageIcon,
+  MessageSquare,
+  BarChart3,
+} from "lucide-react";
+
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import AdminTopbar from "../../components/admin/AdminTopbar";
-import ContentEditor from "../../components/admin/ContentEditor";
-import ImageEditor from "../../components/admin/ImageEditor";
+import ContentEditor from "../../components/admin/ContentEditor"; // default only — no TEXT_SECTIONS
 import ProfileEditor from "../../components/admin/ProfileEditor";
+import { StatCard } from "../../components/UI/StatCard";
+import { useAppStore } from "../../adminStore";
+import ImageEditor from "../../components/admin/ImageEditor";
 
-const textSections = [
+const STAT_TILES = [
   {
-    id: "hero",
-    title: "Hero",
-    fields: [
-      ["hero.title", "Title"],
-      ["hero.cta", "CTA Button"],
-    ],
+    label: "Site Sections",
+    value: "11",
+    icon: FileText,
+    trend: "All editable",
+    color: "amber",
   },
   {
-    id: "site",
-    title: "Header",
-    fields: [
-      ["site.brandName", "Brand Name"],
-      ["site.phone", "Phone"],
-      ["site.email", "Email"],
-    ],
+    label: "Media Uploads",
+    value: "—",
+    icon: ImageIcon,
+    trend: "Managed per section",
+    color: "blue",
   },
   {
-    id: "about",
-    title: "About",
-    fields: [
-      ["about.missionTitle", "Mission Title"],
-      ["about.missionText1", "Mission Text 1"],
-      ["about.missionText2", "Mission Text 2"],
-      ["about.aboutTitle", "About Title"],
-      ["about.aboutText", "About Text"],
-    ],
+    label: "Contact Inbox",
+    value: "—",
+    icon: MessageSquare,
+    trend: "Check Inbox tab",
+    color: "green",
   },
   {
-    id: "services",
-    title: "Services",
-    fields: [
-      ["services.sectionTitle", "Section Title"],
-      ["services.cards.0.title", "Card 1 Title"],
-      ["services.cards.0.description", "Card 1 Description"],
-      ["services.cards.1.title", "Card 2 Title"],
-      ["services.cards.2.title", "Card 3 Title"],
-      ["services.consultationCta", "Consultation CTA"],
-      ["services.callCta", "Call CTA"],
-    ],
+    label: "CMS Version",
+    value: "v3.0",
+    icon: BarChart3,
+    trend: "Backend-connected",
+    color: "violet",
   },
-  {
-    id: "footer",
-    title: "Footer",
-    fields: [
-      ["footer.description", "Description"],
-      ["footer.email", "Email"],
-      ["footer.phone", "Phone"],
-    ],
-  },
-];
-
-const imageFields = [
-  ["images.heroBg", "Hero Background"],
-  ["images.aboutMain", "About Image"],
-  ["images.service1", "Service Card 1 BG"],
-  ["images.service2", "Service Card 2 BG"],
-  ["images.service3", "Service Card 3 BG"],
-  ["images.headerBg", "Header Background"],
-  ["images.footerLogo", "Footer Logo"],
 ];
 
 export default function AdminDashboard() {
-  const { content, persistContent, resetContent, user, updateProfile, logout } =
-    useAppStore();
-  const [draft, setDraft] = useState(content);
-  const [profile, setProfile] = useState(user);
-  const [mobileNav, setMobileNav] = useState(false);
-  const [active, setActive] = useState("content");
+  const { user, updateProfile, logout } = useAppStore();
 
-  const stats = useMemo(
-    () => ({
-      textFields: textSections.reduce((a, s) => a + s.fields.length, 0),
-      imageFields: imageFields.length,
-    }),
-    [],
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [profile, setProfile] = useState(
+    user ?? { name: "", email: "", password: "" },
   );
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Derive active panel from URL: /admin/content → "content", /admin/profile → "profile"
+  const active = location.pathname.replace(/^\/admin\/?/, "") || "content";
+
+  const handleLogout = () => {
+    logout();
+    navigate("/admin/login");
+  };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-800">
-      <div className="flex">
-        <AdminSidebar
-          active={active}
-          setActive={setActive}
-          mobileNav={mobileNav}
-          setMobileNav={setMobileNav}
-        />
-        <main className="flex-1 lg:ml-0">
-          <AdminTopbar
-            mobileNav={mobileNav}
-            setMobileNav={setMobileNav}
-            onLogout={() => {
-              logout();
-              window.location.pathname = "/admin/login";
-            }}
-          />
-          <div className="p-4 lg:p-8 space-y-6">
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="bg-white p-4 rounded-xl shadow">
-                <p className="text-sm text-slate-500">Editable text fields</p>
-                <p className="text-2xl font-bold">{stats.textFields}</p>
-              </div>
-              <div className="bg-white p-4 rounded-xl shadow">
-                <p className="text-sm text-slate-500">Image slots</p>
-                <p className="text-2xl font-bold">{stats.imageFields}</p>
-              </div>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+        * { font-family: 'DM Sans', sans-serif; }
+      `}</style>
+
+      <div
+        className="flex h-screen overflow-hidden"
+        style={{ background: "#f0f2f7" }}
+      >
+        {/* Sidebar */}
+        <AdminSidebar open={sidebarOpen} setOpen={setSidebarOpen} user={user} />
+
+        {/* Main column */}
+        <div className="flex flex-col flex-1 min-w-0 h-screen lg:ml-64 bg-white">
+          {/* Top bar */}
+          <div className="flex-shrink-0">
+            <AdminTopbar
+              sidebarOpen={sidebarOpen}
+              setSidebarOpen={setSidebarOpen}
+              onLogout={handleLogout}
+            />
+          </div>
+
+          {/* Scrollable content area */}
+          <main
+            className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-5 rounded-2xl"
+            style={{ background: "#f0f2f7" }}
+          >
+            {/* ── Stat tiles ─────────────────────────────────────────────── */}
+            <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
+              {STAT_TILES.map((tile) => (
+                <StatCard
+                  key={tile.label}
+                  label={tile.label}
+                  value={tile.value}
+                  icon={tile.icon}
+                  trend={tile.trend}
+                  color={tile.color}
+                />
+              ))}
             </div>
-            {active === "content" && (
-              <ContentEditor
-                draft={draft}
-                setDraft={setDraft}
-                textSections={textSections}
-              />
-            )}
-            {active === "images" && (
-              <ImageEditor
-                draft={draft}
-                setDraft={setDraft}
-                imageFields={imageFields}
-              />
-            )}
+
+            {(active === "content" || active === "") && <ContentEditor />}
+            {/* {(active === "images" || active === "") && <ImageEditor />} */}
+
             {active === "profile" && (
               <ProfileEditor
                 profile={profile}
@@ -135,26 +119,18 @@ export default function AdminDashboard() {
                 onSave={() => updateProfile(profile)}
               />
             )}
-            <div className="flex flex-wrap gap-3">
-              <button
-                className="px-5 py-2 rounded bg-[#b7a170] font-semibold"
-                onClick={() => persistContent(draft)}
-              >
-                Save All Changes
-              </button>
-              <button
-                className="px-5 py-2 rounded bg-slate-700 text-white"
-                onClick={() => {
-                  resetContent();
-                  setDraft(content);
-                }}
-              >
-                Reset Defaults
-              </button>
-            </div>
-          </div>
-        </main>
+
+            {/* Add more panels here as needed (e.g. active === "media") */}
+          </main>
+
+          {/* Footer */}
+          <footer className="flex-shrink-0 bg-white py-2.5">
+            <p className="text-center text-xs text-slate-400">
+              © Ever North {new Date().getFullYear()} · All rights reserved
+            </p>
+          </footer>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

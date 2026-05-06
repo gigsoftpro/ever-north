@@ -1,24 +1,93 @@
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+  useLocation,
+} from "react-router-dom";
+import { useAppStore } from "./adminStore";
+
 import Header from "./components/Header";
-import Home from "./pages/home/Home";
 import Footer from "./components/Footer";
+import Home from "./pages/home/Home";
+import AboutUs from "./pages/aboutus/AboutUs";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import { useAppStore } from "./adminStore.jsx";
+import NotFound from "./pages/NotFound";
+import ContactUs from "./pages/contact/ContactUs";
+import OurServices from "./pages/services/OurServices";
 
-const App = () => {
-  const { isLoggedIn } = useAppStore();
-  const isAdmin = window.location.pathname.startsWith("/admin");
-
-  if (window.location.pathname === "/admin/login") return <AdminLogin />;
-  if (isAdmin) return isLoggedIn ? <AdminDashboard /> : <AdminLogin />;
-
+function PublicLayout() {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <Home />
+      <main className="flex-1">
+        <Outlet />
+      </main>
       <Footer />
     </div>
   );
-};
+}
 
-export default App;
+function SessionLoader() {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
+      <div className="w-11 h-11 border-4 border-amber-400 border-t-transparent rounded-full animate-spin" />
+      <p className="text-slate-500 text-sm font-medium tracking-wide">
+        Verifying session…
+      </p>
+    </div>
+  );
+}
+
+function ProtectedRoute() {
+  const { isLoggedIn, authLoading } = useAppStore();
+  const location = useLocation();
+
+  if (authLoading) return <SessionLoader />;
+
+  return isLoggedIn ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/admin/login" state={{ from: location.pathname }} replace />
+  );
+}
+
+function GuestRoute() {
+  const { isLoggedIn, authLoading } = useAppStore();
+
+  if (authLoading) return <SessionLoader />;
+
+  return isLoggedIn ? <Navigate to="/admin/content" replace /> : <Outlet />;
+}
+
+// ── App ───────────────────────────────────────────────────────────────────────
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/our-services" element={<OurServices />} />
+          <Route path="/properties" element={<Home />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+
+        <Route element={<GuestRoute />}>
+          <Route path="/admin/login" element={<AdminLogin />} />
+        </Route>
+
+        <Route path="/admin" element={<ProtectedRoute />}>
+          <Route index element={<Navigate to="/admin/content" replace />} />
+          <Route path="content" element={<AdminDashboard />} />
+          <Route path="images" element={<AdminDashboard />} />
+          <Route path="profile" element={<AdminDashboard />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}

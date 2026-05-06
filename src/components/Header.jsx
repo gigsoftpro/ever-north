@@ -10,6 +10,12 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = ["Home", "About Us", "Services", "Contact Us"];
+  const NavLinks = [
+    { label: "Home", route: "/" },
+    { label: "About Us", route: "/about" },
+    { label: "Services", route: "/our-services" },
+    { label: "Contact Us", route: "/contact-us" },
+  ];
 
   return (
     <header
@@ -90,22 +96,22 @@ export default function Header() {
               backgroundPosition: "center",
             }}
           >
-            <div className="mx-auto px-4 sm:px-8 lg:px-16 xl:px-12">
+            <div className="mx-auto px-4 sm:px-8 lg:px-16 xl:px-18">
               {/* Desktop Nav */}
-              <nav className="hidden md:flex items-center justify-between py-1">
+              <nav className="hidden md:flex items-center justify-between">
                 <div className="flex items-center gap-0">
-                  {navLinks.map((link, i) => (
+                  {NavLinks.map((link, i) => (
                     <a
-                      key={link}
-                      href="#"
+                      key={link.route}
+                      href={link.route}
                       className="relative px-5 lg:px-8 xl:px-10 py-3 text-white font-medium uppercase text-sm tracking-wide hover:text-[#b7a170] transition-colors"
                       style={
-                        i < navLinks.length - 1
+                        i < NavLinks.length - 1
                           ? { borderRight: "1px solid #8b6f31" }
                           : {}
                       }
                     >
-                      {link}
+                      {link.label}
                     </a>
                   ))}
                 </div>
