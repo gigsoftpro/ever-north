@@ -79,13 +79,14 @@ export default function ContactForm() {
 
   return (
     <section
-      className="w-full py-16 sm:py-20 lg:py-28 px-4 sm:px-8 lg:px-16 xl:px-32"
+      className="w-full py-16 sm:py-20 lg:py-28 "
       style={{
         backgroundImage: `url(${contactBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
+      <div className="w-[1260px] mx-auto">
       <div className="max-w-[1920px] mx-auto">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 lg:gap-16 xl:gap-20">
           <div className="w-full md:w-[40%] xl:w-[35%] text-white shrink-0">
@@ -195,6 +196,7 @@ export default function ContactForm() {
             </form>
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

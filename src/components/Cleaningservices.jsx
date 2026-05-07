@@ -49,7 +49,7 @@ export default function CleaningServices() {
     words.slice(0, middle).join(" "),
     words.slice(middle).join(" "),
   ];
-
+  
   const displayItems = items?.length
     ? items.slice(0, 3).map((item, i) => ({
         img: item.image?.url || FALLBACK_IMAGES[i] || img1,
@@ -83,10 +83,11 @@ export default function CleaningServices() {
   }
 
   return (
-    <section className="w-full bg-[#f7f2e8] py-16 lg:py-24 px-4 sm:px-8 lg:px-16 xl:px-32">
+    <section className="w-full bg-[#f7f2e8]">
+      <div className="w-[1260px] bg-[#f7f2e8] py-16 lg:py-24 sm:px-8 mx-auto">
       {/* Header row */}
       <div className="flex md:items-center justify-between md:mb-12 lg:mb-16 flex-col md:flex-row">
-        <h2 className="text-[#000000] text-2xl sm:text-3xl lg:text-5xl font-light leading-10 sm:leading-12 lg:leading-18">
+        <h2 className="text-[#000000]  text-4xl sm:text-5xl lg:text-5xl font-light leading-[1.3]">
           {titleLines.map((line, i) => (
             <span key={i}>
               {line}
@@ -97,7 +98,7 @@ export default function CleaningServices() {
         <GoldButton className="text-base">More Services</GoldButton>
       </div>
 
-      <hr className="border-[#8f7334] mb-16" />
+      <hr className="border-[#b7a170] mb-10" />
 
       <div className="max-w-[1333px] mx-auto">
         <div className="flex flex-wrap justify-between mb-10">
@@ -134,6 +135,7 @@ export default function CleaningServices() {
             </div>
           ))}
         </div>
+      </div>
       </div>
     </section>
   );
