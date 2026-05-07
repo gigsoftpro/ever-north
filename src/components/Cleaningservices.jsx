@@ -42,9 +42,14 @@ export default function CleaningServices() {
   // ── Section heading ────────────────────────────────────────────────────────
   const sectionTitle = meta?.title || "Property Management & Maintenance";
 
-  // ── Build display items ────────────────────────────────────────────────────
-  // Each backend item: { id, label, image: { url }, sort_order }
-  // We map to a display card merging label + fallback title/para
+  const words = sectionTitle.split(" ");
+  const middle = Math.ceil(words.length / 2);
+
+  const titleLines = [
+    words.slice(0, middle).join(" "),
+    words.slice(middle).join(" "),
+  ];
+
   const displayItems = items?.length
     ? items.slice(0, 3).map((item, i) => ({
         img: item.image?.url || FALLBACK_IMAGES[i] || img1,
@@ -80,18 +85,16 @@ export default function CleaningServices() {
   return (
     <section className="w-full bg-[#f7f2e8] py-16 lg:py-24 px-4 sm:px-8 lg:px-16 xl:px-32">
       {/* Header row */}
-      <div className="flex items-center justify-between mb-12 lg:mb-16">
-        <h2 className="text-[#000000] text-4xl sm:text-5xl lg:text-5xl font-light leading-18">
-          {sectionTitle.includes("\n")
-            ? sectionTitle.split("\n").map((line, i) => (
-                <span key={i}>
-                  {line}
-                  <br />
-                </span>
-              ))
-            : sectionTitle}
+      <div className="flex md:items-center justify-between md:mb-12 lg:mb-16 flex-col md:flex-row">
+        <h2 className="text-[#000000] text-2xl sm:text-3xl lg:text-5xl font-light leading-10 sm:leading-12 lg:leading-18">
+          {titleLines.map((line, i) => (
+            <span key={i}>
+              {line}
+              {i !== titleLines.length - 1 && <br />}
+            </span>
+          ))}
         </h2>
-        <GoldButton className="mt-4 text-base">More Services</GoldButton>
+        <GoldButton className="text-base">More Services</GoldButton>
       </div>
 
       <hr className="border-[#8f7334] mb-16" />

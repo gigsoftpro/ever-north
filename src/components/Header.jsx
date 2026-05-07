@@ -5,10 +5,13 @@ import emailIcon from "../assets/images/email_2.png";
 import searchIcon from "../assets/images/search_2.png";
 import headerBg from "../assets/images/rectangle_188.jpg";
 import navBg from "../assets/images/rectangle_185.png";
+import { useSiteData } from "./SiteDataContext";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const { siteData, loading } = useSiteData();
+  console.log(siteData?.header);
+  const HeaderData = siteData?.header;
   const NavLinks = [
     { label: "Home", route: "/" },
     { label: "About Us", route: "/about" },
@@ -35,9 +38,9 @@ export default function Header() {
       <div className="max-w-[1600px] w-full mx-auto flex items-center justify-center py-4 lg:py-0 lg:pt-5 px-4 lg:px-0">
         <a href="/" className="flex-shrink-0">
           <img
-            src={logo}
+            src={HeaderData?.logo?.url || logo}
             alt="Ever North"
-            className="h-10 sm:h-18 lg:h-[90px] w-auto"
+            className="h-10 sm:h-18 lg:h-[90px] w-auto lg:mb-4"
           />
         </a>
 
@@ -55,7 +58,9 @@ export default function Header() {
                   Call Us
                 </p>
                 <p className="text-white font-semibold text-sm lg:text-base">
-                  (01) 1234 5678
+                  <a href={`tel:${HeaderData?.phone || "989-457-8596"}`}>
+                    {HeaderData?.phone || "989-457-8596"}
+                  </a>
                 </p>
               </div>
             </div>
@@ -73,7 +78,9 @@ export default function Header() {
                   Email
                 </p>
                 <p className="text-white font-semibold text-sm lg:text-base">
-                  demo@evernorth.com
+                  <a href={`tel:${HeaderData?.email || "989-457-8596"}`}>
+                    {HeaderData?.email || "demo@evernorth.com"}
+                  </a>
                 </p>
               </div>
             </div>
@@ -116,10 +123,10 @@ export default function Header() {
             <div className="mx-auto">
               <nav className="hidden lg:flex items-center justify-between">
                 <div className="flex items-center gap-0">
-                  {NavLinks.map((link, i) => (
+                  {HeaderData?.nav_links?.map((link, i) => (
                     <a
-                      key={link.route}
-                      href={link.route}
+                      key={i}
+                      href={link.href}
                       className="relative px-5 lg:px-8 xl:px-10 py-3 text-white font-medium uppercase text-sm tracking-wide hover:text-[#b7a170] transition-colors"
                       style={
                         i < NavLinks.length - 1

@@ -9,7 +9,8 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 
 const NAV_ITEMS = [
-  { path: "/admin/content", label: "Content Studio", icon: FileText },
+  { path: "/admin/dashboard", label: "Dashboard", icon: FileText },
+  { path: "/admin/content", label: "Manage Home", icon: FileText },
   // { path: "/admin/images", label: "Media Vault", icon: ImageIcon }, // This is a test route made for image edit and upload and manage
   { path: "/admin/profile", label: "Profile & Security", icon: Shield },
 ];

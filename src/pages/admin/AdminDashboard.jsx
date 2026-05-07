@@ -14,6 +14,7 @@ import ProfileEditor from "../../components/admin/ProfileEditor";
 import { StatCard } from "../../components/UI/StatCard";
 import { useAppStore } from "../../adminStore";
 import ImageEditor from "../../components/admin/ImageEditor";
+import AdminHome from "../../components/admin/AdminHome";
 
 const STAT_TILES = [
   {
@@ -109,8 +110,10 @@ export default function AdminDashboard() {
               ))}
             </div>
 
-            {(active === "content" || active === "") && <ContentEditor />}
             {/* {(active === "images" || active === "") && <ImageEditor />} */}
+            
+            {(active === "dashboard" || active === "") && <AdminHome />}
+            {(active === "content" || active === "") && <ContentEditor />}
 
             {active === "profile" && (
               <ProfileEditor

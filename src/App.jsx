@@ -17,16 +17,19 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import ContactUs from "./pages/contact/ContactUs";
 import OurServices from "./pages/services/OurServices";
+import { SiteDataProvider } from "./components/SiteDataContext";
 
 function PublicLayout() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-1">
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
+    <SiteDataProvider>
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
+    </SiteDataProvider>
   );
 }
 
@@ -81,7 +84,8 @@ export default function App() {
         </Route>
 
         <Route path="/admin" element={<ProtectedRoute />}>
-          <Route index element={<Navigate to="/admin/content" replace />} />
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="content" element={<AdminDashboard />} />
           <Route path="images" element={<AdminDashboard />} />
           <Route path="profile" element={<AdminDashboard />} />

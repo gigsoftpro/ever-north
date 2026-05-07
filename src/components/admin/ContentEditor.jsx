@@ -229,6 +229,7 @@ function ImageSlot({
   onClear,
   uploading,
   section = "general",
+  mode = "cover", // "cover" for banners/photos, "contain" for logos/overlays
 }) {
   const [dragging, setDragging] = useState(false);
   const [localUploading, setLocalUploading] = useState(false);
@@ -257,6 +258,12 @@ function ImageSlot({
 
   const previewUrl = value?.url || (typeof value === "string" ? value : null);
 
+  // Container bg: checkered pattern for contain/logo mode so transparency is visible
+  const containerBg =
+    mode === "contain"
+      ? "bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHJlY3Qgd2lkdGg9IjgiIGhlaWdodD0iOCIgZmlsbD0iI2YxZjVmOSIvPjxyZWN0IHg9IjgiIHk9IjgiIHdpZHRoPSI4IiBoZWlnaHQ9IjgiIGZpbGw9IiNmMWY1ZjkiLz48cmVjdCB4PSI4IiB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZTJlOGYwIi8+PHJlY3QgeT0iOCIgd2lkdGg9IjgiIGhlaWdodD0iOCIgZmlsbD0iI2UyZThGMCIvPjwvc3ZnPg==')] bg-repeat"
+      : "bg-slate-100";
+
   return (
     <div>
       {label && <FieldLabel>{label}</FieldLabel>}
@@ -281,11 +288,13 @@ function ImageSlot({
             <p className="text-xs text-slate-500">Uploading…</p>
           </div>
         ) : previewUrl ? (
-          <div className="relative group">
+          <div className={`relative group h-32 ${containerBg}`}>
             <img
               src={previewUrl}
               alt={label}
-              className="w-full h-32 object-cover"
+              className={`w-full h-full ${
+                mode === "contain" ? "object-contain p-2" : "object-cover"
+              }`}
             />
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
               <button
@@ -642,6 +651,7 @@ function HeroPanel({ data: initialData, onSaved }) {
                   label="Background Image"
                   value={editing.item.bg_image}
                   section="hero"
+                  mode="contain"
                   onUpload={(m) =>
                     setEditing((p) => ({ item: { ...p.item, bg_image: m } }))
                   }
@@ -653,6 +663,7 @@ function HeroPanel({ data: initialData, onSaved }) {
                   label="Overlay Image"
                   value={editing.item.overlay_image}
                   section="hero"
+                  mode="contain"
                   onUpload={(m) =>
                     setEditing((p) => ({
                       item: { ...p.item, overlay_image: m },
@@ -812,6 +823,7 @@ function HeaderPanel({ data, onSaved }) {
             label="Logo"
             value={draft.logo}
             section="header"
+            mode="contain"
             onUpload={(m) => setDraft((p) => ({ ...p, logo: m }))}
             onClear={() => setDraft((p) => ({ ...p, logo: null }))}
           />
@@ -874,6 +886,7 @@ function AboutPanel({ data, onSaved }) {
             label="About Column Image"
             value={draft.about_image}
             section="about"
+            mode="contain"
             onUpload={(m) => setDraft((p) => ({ ...p, about_image: m }))}
             onClear={() => setDraft((p) => ({ ...p, about_image: null }))}
           />
@@ -1090,6 +1103,7 @@ function ServicesPanel({ data: initialData, onSaved }) {
                 label="Card Background Image"
                 value={editing.item.image}
                 section="services"
+                mode="contain"
                 onUpload={(m) =>
                   setEditing((p) => ({ item: { ...p.item, image: m } }))
                 }
@@ -1326,6 +1340,7 @@ function CleaningPanel({ data: initialData, onSaved }) {
                   label="Circle Image"
                   value={editing.item.image}
                   section="cleaning"
+                  mode="contain"
                   onUpload={(m) =>
                     setEditing((p) => ({ item: { ...p.item, image: m } }))
                   }
@@ -1758,6 +1773,7 @@ function AreasPanel({ data: initialData, onSaved }) {
                   label="Area Photo"
                   value={editing.item.image}
                   section="areas"
+                  mode="contain"
                   onUpload={(m) =>
                     setEditing((p) => ({ item: { ...p.item, image: m } }))
                   }
@@ -2073,6 +2089,7 @@ function FooterPanel({ data, onSaved }) {
             label="Footer Logo"
             value={draft.logo}
             section="footer"
+            mode="contain"
             onUpload={(m) => setDraft((p) => ({ ...p, logo: m }))}
             onClear={() => setDraft((p) => ({ ...p, logo: null }))}
           />
@@ -2080,6 +2097,7 @@ function FooterPanel({ data, onSaved }) {
             label="Building Image"
             value={draft.building_img}
             section="footer"
+            mode="contain"
             onUpload={(m) => setDraft((p) => ({ ...p, building_img: m }))}
             onClear={() => setDraft((p) => ({ ...p, building_img: null }))}
           />

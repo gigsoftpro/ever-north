@@ -71,8 +71,9 @@ export default function ContactForm() {
     }
   };
 
+  // Made horizontal padding fluid (px-5 sm:px-6) so inputs never look cramped on narrow devices
   const inputClass =
-    "w-full bg-[#f3f3f3] rounded-[15px] text-[#848484] text-base sm:text-lg px-6 py-4 outline-none focus:ring-2 focus:ring-[#b7a170] transition-all placeholder-[#848484] disabled:opacity-60";
+    "w-full bg-[#f3f3f3] rounded-[15px] text-[#848484] text-base sm:text-lg px-5 sm:px-6 py-3.5 sm:py-4 outline-none focus:ring-2 focus:ring-[#b7a170] transition-all placeholder-[#848484] disabled:opacity-60";
 
   const isLoading = status === STATUS.LOADING;
 
@@ -86,10 +87,9 @@ export default function ContactForm() {
       }}
     >
       <div className="max-w-[1920px] mx-auto">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-10 lg:gap-16 xl:gap-24">
-          {/* ── Left Side Text ──────────────────────────────────────────── */}
-          <div className="lg:flex-1 text-white">
-            <h2 className="text-4xl sm:text-5xl xl:text-7xl font-semibold leading-tight mb-6">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 lg:gap-16 xl:gap-20">
+          <div className="w-full md:w-[40%] xl:w-[35%] text-white shrink-0">
+            <h2 className="text-3xl xs:text-4xl sm:text-5xl xl:text-7xl font-semibold leading-tight mb-6">
               Want more
               <br />
               information?
@@ -99,20 +99,17 @@ export default function ContactForm() {
             </p>
           </div>
 
-          {/* ── Form Card ───────────────────────────────────────────────── */}
-          <div className="w-full lg:w-auto lg:min-w-[480px] xl:min-w-[700px] bg-white rounded-[40px] p-8 sm:p-10 xl:p-12">
+          <div className="w-full md:flex-1 lg:max-w-[550px] xl:max-w-[700px] bg-white rounded-[30px] sm:rounded-[40px] p-6 sm:p-10 xl:p-12">
             <h3 className="text-[#303030] text-2xl sm:text-3xl font-normal mb-8">
               Leave Us A Message
             </h3>
 
-            {/* ── Success banner ─────────────────────────────────────────── */}
             {status === STATUS.SUCCESS && (
               <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-2xl text-green-700 text-sm font-medium">
                 ✓ Message sent! We'll be in touch with you shortly.
               </div>
             )}
 
-            {/* ── Error banner ───────────────────────────────────────────── */}
             {status === STATUS.ERROR && errMsg && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl text-red-600 text-sm font-medium">
                 {errMsg}
@@ -120,7 +117,6 @@ export default function ContactForm() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Name + Email */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <input
                   type="text"
@@ -182,7 +178,7 @@ export default function ContactForm() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="font-semibold text-white text-sm tracking-widest uppercase px-8 py-3 hover:opacity-90 transition-opacity rounded-sm mt-4 disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+                className="font-semibold text-white text-sm tracking-widest uppercase px-8 py-3.5 sm:py-3 hover:opacity-90 transition-opacity rounded-sm mt-4 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 style={{
                   background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)",
                 }}
