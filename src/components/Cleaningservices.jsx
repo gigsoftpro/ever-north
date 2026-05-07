@@ -26,7 +26,7 @@ const FALLBACK_ITEMS = [
 
 const GoldButton = ({ children, className = "" }) => (
   <button
-    className={`font-semibold text-white px-6 py-3 rounded-sm hover:opacity-90 transition-opacity ${className}`}
+    className={`font-semibold text-white px-6 py-3 text-base hover:opacity-90 transition-opacity ${className}`}
     style={{ background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)" }}
   >
     {children}
@@ -80,8 +80,8 @@ export default function CleaningServices() {
   return (
     <section className="w-full bg-[#f7f2e8] py-16 lg:py-24 px-4 sm:px-8 lg:px-16 xl:px-32">
       {/* Header row */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-[#000000] text-4xl sm:text-5xl lg:text-5xl font-light leading-18 mb-12 lg:mb-16">
+      <div className="flex items-center justify-between mb-12 lg:mb-16">
+        <h2 className="text-[#000000] text-4xl sm:text-5xl lg:text-5xl font-light leading-18">
           {sectionTitle.includes("\n")
             ? sectionTitle.split("\n").map((line, i) => (
                 <span key={i}>
@@ -97,7 +97,7 @@ export default function CleaningServices() {
       <hr className="border-[#8f7334] mb-16" />
 
       <div className="max-w-[1333px] mx-auto">
-        <div className="flex flex-wrap justify-center mb-10">
+        <div className="flex flex-wrap justify-between mb-10">
           {displayItems.map(({ img, label, title, para }, idx) => (
             <div
               key={`${label}-${idx}`}
@@ -117,7 +117,7 @@ export default function CleaningServices() {
 
               {/* Text */}
               <div className="text-center mt-6">
-                <h3 className="text-[#000000] text-lg font-semibold mb-4">
+                <h3 className="text-[#000000] text-[22px] font-semibold mb-4">
                   {title}
                 </h3>
                 {para && (
@@ -127,7 +127,7 @@ export default function CleaningServices() {
                 )}
               </div>
 
-              <GoldButton className="mt-4 text-sm">Contact Us</GoldButton>
+              <GoldButton className="mt-4">Contact Us</GoldButton>
             </div>
           ))}
         </div>

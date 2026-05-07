@@ -42,7 +42,7 @@ export const defaultContent = {
     callCta: "Call: (123) 456 789",
   },
   footer: {
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. ",
     email: "info123@gmail.com",
     phone: "01234-56789",
   },

@@ -1,6 +1,6 @@
 const GoldButton = ({ children, className = "" }) => (
   <button
-    className={`font-semibold text-white text-sm px-6 py-3 hover:opacity-90 transition-opacity rounded-sm ${className}`}
+    className={`font-semibold text-white text-base px-6 py-3 hover:opacity-90 transition-opacity  ${className}`}
     style={{ background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)" }}
   >
     {children}

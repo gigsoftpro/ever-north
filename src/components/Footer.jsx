@@ -69,6 +69,7 @@ export default function Footer() {
               Privacy Policy
             </a>
           </div>
+          
           <div>
             <h4 className="text-[#b7a170] text-xl sm:text-2xl font-light mb-6">
               Contact
