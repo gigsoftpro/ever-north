@@ -78,23 +78,22 @@ export default function CleaningServices() {
   }
 
   return (
-    <section className="w-full bg-[#f7f2e8] py-16 lg:py-24 px-4 sm:px-8 lg:px-16 xl:px-32">
+    <section className="w-full bg-[#f7f2e8]">
+      <div className="w-[1260px] bg-[#f7f2e8] py-16 lg:py-24 sm:px-8 mx-auto">
       {/* Header row */}
-      <div className="flex items-center justify-between mb-12 lg:mb-16">
-        <h2 className="text-[#000000] text-4xl sm:text-5xl lg:text-5xl font-light leading-18">
-          {sectionTitle.includes("\n")
-            ? sectionTitle.split("\n").map((line, i) => (
-                <span key={i}>
-                  {line}
-                  <br />
-                </span>
-              ))
-            : sectionTitle}
+      <div className="flex items-center justify-between mb-12 lg:mb-10">
+        <h2 className="text-[#000000] text-4xl sm:text-5xl lg:text-5xl font-light leading-[1.3]">
+          {sectionTitle.replace("& ", "&\n").split("\n").map((line, i) => (
+            <span key={i}>
+              {line}
+              <br />
+            </span>
+          ))}
         </h2>
         <GoldButton className="mt-4 text-base">More Services</GoldButton>
       </div>
 
-      <hr className="border-[#8f7334] mb-16" />
+      <hr className="border-[#b7a170] mb-10" />
 
       <div className="max-w-[1333px] mx-auto">
         <div className="flex flex-wrap justify-between mb-10">
@@ -131,6 +130,7 @@ export default function CleaningServices() {
             </div>
           ))}
         </div>
+      </div>
       </div>
     </section>
   );

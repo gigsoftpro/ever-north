@@ -37,11 +37,11 @@ export default function Header() {
           <img
             src={logo}
             alt="Ever North"
-            className="h-10 sm:h-18 lg:h-[90px] w-auto"
+            className="h-10 sm:h-18 lg:h-[60px] w-auto"
           />
         </a>
 
-        <div className="ml-auto lg:mx-auto px-0 sm:px-8 lg:px-16 xl:px-28 pt-4 flex flex-wrap items-center justify-end gap-4">
+        <div className="ml-auto px-0 sm:px-8 lg:pr-16 lg:pl-0 lg:w-[76%] pt-4 flex flex-wrap items-center justify-end gap-4">
           {/* Phone */}
           <div className="hidden lg:flex items-center gap-6 lg:gap-8">
             <div className="flex items-center gap-2">

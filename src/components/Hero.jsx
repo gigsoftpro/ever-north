@@ -59,7 +59,7 @@ export default function Hero() {
   if (loading) {
     return (
       <section
-        className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[808px] flex flex-col"
+        className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[500px] flex flex-col"
         style={{
           backgroundImage: `url(${heroBg})`,
           backgroundSize: "cover",
@@ -74,7 +74,7 @@ export default function Hero() {
             backgroundPosition: "center",
           }}
         />
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 py-16">
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-start text-center px-4 py-16">
           <div className="space-y-4 w-full max-w-lg animate-pulse">
             <div className="h-12 bg-white/20 rounded-lg mx-auto w-3/4" />
             <div className="h-12 bg-white/20 rounded-lg mx-auto w-1/2" />
@@ -149,8 +149,8 @@ export default function Hero() {
               />
 
               {/* Content */}
-              <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 py-16 sm:py-20 lg:py-28">
-                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-tight drop-shadow-md mb-6">
+              <div className="relative z-10 flex-1 flex flex-col items-center justify-start text-center px-4 py-16 sm:py-20 lg:py-28">
+                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-normal leading-tight drop-shadow-md mb-6">
                   {titleLines.map((line, li) => (
                     <span key={li}>
                       {line}
@@ -167,7 +167,7 @@ export default function Hero() {
 
                 {slide.cta_text && (
                   <button
-                    className="font-semibold text-white px-8 py-3 rounded-sm hover:opacity-90 transition-opacity"
+                    className="font-semibold text-white px-8 py-3  hover:opacity-90 transition-opacity"
                     style={{
                       background:
                         "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)",

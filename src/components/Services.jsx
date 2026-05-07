@@ -28,7 +28,9 @@ const FALLBACK_SERVICES = [
 const GoldButton = ({ children, className = "" }) => (
   <button
     className={`font-semibold text-white px-6 py-3 text-base hover:opacity-90 transition-opacity ${className}`}
-    style={{ background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)" }}
+    style={{
+      background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)",
+    }}
   >
     {children}
   </button>
@@ -44,18 +46,20 @@ const ServiceCard = ({ service, image }) => (
       backgroundPosition: "center",
     }}
   >
-    {/* Subtle dark overlay on hover */}
-    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-700 ease-in-out rounded-[20px]" />
-    {/* Title — slides up on hover */}
+    {/* Bottom Gradient */}
+    <div className="absolute bottom-0 left-0 w-full h-[45%] bg-gradient-to-t from-black/90 via-black/40 to-transparent rounded-[20px]" />
+
+    {/* Title */}
     <div className="relative z-10 transform transition-all duration-700 ease-in-out group-hover:-translate-y-4">
-      <h3 className="text-white text-2xl sm:text-3xl font-semibold leading-10">
+      <h3 className="text-white sm:text-[25px] font-semibold leading-10">
         {service.title}
       </h3>
     </div>
 
     {/* Hover Content */}
-    <div className="relative z-10 opacity-0 translate-y-10 max-h-0 overflow-hidden transition-all duration-700 ease-in-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:max-h-[300px] mt-0 group-hover:mt-6">
-      <div className="h-px w-full bg-[#b7a170] mb-6" />
+    <div className="relative z-10 opacity-0 translate-y-10 max-h-0 overflow-hidden transition-all duration-700 ease-in-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:max-h-[300px] mt-0 group-hover:mt-2">
+      
+      <div className="h-px w-full bg-[#b7a170] mb-4" />
 
       {service.description && (
         <p className="text-white text-base sm:text-lg leading-8 opacity-90 mb-4">
@@ -63,7 +67,9 @@ const ServiceCard = ({ service, image }) => (
         </p>
       )}
 
-      <GoldButton className="w-[35%]">Contact Us</GoldButton>
+      <GoldButton className="w-[50%]">
+        Contact Us
+      </GoldButton>
     </div>
   </div>
 );
@@ -71,7 +77,9 @@ const ServiceCard = ({ service, image }) => (
 export default function Services() {
   const { siteData, loading } = useSiteData();
 
-  const services = siteData?.services?.length ? siteData.services : FALLBACK_SERVICES;
+  const services = siteData?.services?.length
+    ? siteData.services
+    : FALLBACK_SERVICES;
 
   // Resolve images: prefer backend URL, fall back to local assets
   const getImage = (service, index) =>
@@ -83,10 +91,12 @@ export default function Services() {
 
   if (loading) {
     return (
-      <section className="w-full px-4 sm:px-8 lg:px-16 xl:px-20">
-        <hr className="border-[#e8e4db] mt-20 lg:mt-28 mb-16 lg:mb-20" />
+      <section className="w-[1260px] mx-auto py-12">
+        <hr className="border-[#e8e4db] mt-0 lg:mt-0 mb-0 lg:mb-0" />
+
         <div className="max-w-[1585px] mx-auto">
           <div className="h-10 bg-slate-200 rounded animate-pulse w-64 mx-auto mb-12" />
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {[1, 2, 3].map((i) => (
               <div
@@ -101,8 +111,9 @@ export default function Services() {
   }
 
   return (
-    <section className="w-full px-4 sm:px-8 lg:px-16 xl:px-20">
-      <hr className="border-[#e8e4db] mt-20 lg:mt-28 mb-16 lg:mb-20" />
+    <section className="w-[1260px] mx-auto py-12">
+      
+      <hr className="border-[#e8e4db] mt-10 lg:mt-10 mb-10 lg:mb-10" />
 
       {/* Section Title */}
       <h2 className="text-[#000000] text-4xl sm:text-5xl lg:text-6xl font-light text-center mb-12 lg:mb-16">
@@ -110,8 +121,10 @@ export default function Services() {
       </h2>
 
       <div className="max-w-[1585px] mx-auto">
-        {/* Service Cards — mapped */}
+
+        {/* Service Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+
           {services.map((service, index) => (
             <ServiceCard
               key={service?.id || index}
@@ -119,15 +132,22 @@ export default function Services() {
               image={getImage(service, index)}
             />
           ))}
+
         </div>
 
         {/* CTA Row */}
         <div className="flex flex-wrap items-center justify-between gap-4 my-10">
+          
           <div className="flex flex-wrap gap-3 mx-auto">
-            <GoldButton>{consultationCta}</GoldButton>
+            
+            <GoldButton>
+              {consultationCta}
+            </GoldButton>
+
             <button className="font-semibold text-white px-6 py-3 text-base bg-[#303030] hover:bg-[#444] transition-colors">
               {callCta}
             </button>
+
           </div>
         </div>
       </div>
