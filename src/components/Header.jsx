@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../assets/images/asset_10_4x_2.png";
 import phoneIcon from "../assets/images/phone_copy.png";
 import emailIcon from "../assets/images/email_2.png";
@@ -9,7 +9,6 @@ import navBg from "../assets/images/rectangle_185.png";
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const navLinks = ["Home", "About Us", "Services", "Contact Us"];
   const NavLinks = [
     { label: "Home", route: "/" },
     { label: "About Us", route: "/about" },
@@ -17,26 +16,34 @@ export default function Header() {
     { label: "Contact Us", route: "/contact-us" },
   ];
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   return (
     <header
-      className="relative w-full overflow-hidden flex items-center justify-between"
+      className="relative w-full overflow-hidden flex items-center justify-between px-4"
       style={{
         backgroundImage: `url(${headerBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="max-w-[1600px] mx-auto flex items-center pt-5">
+      <div className="max-w-[1600px] w-full mx-auto flex items-center justify-center py-4 lg:py-0 lg:pt-5 px-4 lg:px-0">
         <a href="/" className="flex-shrink-0">
           <img
             src={logo}
             alt="Ever North"
-            className="h-12 sm:h-20 lg:h-[90px] w-auto"
+            className="h-10 sm:h-18 lg:h-[90px] w-auto"
           />
         </a>
-        <div className="mx-auto px-4 sm:px-8 lg:px-16 xl:px-28 pt-4 flex flex-wrap items-center justify-end gap-4">
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
-            {/* Phone */}
+
+        <div className="ml-auto lg:mx-auto px-0 sm:px-8 lg:px-16 xl:px-28 pt-4 flex flex-wrap items-center justify-end gap-4">
+          {/* Phone */}
+          <div className="hidden lg:flex items-center gap-6 lg:gap-8">
             <div className="flex items-center gap-2">
               <img
                 src={phoneIcon}
@@ -55,7 +62,6 @@ export default function Header() {
 
             <div className="w-px h-9 bg-[#828287]" />
 
-            {/* Email */}
             <div className="flex items-center gap-2">
               <img
                 src={emailIcon}
@@ -73,32 +79,42 @@ export default function Header() {
             </div>
           </div>
 
+          {/* Mobile menu button */}
           <button
-            className="md:hidden flex flex-col gap-[5px] p-2"
+            className="relative z-[60] lg:hidden flex flex-col gap-[5px] p-2"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
           >
             <span
-              className={`block h-0.5 w-6 bg-white transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[7px]" : ""}`}
+              className={`block h-0.5 w-6 bg-white transition-all duration-300 ${
+                menuOpen ? "rotate-45 translate-y-[7px]" : ""
+              }`}
             />
             <span
-              className={`block h-0.5 w-6 bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}
+              className={`block h-0.5 w-6 bg-white transition-all duration-300 ${
+                menuOpen ? "opacity-0" : ""
+              }`}
             />
             <span
-              className={`block h-0.5 w-6 bg-white transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[7px]" : ""}`}
+              className={`block h-0.5 w-6 bg-white transition-all duration-300 ${
+                menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+              }`}
             />
           </button>
 
+          {/* Desktop nav - unchanged */}
           <div
+            className="hidden lg:block"
             style={{
               backgroundImage: `url(${navBg})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            <div className="mx-auto px-4 sm:px-8 lg:px-16 xl:px-18">
-              {/* Desktop Nav */}
-              <nav className="hidden md:flex items-center justify-between">
+            <div className="mx-auto">
+              <nav className="hidden lg:flex items-center justify-between">
                 <div className="flex items-center gap-0">
                   {NavLinks.map((link, i) => (
                     <a
@@ -115,38 +131,79 @@ export default function Header() {
                     </a>
                   ))}
                 </div>
+
                 <div className="flex items-center gap-3 border-l border-[#8b6f31] pl-5 lg:pl-8">
-                  <span className="text-[#d2b677] uppercase font-medium tracking-widest text-sm">
-                    Search
-                  </span>
+                  <div className="w-[50%] border-b border-transparent focus-within:border-white transition-colors duration-200">
+                    <input
+                      placeholder="Search"
+                      className="w-full bg-transparent text-[#d2b677] uppercase font-medium tracking-widest text-sm outline-none focus:outline-none focus:ring-0 border-none focus:border-none focus:shadow-none"
+                    />
+                  </div>
+
                   <img src={searchIcon} alt="Search" className="w-5 h-5" />
                 </div>
               </nav>
-
-              {/* Mobile Nav */}
-              {menuOpen && (
-                <nav className="md:hidden py-3 border-t border-[#8b6f31]">
-                  {navLinks.map((link) => (
-                    <a
-                      key={link}
-                      href="#"
-                      className="block px-4 py-3 text-white font-medium uppercase text-sm tracking-wide hover:text-[#b7a170] transition-colors border-b border-[#8b6f31]/40"
-                    >
-                      {link}
-                    </a>
-                  ))}
-                  <div className="flex items-center gap-2 px-4 py-3">
-                    <span className="text-[#d2b677] uppercase text-sm font-medium tracking-widest">
-                      Search
-                    </span>
-                    <img src={searchIcon} alt="Search" className="w-4 h-4" />
-                  </div>
-                </nav>
-              )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Mobile backdrop */}
+      <div
+        className={`fixed inset-0 z-40 bg-black/50 lg:hidden transition-opacity duration-500 ${
+          menuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setMenuOpen(false)}
+      />
+
+      {/* Mobile fly-in nav from left */}
+      <aside
+        id="mobile-nav"
+        className={`fixed top-0 left-0 z-50 h-full w-[82vw] max-w-[320px] lg:hidden shadow-2xl transform transition-transform duration-500 ease-in-out ${
+          menuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+        style={{
+          backgroundImage: `url(${navBg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="flex h-full flex-col pt-8">
+          <a href="/" className="flex-shrink-0 mx-auto mb-6">
+            <img
+              src={logo}
+              alt="Ever North"
+              className="h-12 sm:h-18 w-auto brightness-0 invert"
+            />
+          </a>
+          <div className="border-t border-[#8b6f31]">
+            {NavLinks.map((link) => (
+              <a
+                key={link.route}
+                href={link.route}
+                onClick={() => setMenuOpen(false)}
+                className="block px-5 py-4 text-white font-medium uppercase text-sm tracking-wide hover:text-[#b7a170] transition-colors border-b border-[#8b6f31]/40"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="mt-auto border-t border-[#8b6f31] px-5 py-4">
+            <div className="flex items-center gap-2">
+              <div className="border-b border-transparent focus-within:border-white transition-colors duration-200">
+                <input
+                  placeholder="Search"
+                  className="w-full bg-transparent text-[#d2b677] uppercase font-medium tracking-widest text-sm outline-none focus:outline-none focus:ring-0 border-none focus:border-none focus:shadow-none"
+                />
+              </div>
+              <img src={searchIcon} alt="Search" className="w-4 h-4" />
+            </div>
+          </div>
+        </div>
+      </aside>
     </header>
   );
 }

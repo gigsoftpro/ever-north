@@ -1,14 +1,3 @@
-/**
- * ContentEditor.jsx
- * Full admin content management — every section wired to the real backend.
- *
- * Tabs:  Hero · Header · About · Services · Cleaning · Maintenance ·
- *        Areas · Testimonials · Footer · Nav Links · Contact Inbox
- *
- * Usage: drop this file into your admin components folder and import normally.
- *        It reads the auth token via getStoredToken() (same helper used elsewhere).
- */
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Upload,
@@ -36,13 +25,11 @@ import {
 import { getStoredToken } from "../../services/authApi"; // adjust path if needed
 import { BaseUrl } from "../Config/BaseUrl";
 
-// ─── API constants ────────────────────────────────────────────────────────────
 const API = `${BaseUrl}content`;
 const MEDIA_API = `${BaseUrl}media`;
-// Derive server root for building media preview URLs
+
 const SERVER_ROOT = BaseUrl.replace(/\/api\/?$/, "");
 
-// ─── Low-level fetch helpers ──────────────────────────────────────────────────
 async function apiFetch(url, options = {}) {
   const token = getStoredToken();
   const res = await fetch(url, {
@@ -70,7 +57,6 @@ async function uploadFile(file, section = "general") {
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || "Upload failed");
-  // Build preview URL from path stored in DB
   const media = data.media;
   return {
     ...media,
@@ -79,8 +65,6 @@ async function uploadFile(file, section = "general") {
       : `${SERVER_ROOT}${media.path}`,
   };
 }
-
-// ─── Shared mini-UI ───────────────────────────────────────────────────────────
 
 const Spinner = ({ size = 16 }) => (
   <Loader2 size={size} className="animate-spin" />
@@ -238,7 +222,6 @@ function SectionCard({ title, subtitle, status, onSave, saving, children }) {
   );
 }
 
-// ─── Image upload slot ────────────────────────────────────────────────────────
 function ImageSlot({
   label,
   value,
@@ -350,7 +333,6 @@ function ImageSlot({
   );
 }
 
-// ─── Inline CRUD row (used by Services, Cleaning, etc.) ───────────────────────
 function CrudRow({ children, onEdit, onDelete, onToggleActive, isActive }) {
   return (
     <div className="flex items-center gap-3 p-3 rounded-xl border border-slate-100 bg-slate-50 hover:border-amber-200 transition-colors group">
@@ -386,7 +368,6 @@ function CrudRow({ children, onEdit, onDelete, onToggleActive, isActive }) {
   );
 }
 
-// ─── Star rating display ──────────────────────────────────────────────────────
 function StarRating({ value = 5, onChange }) {
   return (
     <div className="flex gap-0.5">
@@ -404,7 +385,6 @@ function StarRating({ value = 5, onChange }) {
   );
 }
 
-// ─── Confirm delete dialog ────────────────────────────────────────────────────
 function useConfirmDelete() {
   const [pending, setPending] = useState(null); // { label, onConfirm }
   const ask = useCallback(
@@ -446,7 +426,6 @@ function useConfirmDelete() {
   return { ask, Modal };
 }
 
-// ─── useSave hook — wraps any async save call with status ─────────────────────
 function useSave(saveFn) {
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState(null); // { type, message }
@@ -471,92 +450,317 @@ function useSave(saveFn) {
   return { save, saving, status };
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION PANELS
-// ═══════════════════════════════════════════════════════════════════════════════
+function HeroPanel({ data: initialData, onSaved }) {
+  const [slides, setSlides] = useState(initialData || []);
+  const [editing, setEditing] = useState(null);
+  const [formErr, setFormErr] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [loadErr, setLoadErr] = useState("");
+  const { ask, Modal } = useConfirmDelete();
 
-// ─── 1. Hero ─────────────────────────────────────────────────────────────────
-function HeroPanel({ data, onSaved }) {
-  const [draft, setDraft] = useState({
-    title: data?.title || "",
-    highlighted_word: data?.highlighted_word || "",
-    cta_text: data?.cta_text || "",
-    bg_image: data?.bg_image || null,
-    overlay_image: data?.overlay_image || null,
-  });
+  // Fetch all slides (including inactive) for admin
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await apiFetch(`${API}/hero/all`);
+        setSlides(res.data);
+      } catch (err) {
+        setLoadErr(err.message);
+      }
+    })();
+  }, []);
 
-  const { save, saving, status } = useSave(
-    useCallback(async () => {
-      await apiFetch(`${API}/hero`, {
-        method: "PUT",
-        body: JSON.stringify({
-          title: draft.title,
-          highlighted_word: draft.highlighted_word,
-          cta_text: draft.cta_text,
-          bg_image_id: draft.bg_image?.id ?? null,
-          overlay_image_id: draft.overlay_image?.id ?? null,
-        }),
-      });
+  const EMPTY = {
+    title: "",
+    highlighted_word: "",
+    cta_text: "",
+    bg_image: null,
+    overlay_image: null,
+    sort_order: 0,
+    is_active: 1,
+  };
+
+  const openEdit = (slide) => {
+    setEditing({ item: { ...slide } });
+    setFormErr("");
+  };
+
+  const openNew = () => {
+    setEditing({ item: { ...EMPTY, sort_order: slides.length } });
+    setFormErr("");
+  };
+
+  const closeEdit = () => setEditing(null);
+
+  const saveSlide = async () => {
+    if (!editing?.item?.title?.trim()) {
+      setFormErr("Title is required.");
+      return;
+    }
+    setSaving(true);
+    try {
+      const payload = {
+        title: editing.item.title,
+        highlighted_word: editing.item.highlighted_word,
+        cta_text: editing.item.cta_text,
+        bg_image_id: editing.item.bg_image?.id ?? null,
+        overlay_image_id: editing.item.overlay_image?.id ?? null,
+        sort_order: editing.item.sort_order ?? 0,
+        is_active: editing.item.is_active ?? 1,
+      };
+
+      if (editing.item.id) {
+        const res = await apiFetch(`${API}/hero/slides/${editing.item.id}`, {
+          method: "PUT",
+          body: JSON.stringify(payload),
+        });
+        setSlides((prev) =>
+          prev.map((s) => (s.id === editing.item.id ? res.data : s)),
+        );
+      } else {
+        const res = await apiFetch(`${API}/hero/slides`, {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+        setSlides((prev) => [...prev, res.data]);
+      }
+      closeEdit();
       onSaved?.();
-    }, [draft, onSaved]),
-  );
+    } catch (err) {
+      setFormErr(err.message || "Save failed");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const deleteSlide = (id) =>
+    ask("This hero slide will be permanently deleted.", async () => {
+      try {
+        await apiFetch(`${API}/hero/slides/${id}`, { method: "DELETE" });
+        setSlides((prev) => prev.filter((s) => s.id !== id));
+        onSaved?.();
+      } catch (err) {
+        alert(`Delete failed: ${err.message}`);
+      }
+    });
+
+  const toggleActive = async (slide) => {
+    try {
+      const res = await apiFetch(`${API}/hero/slides/${slide.id}`, {
+        method: "PUT",
+        body: JSON.stringify({ is_active: slide.is_active ? 0 : 1 }),
+      });
+      setSlides((prev) => prev.map((s) => (s.id === slide.id ? res.data : s)));
+    } catch (err) {
+      alert(`Toggle failed: ${err.message}`);
+    }
+  };
 
   return (
-    <SectionCard
-      title="Hero Section"
-      subtitle="Main banner — title, CTA and background images"
-      onSave={save}
-      saving={saving}
-      status={status}
-    >
-      <div className="space-y-4">
-        <div className="grid sm:grid-cols-2 gap-4">
-          <AdminInput
-            label="Title (use \\n for line breaks)"
-            value={draft.title}
-            onChange={(e) => setDraft((p) => ({ ...p, title: e.target.value }))}
-            placeholder="Professional Property Management"
-          />
-          <AdminInput
-            label="Highlighted Word"
-            value={draft.highlighted_word}
-            onChange={(e) =>
-              setDraft((p) => ({ ...p, highlighted_word: e.target.value }))
-            }
-            placeholder="Professional"
-          />
+    <>
+      {Modal}
+      <SectionCard
+        title="Hero Carousel"
+        subtitle="Slides shown in the homepage banner — auto-scrolling left to right"
+      >
+        <div className="space-y-3">
+          {/* Error loading */}
+          {loadErr && (
+            <div className="flex items-center gap-2 text-red-600 text-sm p-3 bg-red-50 rounded-xl border border-red-200">
+              <AlertCircle size={15} />
+              {loadErr}
+            </div>
+          )}
+
+          <div className="flex justify-end">
+            <GoldBtn onClick={openNew}>
+              <Plus size={14} /> Add Slide
+            </GoldBtn>
+          </div>
+
+          {/* Edit / Create form */}
+          {editing && (
+            <div className="p-4 rounded-xl border-2 border-amber-200 bg-amber-50 space-y-4">
+              <p className="text-xs font-bold text-amber-700">
+                {editing.item.id ? "Edit Slide" : "New Slide"}
+              </p>
+
+              {formErr && (
+                <div className="flex items-center gap-2 text-red-600 text-xs font-medium bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                  <AlertCircle size={13} /> {formErr}
+                </div>
+              )}
+
+              <div className="grid sm:grid-cols-2 gap-3">
+                <AdminInput
+                  label="Title *"
+                  value={editing.item.title}
+                  onChange={(e) =>
+                    setEditing((p) => ({
+                      item: { ...p.item, title: e.target.value },
+                    }))
+                  }
+                  placeholder="Professional Property Management"
+                />
+                <AdminInput
+                  label="Highlighted Word"
+                  value={editing.item.highlighted_word}
+                  onChange={(e) =>
+                    setEditing((p) => ({
+                      item: { ...p.item, highlighted_word: e.target.value },
+                    }))
+                  }
+                  placeholder="Professional"
+                />
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-3">
+                <AdminInput
+                  label="CTA Button Text"
+                  value={editing.item.cta_text}
+                  onChange={(e) =>
+                    setEditing((p) => ({
+                      item: { ...p.item, cta_text: e.target.value },
+                    }))
+                  }
+                  placeholder="Get Started"
+                />
+                <AdminInput
+                  label="Sort Order"
+                  type="number"
+                  value={editing.item.sort_order}
+                  onChange={(e) =>
+                    setEditing((p) => ({
+                      item: { ...p.item, sort_order: Number(e.target.value) },
+                    }))
+                  }
+                />
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <ImageSlot
+                  label="Background Image"
+                  value={editing.item.bg_image}
+                  section="hero"
+                  onUpload={(m) =>
+                    setEditing((p) => ({ item: { ...p.item, bg_image: m } }))
+                  }
+                  onClear={() =>
+                    setEditing((p) => ({ item: { ...p.item, bg_image: null } }))
+                  }
+                />
+                <ImageSlot
+                  label="Overlay Image"
+                  value={editing.item.overlay_image}
+                  section="hero"
+                  onUpload={(m) =>
+                    setEditing((p) => ({
+                      item: { ...p.item, overlay_image: m },
+                    }))
+                  }
+                  onClear={() =>
+                    setEditing((p) => ({
+                      item: { ...p.item, overlay_image: null },
+                    }))
+                  }
+                />
+              </div>
+
+              {/* Active toggle */}
+              <label className="flex items-center gap-2 cursor-pointer w-fit">
+                <input
+                  type="checkbox"
+                  checked={!!editing.item.is_active}
+                  onChange={(e) =>
+                    setEditing((p) => ({
+                      item: { ...p.item, is_active: e.target.checked ? 1 : 0 },
+                    }))
+                  }
+                  className="w-4 h-4 rounded accent-amber-500"
+                />
+                <span className="text-xs text-slate-600 font-medium">
+                  Active (visible on site)
+                </span>
+              </label>
+
+              <div className="flex gap-2 pt-1">
+                <GoldBtn onClick={saveSlide} disabled={saving}>
+                  {saving ? (
+                    <>
+                      <Spinner size={14} /> Saving…
+                    </>
+                  ) : (
+                    <>
+                      <Check size={14} />{" "}
+                      {editing.item.id ? "Update" : "Create"}
+                    </>
+                  )}
+                </GoldBtn>
+                <DarkBtn onClick={closeEdit} disabled={saving}>
+                  <X size={14} /> Cancel
+                </DarkBtn>
+              </div>
+            </div>
+          )}
+
+          {/* Slide list */}
+          {slides.length === 0 && !loadErr && (
+            <p className="text-sm text-slate-400 text-center py-10">
+              No slides yet. Add your first hero slide above.
+            </p>
+          )}
+
+          {slides.map((slide, i) => (
+            <CrudRow
+              key={slide.id}
+              isActive={!!slide.is_active}
+              onToggleActive={() => toggleActive(slide)}
+              onEdit={() => openEdit(slide)}
+              onDelete={() => deleteSlide(slide.id)}
+            >
+              <div className="flex items-center gap-3">
+                {/* BG image thumbnail */}
+                {slide.bg_image?.url ? (
+                  <img
+                    src={slide.bg_image.url}
+                    className="w-14 h-10 rounded-lg object-cover shrink-0"
+                    alt=""
+                  />
+                ) : (
+                  <div className="w-14 h-10 rounded-lg bg-slate-200 flex items-center justify-center shrink-0">
+                    <ImageIcon size={14} className="text-slate-400" />
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-semibold text-slate-800 truncate">
+                      {slide.title || (
+                        <span className="text-slate-400 italic">Untitled</span>
+                      )}
+                    </p>
+                    {slide.highlighted_word && (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium shrink-0">
+                        {slide.highlighted_word}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-slate-400 truncate">
+                    CTA: {slide.cta_text || "—"} · Order: {slide.sort_order}
+                  </p>
+                </div>
+                {/* Slide number badge */}
+                <span className="text-[10px] font-bold text-slate-400 shrink-0">
+                  #{i + 1}
+                </span>
+              </div>
+            </CrudRow>
+          ))}
         </div>
-        <AdminInput
-          label="CTA Button Text"
-          value={draft.cta_text}
-          onChange={(e) =>
-            setDraft((p) => ({ ...p, cta_text: e.target.value }))
-          }
-          placeholder="Get Started"
-          className="sm:w-1/2"
-        />
-        <div className="grid sm:grid-cols-2 gap-4 pt-2">
-          <ImageSlot
-            label="Background Image"
-            value={draft.bg_image}
-            section="hero"
-            onUpload={(m) => setDraft((p) => ({ ...p, bg_image: m }))}
-            onClear={() => setDraft((p) => ({ ...p, bg_image: null }))}
-          />
-          <ImageSlot
-            label="Overlay Image"
-            value={draft.overlay_image}
-            section="hero"
-            onUpload={(m) => setDraft((p) => ({ ...p, overlay_image: m }))}
-            onClear={() => setDraft((p) => ({ ...p, overlay_image: null }))}
-          />
-        </div>
-      </div>
-    </SectionCard>
+      </SectionCard>
+    </>
   );
 }
 
-// ─── 2. Header ───────────────────────────────────────────────────────────────
 function HeaderPanel({ data, onSaved }) {
   const [draft, setDraft] = useState({
     phone: data?.phone || "",
@@ -617,7 +821,6 @@ function HeaderPanel({ data, onSaved }) {
   );
 }
 
-// ─── 3. About ─────────────────────────────────────────────────────────────────
 function AboutPanel({ data, onSaved }) {
   const [draft, setDraft] = useState({
     about_image: data?.about_image || null,
@@ -732,7 +935,6 @@ function AboutPanel({ data, onSaved }) {
   );
 }
 
-// ─── 4. Services ──────────────────────────────────────────────────────────────
 function ServicesPanel({ data: initialData, onSaved }) {
   const [items, setItems] = useState(initialData || []);
   const [editing, setEditing] = useState(null); // { item } or { item: {} } for new
@@ -959,7 +1161,6 @@ function ServicesPanel({ data: initialData, onSaved }) {
   );
 }
 
-// ─── 5. Cleaning Services ─────────────────────────────────────────────────────
 function CleaningPanel({ data: initialData, onSaved }) {
   const [meta, setMeta] = useState(
     initialData?.meta || { title: "", description: "" },
@@ -1192,7 +1393,6 @@ function CleaningPanel({ data: initialData, onSaved }) {
   );
 }
 
-// ─── 6. Maintenance ───────────────────────────────────────────────────────────
 function MaintenancePanel({ data: initialData, onSaved }) {
   const [meta, setMeta] = useState(
     initialData?.meta || { heading: "", cta_label: "" },
@@ -1407,7 +1607,6 @@ function MaintenancePanel({ data: initialData, onSaved }) {
   );
 }
 
-// ─── 7. Areas ─────────────────────────────────────────────────────────────────
 function AreasPanel({ data: initialData, onSaved }) {
   const [meta, setMeta] = useState(
     initialData?.meta || { title: "", subtitle: "" },
@@ -1628,7 +1827,6 @@ function AreasPanel({ data: initialData, onSaved }) {
   );
 }
 
-// ─── 8. Testimonials ──────────────────────────────────────────────────────────
 function TestimonialsPanel({ data: initialData, onSaved }) {
   const [items, setItems] = useState(initialData || []);
   const [editing, setEditing] = useState(null);
@@ -1819,7 +2017,6 @@ function TestimonialsPanel({ data: initialData, onSaved }) {
   );
 }
 
-// ─── 9. Footer ────────────────────────────────────────────────────────────────
 function FooterPanel({ data, onSaved }) {
   const [draft, setDraft] = useState({
     description: data?.description || "",
@@ -1892,7 +2089,6 @@ function FooterPanel({ data, onSaved }) {
   );
 }
 
-// ─── 10. Nav Links ────────────────────────────────────────────────────────────
 function NavPanel({ data: initialData, onSaved }) {
   const [links, setLinks] = useState(initialData || []);
   const [saving, setSaving] = useState(null); // id of item being saved
@@ -2012,7 +2208,6 @@ function NavPanel({ data: initialData, onSaved }) {
   );
 }
 
-// ─── 11. Contact Submissions Inbox ────────────────────────────────────────────
 function ContactsPanel() {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -2224,10 +2419,6 @@ function ContactsPanel() {
     </>
   );
 }
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// MAIN CONTENT EDITOR
-// ═══════════════════════════════════════════════════════════════════════════════
 
 const TABS = [
   { id: "hero", label: "Hero", icon: Globe },
