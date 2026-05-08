@@ -10,7 +10,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#2c2c2c] text-white">
-      <div className="max-w-[1920px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-28 pt-12 pb-6 relative">
+      <div className="max-w-[1440px] mx-auto pt-12 pb-6 relative px-4">
         <img
           src={footerBuilding}
           alt="building"

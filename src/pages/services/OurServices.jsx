@@ -1,11 +1,11 @@
 import React from "react";
-import CleaningServices from "../../components/Cleaningservices";
+import Services from "../../components/Services";
 
 const ourservices = () => {
   return (
-      <div>
-        <CleaningServices />
-      </div>
+      <>
+        <Services />
+      </>
   );
 };
 

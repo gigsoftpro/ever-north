@@ -32,7 +32,11 @@ export function getStoredToken() {
 }
 
 export function storeToken(token, remember) {
-  if (remember) {
+  if (!remember) {
+    localStorage.setItem("en_token", token);
+    localStorage.setItem("en_remember", "false");
+    localStorage.setItem("en_token_at", String(Date.now()));
+  } else if (remember) {
     localStorage.setItem("en_token", token);
     localStorage.setItem("en_remember", "true");
     localStorage.setItem("en_token_at", String(Date.now()));
@@ -56,7 +60,9 @@ export function isTokenExpired() {
   const at = localStorage.getItem("en_token_at");
   if (!remember || !at) return false;
 
-  const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+  const EXPIRY_DAYS = remember === "false" ? 7 : 60;
+  const THIRTY_DAYS = EXPIRY_DAYS * (24 * 60 * 60 * 1000);
+
   return Date.now() - Number(at) > THIRTY_DAYS;
 }
 

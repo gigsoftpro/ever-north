@@ -18,17 +18,16 @@ import NotFound from "./pages/NotFound";
 import ContactUs from "./pages/contact/ContactUs";
 import OurServices from "./pages/services/OurServices";
 import { SiteDataProvider } from "./components/SiteDataContext";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
+import Management from "./pages/management/management";
 
 function PublicLayout() {
   return (
     <SiteDataProvider>
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-1">
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
+      <Header />
+      <Outlet />
+      <Footer />
     </SiteDataProvider>
   );
 }
@@ -62,7 +61,7 @@ function GuestRoute() {
 
   if (authLoading) return <SessionLoader />;
 
-  return isLoggedIn ? <Navigate to="/admin/content" replace /> : <Outlet />;
+  return isLoggedIn ? <Navigate to="/admin/dashboard" replace /> : <Outlet />;
 }
 
 // ── App ───────────────────────────────────────────────────────────────────────
@@ -76,11 +75,14 @@ export default function App() {
           <Route path="/our-services" element={<OurServices />} />
           <Route path="/properties" element={<Home />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/property-management" element={<Management />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 
         <Route element={<GuestRoute />}>
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/forgot-password" element={<ForgotPassword />} />
+          <Route path="/admin/reset-password" element={<ResetPassword />} />
         </Route>
 
         <Route path="/admin" element={<ProtectedRoute />}>

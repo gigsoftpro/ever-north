@@ -182,7 +182,6 @@ export default function Hero() {
         })}
       </div>
 
-      {/* Dot navigation */}
       {count > 1 && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
           {slides.map((_, i) => (
@@ -190,7 +189,7 @@ export default function Hero() {
               key={i}
               onClick={() => handleDot(i)}
               aria-label={`Go to slide ${i + 1}`}
-              className="w-3 h-3 rounded-full border-2 border-white transition-all duration-300 focus:outline-none"
+              className="w-4 h-4 rounded-full border-2 border-white transition-all duration-300 focus:outline-none"
               style={{
                 backgroundColor: i === current ? "#b7a170" : "rgba(0,0,0,0.75)",
               }}

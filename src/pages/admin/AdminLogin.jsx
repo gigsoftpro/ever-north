@@ -1,7 +1,7 @@
 // src/pages/AdminLogin.jsx
 import { useState } from "react";
 import { Building2, Lock, Mail, Eye, EyeOff, Loader2 } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAppStore } from "../../adminStore";
 
 export default function AdminLogin() {
@@ -10,8 +10,7 @@ export default function AdminLogin() {
   const location = useLocation();
 
   // Where to go after login (set by AuthGuard)
-  const from = location.state?.from || "/admin";
-
+  const from = "/admin/dashboard" || location.state?.from;
   const [form, setForm] = useState({
     identifier: "",
     password: "",
@@ -181,8 +180,8 @@ export default function AdminLogin() {
               <p className="text-sm font-medium text-slate-700">Remember me</p>
               <p className="text-xs text-slate-400">
                 {form.rememberMe
-                  ? "You'll stay signed in for 30 days"
-                  : "You'll be signed out when you close the browser"}
+                  ? "You'll stay signed in for 60 days"
+                  : "You'll stay signed in for 07 days"}
               </p>
             </div>
           </label>
@@ -199,7 +198,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-amber-700 to-amber-500 hover:from-amber-600 hover:to-amber-400 transition-all shadow-lg shadow-amber-200 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-amber-700 to-amber-500 hover:from-amber-600 hover:to-amber-400 transition-all shadow-sm shadow-amber-200 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -211,9 +210,17 @@ export default function AdminLogin() {
             )}
           </button>
 
-          <p className="text-center text-xs text-slate-400">
+          {/* <p className="text-center text-xs text-slate-400">
             Protected by JWT authentication &amp; rate limiting
-          </p>
+          </p> */}
+          <div className="text-center">
+            <Link
+              to="/admin/forgot-password"
+              className="text-sm text-amber-600 hover:text-amber-700 transition-colors font-medium"
+            >
+              Forgot password?
+            </Link>
+          </div>
         </form>
       </div>
     </div>

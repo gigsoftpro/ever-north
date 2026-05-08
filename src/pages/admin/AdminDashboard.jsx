@@ -93,7 +93,7 @@ export default function AdminDashboard() {
 
           {/* Scrollable content area */}
           <main
-            className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-5 rounded-2xl"
+            className="flex-1 overflow-y-auto p-4 space-y-5 rounded-2xl border-gray-300 border-2 mr-3 displaynoscrollbar"
             style={{ background: "#f0f2f7" }}
           >
             {/* ── Stat tiles ─────────────────────────────────────────────── */}

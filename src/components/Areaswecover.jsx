@@ -132,7 +132,7 @@ export default function AreasWeCover() {
       }}
     >
       {/* Heading */}
-      <div className="px-4 max-w-[1640px] mx-auto">
+      <div className="px-4 max-w-[1440px] mx-auto">
         <div className="mb-10">
           {loading ? (
             <>
@@ -154,7 +154,7 @@ export default function AreasWeCover() {
       </div>
 
       {/* Slider */}
-      <div className="px-4 max-w-[1640px] mx-auto overflow-hidden">
+      <div className="px-4 max-w-[1440px] mx-auto overflow-hidden px-4">
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {[1, 2, 3, 4].map((i) => (
@@ -202,8 +202,7 @@ export default function AreasWeCover() {
               </div>
             </div>
 
-            {/* Navigation */}
-            <div className="flex justify-center items-center gap-5 mt-10">
+            {/* <div className="flex justify-center items-center gap-5 mt-10">
               <button
                 onClick={handlePrev}
                 className="group"
@@ -225,7 +224,7 @@ export default function AreasWeCover() {
                   className="h-2.5"
                 />
               </button>
-            </div>
+            </div> */}
           </>
         )}
       </div>

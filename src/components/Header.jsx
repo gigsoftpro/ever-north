@@ -10,7 +10,6 @@ import { useSiteData } from "./SiteDataContext";
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { siteData, loading } = useSiteData();
-  console.log(siteData?.header);
   const HeaderData = siteData?.header;
   const NavLinks = [
     { label: "Home", route: "/" },
@@ -35,7 +34,7 @@ export default function Header() {
         backgroundPosition: "center",
       }}
     >
-      <div className="max-w-[1600px] w-full mx-auto flex items-center justify-center py-4 lg:py-0 lg:pt-5 px-4 lg:px-0">
+      <div className="max-w-[1440px] w-full mx-auto flex items-center justify-center py-4 lg:py-0 lg:pt-5 px-4">
         <a href="/" className="flex-shrink-0">
           <img
             src={HeaderData?.logo?.url || logo}

@@ -29,7 +29,7 @@ export default function AdminTopbar({ sidebarOpen, setSidebarOpen, onLogout }) {
             {/* Breadcrumb */}
             <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-slate-400 mb-0.5">
               <button
-                onClick={() => navigate("/admin/content")}
+                onClick={() => navigate("/admin/dashboard")}
                 className="flex items-center gap-1 hover:text-slate-600 transition-colors"
               >
                 <Home size={10} />

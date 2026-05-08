@@ -23,12 +23,10 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 import { getStoredToken } from "../../services/authApi"; // adjust path if needed
-import { BaseUrl } from "../Config/BaseUrl";
+import { BaseUrl, MediaUrl as SERVER_ROOT } from "../Config/BaseUrl";
 
 const API = `${BaseUrl}content`;
 const MEDIA_API = `${BaseUrl}media`;
-
-const SERVER_ROOT = BaseUrl.replace(/\/api\/?$/, "");
 
 async function apiFetch(url, options = {}) {
   const token = getStoredToken();
@@ -1217,6 +1215,7 @@ function CleaningPanel({ data: initialData, onSaved }) {
     try {
       const payload = {
         label: editing.item.label,
+        description: editing.item.description || null,
         image_id: editing.item.image?.id ?? null,
         sort_order: editing.item.sort_order ?? 0,
       };
@@ -1263,7 +1262,7 @@ function CleaningPanel({ data: initialData, onSaved }) {
     <>
       {Modal}
       <div className="space-y-4">
-        {/* Meta */}
+        {/* ── Meta ── */}
         <SectionCard
           title="Cleaning Section — Header"
           subtitle="Section title and description"
@@ -1291,17 +1290,23 @@ function CleaningPanel({ data: initialData, onSaved }) {
           </div>
         </SectionCard>
 
-        {/* Items */}
+        {/* ── Items ── */}
         <SectionCard
           title="Cleaning Service Items"
           subtitle="Circle image cards displayed in this section"
         >
           <div className="space-y-3">
+            {/* Add button */}
             <div className="flex justify-end">
               <GoldBtn
                 onClick={() => {
                   setEditing({
-                    item: { label: "", image: null, sort_order: items.length },
+                    item: {
+                      label: "",
+                      description: "",
+                      image: null,
+                      sort_order: items.length,
+                    },
                   });
                   setFormErr("");
                 }}
@@ -1309,12 +1314,16 @@ function CleaningPanel({ data: initialData, onSaved }) {
                 <Plus size={14} /> Add Item
               </GoldBtn>
             </div>
+
+            {/* Edit / Create form */}
             {editing && (
               <div className="p-4 rounded-xl border-2 border-amber-200 bg-amber-50 space-y-3">
                 <p className="text-xs font-bold text-amber-700">
                   {editing.item.id ? "Edit Item" : "New Item"}
                 </p>
+
                 {formErr && <p className="text-xs text-red-600">{formErr}</p>}
+
                 <div className="grid sm:grid-cols-2 gap-3">
                   <AdminInput
                     label="Label *"
@@ -1331,11 +1340,28 @@ function CleaningPanel({ data: initialData, onSaved }) {
                     value={editing.item.sort_order}
                     onChange={(e) =>
                       setEditing((p) => ({
-                        item: { ...p.item, sort_order: Number(e.target.value) },
+                        item: {
+                          ...p.item,
+                          sort_order: Number(e.target.value),
+                        },
                       }))
                     }
                   />
                 </div>
+
+                {/* ── Description ── */}
+                <AdminTextarea
+                  label="Description"
+                  rows={3}
+                  value={editing.item.description || ""}
+                  onChange={(e) =>
+                    setEditing((p) => ({
+                      item: { ...p.item, description: e.target.value },
+                    }))
+                  }
+                  placeholder="Short description shown under the service title…"
+                />
+
                 <ImageSlot
                   label="Circle Image"
                   value={editing.item.image}
@@ -1348,6 +1374,7 @@ function CleaningPanel({ data: initialData, onSaved }) {
                     setEditing((p) => ({ item: { ...p.item, image: null } }))
                   }
                 />
+
                 <div className="flex gap-2">
                   <GoldBtn onClick={saveItem} disabled={itemSaving}>
                     {itemSaving ? (
@@ -1367,11 +1394,15 @@ function CleaningPanel({ data: initialData, onSaved }) {
                 </div>
               </div>
             )}
+
+            {/* Empty state */}
             {items.length === 0 && (
               <p className="text-sm text-slate-400 text-center py-6">
                 No items yet.
               </p>
             )}
+
+            {/* Item list */}
             {items.map((item) => (
               <CrudRow
                 key={item.id}
@@ -1395,9 +1426,16 @@ function CleaningPanel({ data: initialData, onSaved }) {
                       <ImageIcon size={12} className="text-slate-400" />
                     </div>
                   )}
-                  <p className="text-sm font-semibold text-slate-800">
-                    {item.label}
-                  </p>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-slate-800">
+                      {item.label}
+                    </p>
+                    {item.description && (
+                      <p className="text-xs text-slate-400 truncate max-w-[280px]">
+                        {item.description}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </CrudRow>
             ))}
@@ -2180,7 +2218,7 @@ function NavPanel({ data: initialData, onSaved }) {
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 cursor-pointer">
+              {/* <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={!!link.is_active}
@@ -2192,7 +2230,7 @@ function NavPanel({ data: initialData, onSaved }) {
                 <span className="text-xs text-slate-600 font-medium">
                   Visible in nav
                 </span>
-              </label>
+              </label> */}
               <div className="flex items-center gap-2">
                 <StatusPill
                   status={statuses[link.id]?.type}
@@ -2438,6 +2476,65 @@ function ContactsPanel() {
   );
 }
 
+function ContactContentPanel({ data, onSaved }) {
+  const [draft, setDraft] = useState({
+    heading: data?.heading || "",
+    subheading: data?.subheading || "",
+    bg_image: data?.bg_image || null,
+  });
+
+  const { save, saving, status } = useSave(
+    useCallback(async () => {
+      await apiFetch(`${API}/contact-content`, {
+        method: "PUT",
+        body: JSON.stringify({
+          heading: draft.heading,
+          subheading: draft.subheading,
+          bg_image_id: draft.bg_image?.id ?? null,
+        }),
+      });
+      onSaved?.();
+    }, [draft, onSaved]),
+  );
+
+  const F = (key) => ({
+    value: draft[key],
+    onChange: (e) => setDraft((p) => ({ ...p, [key]: e.target.value })),
+  });
+
+  return (
+    <SectionCard
+      title="Contact Section"
+      subtitle="Heading, subheading and background image for the contact form section"
+      onSave={save}
+      saving={saving}
+      status={status}
+    >
+      <div className="space-y-4">
+        <AdminInput
+          label="Heading"
+          {...F("heading")}
+          placeholder="Want more information?"
+        />
+        <AdminTextarea
+          label="Subheading"
+          rows={3}
+          {...F("subheading")}
+          placeholder="We're excited to connect with you! Required fields are marked *"
+        />
+        <ImageSlot
+          label="Background Image"
+          value={draft.bg_image}
+          section="contact"
+          mode="cover"
+          onUpload={(m) => setDraft((p) => ({ ...p, bg_image: m }))}
+          onClear={() => setDraft((p) => ({ ...p, bg_image: null }))}
+        />
+      </div>
+    </SectionCard>
+  );
+}
+
 const TABS = [
   { id: "hero", label: "Hero", icon: Globe },
   { id: "header", label: "Header", icon: Globe },
@@ -2449,6 +2546,7 @@ const TABS = [
   { id: "maintenance", label: "Maintenance", icon: Globe },
   { id: "areas", label: "Areas", icon: Globe },
   { id: "testimonials", label: "Testimonials", icon: Star },
+  { id: "contact", label: "Contact", icon: MessageSquare },
   { id: "contacts", label: "Inbox", icon: MessageSquare },
 ];
 
@@ -2530,6 +2628,10 @@ export default function ContentEditor() {
       case "testimonials":
         return (
           <TestimonialsPanel data={siteData?.testimonials} onSaved={fetchAll} />
+        );
+      case "contact":
+        return (
+          <ContactContentPanel data={siteData?.contact} onSaved={fetchAll} />
         );
       case "contacts":
         return <ContactsPanel />;

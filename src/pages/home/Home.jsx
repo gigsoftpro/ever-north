@@ -6,20 +6,19 @@ import Services from "../../components/Services";
 import AreasWeCover from "../../components/Areaswecover";
 import Testimonial from "../../components/Testimonial";
 import ContactForm from "../../components/Contactform";
-import Maintenance from "../../components/Maintenance";
 
 const Home = () => {
   return (
-      <div>
-        <Hero />
-        <About />
-        <Services />
-        <CleaningServices />
-        {/* <Maintenance /> */}
-        <AreasWeCover />
-        <Testimonial />
-        <ContactForm />
-      </div>
+    <div className="">
+      <Hero />
+      <About />
+      <hr className="border-[#e8e4db] my-10" />
+      <Services />
+      <CleaningServices />
+      <AreasWeCover />
+      <Testimonial />
+      <ContactForm />
+    </div>
   );
 };
 

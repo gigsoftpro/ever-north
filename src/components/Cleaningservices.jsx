@@ -3,7 +3,6 @@ import img2 from "../assets/images/ellipse_22_copy_2_2.png";
 import img3 from "../assets/images/ellipse_22_copy_3_2.png";
 import { useSiteData } from "./SiteDataContext";
 
-// ── Fallback images per slot ───────────────────────────────────────────────────
 const FALLBACK_IMAGES = [img1, img2, img3];
 
 const FALLBACK_ITEMS = [
@@ -24,9 +23,10 @@ const FALLBACK_ITEMS = [
   },
 ];
 
-const GoldButton = ({ children, className = "" }) => (
+const GoldButton = ({ children, className = "", onClick }) => (
   <button
-    className={`font-semibold text-white px-6 py-3 text-base hover:opacity-90 transition-opacity ${className}`}
+    onClick={onClick}
+    className={`inline-flex items-center justify-center whitespace-nowrap font-semibold text-white px-5 sm:px-6 py-3 text-sm sm:text-base hover:opacity-90 transition-opacity ${className}`}
     style={{ background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)" }}
   >
     {children}
@@ -39,7 +39,6 @@ export default function CleaningServices() {
   const meta = siteData?.cleaning?.meta;
   const items = siteData?.cleaning?.items;
 
-  // ── Section heading ────────────────────────────────────────────────────────
   const sectionTitle = meta?.title || "Property Management & Maintenance";
 
   const words = sectionTitle.split(" ");
@@ -49,12 +48,12 @@ export default function CleaningServices() {
     words.slice(0, middle).join(" "),
     words.slice(middle).join(" "),
   ];
-  
+
   const displayItems = items?.length
-    ? items.slice(0, 3).map((item, i) => ({
+    ? items.slice(0, 4).map((item, i) => ({
         img: item.image?.url || FALLBACK_IMAGES[i] || img1,
         label: item.label || FALLBACK_ITEMS[i]?.label || `Service ${i + 1}`,
-        title: item.label || FALLBACK_ITEMS[i]?.title || "",
+        title: item.title || item.label || FALLBACK_ITEMS[i]?.title || "",
         para: item.description || FALLBACK_ITEMS[i]?.para || "",
       }))
     : FALLBACK_ITEMS.map((fb, i) => ({
@@ -66,76 +65,87 @@ export default function CleaningServices() {
 
   if (loading) {
     return (
-      <section className="w-full bg-[#f7f2e8] py-16 lg:py-24 px-4 sm:px-8 lg:px-16 xl:px-32">
-        <div className="h-10 bg-slate-300 rounded animate-pulse w-80 mb-12" />
-        <hr className="border-[#8f7334] mb-16" />
-        <div className="max-w-[1333px] mx-auto flex flex-wrap justify-center gap-8">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="flex flex-col items-center gap-4 w-[30%]">
-              <div className="w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-slate-300 animate-pulse" />
-              <div className="h-6 w-40 bg-slate-300 rounded animate-pulse mt-6" />
-              <div className="h-16 w-full max-w-[320px] bg-slate-300 rounded animate-pulse" />
-            </div>
-          ))}
+      <section className="w-full bg-[#f7f2e8] overflow-hidden">
+        <div className="w-full max-w-[1440px] mx-auto py-16 lg:py-24 px-4 sm:px-6 lg:px-8 xl:px-10">
+          <div className="h-10 w-56 sm:w-72 lg:w-80 bg-slate-300 rounded animate-pulse mb-10 md:mb-12" />
+          <hr className="border-[#8f7334] mb-12 lg:mb-16" />
+
+          <div className="flex flex-col sm:flex-row sm:flex-wrap xl:flex-nowrap gap-y-10 sm:gap-x-8 sm:gap-y-10 xl:gap-x-10 justify-center">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="w-full max-w-[400px] mx-auto sm:mx-0 sm:basis-[calc((100%-2rem)/2)] sm:max-w-[calc((100%-2rem)/2)] xl:basis-[calc((100%-5rem)/3)] xl:max-w-[calc((100%-5rem)/3)] flex flex-col items-center min-w-0"
+              >
+                <div className="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-full bg-slate-300 animate-pulse" />
+                <div className="h-6 w-40 bg-slate-300 rounded animate-pulse mt-5" />
+                <div className="h-16 w-full max-w-[320px] bg-slate-300 rounded animate-pulse mt-2" />
+                <div className="h-10 w-32 bg-slate-300 rounded animate-pulse mt-3" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="w-full bg-[#f7f2e8]">
-      <div className="w-[1260px] bg-[#f7f2e8] py-16 lg:py-24 sm:px-8 mx-auto">
-      {/* Header row */}
-      <div className="flex md:items-center justify-between md:mb-12 lg:mb-16 flex-col md:flex-row">
-        <h2 className="text-[#000000]  text-4xl sm:text-5xl lg:text-5xl font-light leading-[1.3]">
-          {titleLines.map((line, i) => (
-            <span key={i}>
-              {line}
-              {i !== titleLines.length - 1 && <br />}
-            </span>
-          ))}
-        </h2>
-        <GoldButton className="text-base">More Services</GoldButton>
-      </div>
+    <section className="w-full bg-[#f7f2e8] overflow-hidden">
+      <div className="w-full max-w-[1440px] mx-auto py-16 lg:py-24 px-4">
+        <div className="flex flex-col md:flex-row md:items-end lg:items-center justify-between gap-6 mb-10 md:mb-12 lg:mb-16">
+          <h2 className="text-[#000000] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.25] max-w-[760px]">
+            {titleLines.map((line, i) => (
+              <span key={i}>
+                {line}
+                {i !== titleLines.length - 1 && <br />}
+              </span>
+            ))}
+          </h2>
 
-      <hr className="border-[#b7a170] mb-10" />
+          <GoldButton
+            className="self-start md:self-auto shrink-0"
+            onClick={() => {
+              window.location.href = "/property-management";
+            }}
+          >
+            More Services
+          </GoldButton>
+        </div>
 
-      <div className="max-w-[1333px] mx-auto">
-        <div className="flex flex-wrap justify-between mb-10">
-          {displayItems.map(({ img, label, title, para }, idx) => (
+        <hr className="border-[#b7a170] mb-10 lg:mb-12" />
+
+        <div className="flex flex-col sm:flex-row sm:flex-wrap xl:flex-nowrap gap-y-10 sm:gap-x-8 sm:gap-y-10 xl:gap-x-10 justify-center xl:justify-between">
+          {displayItems.map(({ img, label, title, para, description }, idx) => (
             <div
               key={`${label}-${idx}`}
-              className="flex flex-col items-center gap-4 w-full sm:w-[45%] lg:w-[30%] mb-10 lg:mb-0"
+              className="w-full max-w-[400px] mx-auto sm:mx-0 sm:basis-[calc((100%-2rem)/2)] sm:max-w-[calc((100%-2rem)/2)] xl:basis-[calc((100%-5rem)/3)] xl:max-w-[calc((100%-5rem)/3)] flex flex-col items-center text-center min-w-0"
             >
-              {/* Circle image */}
               <div
-                className="w-44 h-44 sm:w-56 sm:h-56 rounded-full bg-white flex items-center justify-center"
+                className="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-full bg-white flex items-center justify-center shrink-0"
                 style={{ boxShadow: "0 0 36px 0 rgba(151,126,68,0.22)" }}
               >
                 <img
                   src={img}
                   alt={label}
-                  className="w-36 h-36 sm:w-48 sm:h-48 rounded-full object-cover"
+                  className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-full object-cover"
                 />
               </div>
 
-              {/* Text */}
-              <div className="text-center mt-6">
-                <h3 className="text-[#000000] text-[22px] font-semibold mb-4">
+              <div className="mt-6 w-full min-w-0">
+                <h3 className="text-[#000000] text-xl sm:text-[22px] font-semibold mb-4">
                   {title}
                 </h3>
-                {para && (
-                  <p className="text-[#000000] font-medium leading-8 max-w-[506px] mx-auto text-base sm:text-lg">
-                    {para}
+
+                {description && para && (
+                  <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg max-w-[34ch] mx-auto">
+                    {description || para}
                   </p>
                 )}
               </div>
 
-              <GoldButton className="mt-4">Contact Us</GoldButton>
+              <GoldButton className="mt-5">Contact Us</GoldButton>
             </div>
           ))}
         </div>
-      </div>
       </div>
     </section>
   );

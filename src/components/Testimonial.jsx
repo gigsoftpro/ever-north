@@ -48,7 +48,7 @@ export default function Testimonial() {
   const current = testimonials[safeActive];
 
   return (
-    <section className="w-full py-16 sm:py-20 lg:py-28 px-4 sm:px-8">
+    <section className="w-full py-16 sm:py-20 lg:py-28 px-4">
       <div className="max-w-[1044px] mx-auto text-center">
         {loading ? (
           /* ── Skeleton ─────────────────────────────────────────────────── */

@@ -5,9 +5,74 @@
   font-family: "Montserrat", sans-serif;
 }
 
-*::-webkit-scrollbar{
+:root {
+  --sb-size: 6px;
+  --sb-track: #f1f5f9;
+  --sb-thumb: #b7a170;
+  --sb-thumb-hover: #8f7334;
+  --sb-radius: 999px;
+}
+
+*,
+*::before,
+*::after {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--sb-thumb) var(--sb-track); /* Firefox */
+}
+
+::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sb-track);
+  border-radius: var(--sb-radius);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb);
+  border-radius: var(--sb-radius);
+  border: 2px solid var(--sb-track); /* breathing room */
+  background-clip: padding-box;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sb-thumb-hover);
+  border-color: var(--sb-track);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--sb-track);
+}
+
+.dark-scroll,
+[data-theme="dark"] {
+  --sb-track: #1e293b;
+  --sb-thumb: #b7a170;
+  --sb-thumb-hover: #d4b37a;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
   display: none;
 }
-.displaynoscrollbar::-webkit-scrollbar{
-  display: none;
+
+/* ── Utility: wider scrollbar for large content areas ─────────────────────── */
+.scrollbar-wide {
+  --sb-size: 8px;
+}
+
+/* ── Body & root ──────────────────────────────────────────────────────────── */
+body {
+  overflow-x: hidden;
+}
+
+#root {
+  max-width: 1600px;
+  margin: 0 auto;
 }
