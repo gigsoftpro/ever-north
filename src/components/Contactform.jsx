@@ -87,7 +87,7 @@ export default function ContactForm() {
       }}
     >
       <div className="w-[1260px] mx-auto">
-      <div className="max-w-[1920px] mx-auto">
+
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10 lg:gap-16 xl:gap-20">
           <div className="w-full md:w-[40%] xl:w-[35%] text-white shrink-0">
             <h2 className="text-3xl xs:text-4xl sm:text-5xl xl:text-7xl font-semibold leading-tight mb-6">
@@ -196,7 +196,6 @@ export default function ContactForm() {
             </form>
           </div>
         </div>
-      </div>
       </div>
     </section>
   );

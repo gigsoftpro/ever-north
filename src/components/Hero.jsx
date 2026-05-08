@@ -89,7 +89,7 @@ export default function Hero() {
   if (count === 0) {
     return (
       <section
-        className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[808px] flex flex-col"
+        className="relative w-full min-h-[30vh] sm:min-h-[70vh] lg:min-h-[808px] flex flex-col"
         style={{
           backgroundImage: `url(${heroBg})`,
           backgroundSize: "cover",
@@ -113,7 +113,7 @@ export default function Hero() {
 
   // ── Carousel ───────────────────────────────────────────────────────────────
   return (
-    <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[808px] overflow-hidden">
+    <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[600px] overflow-hidden">
       {/* Slide track */}
       <div
         className="flex h-full w-full transition-transform duration-700 ease-in-out"
@@ -130,7 +130,7 @@ export default function Hero() {
           return (
             <div
               key={slide.id ?? i}
-              className="relative flex-shrink-0 w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[808px] flex flex-col"
+              className="relative flex-shrink-0 w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[600px] flex flex-col"
               style={{
                 backgroundImage: `url(${bgImg})`,
                 backgroundSize: "cover",

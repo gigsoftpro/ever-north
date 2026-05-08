@@ -28,7 +28,7 @@ export default function Header() {
 
   return (
     <header
-      className="relative w-full overflow-hidden flex items-center justify-between px-4"
+      className="relative w-full overflow-hidden flex items-center justify-between px-8"
       style={{
         backgroundImage: `url(${headerBg})`,
         backgroundSize: "cover",
@@ -40,11 +40,11 @@ export default function Header() {
           <img
             src={HeaderData?.logo?.url || logo}
             alt="Ever North"
-            className="h-10 sm:h-18 lg:h-[90px] w-auto lg:mb-4"
+            className="h-10 sm:h-18 lg:h-[60px] w-auto lg:mb-4"
           />
         </a>
 
-        <div className="ml-auto px-0 sm:px-8 lg:pr-16 lg:pl-0 lg:w-[76%] pt-4 flex flex-wrap items-center justify-end gap-4">
+        <div className="ml-auto  lg:pl-0 lg:w-[76%] flex flex-wrap items-center justify-end gap-4">
           {/* Phone */}
           <div className="hidden lg:flex items-center gap-6 lg:gap-8">
             <div className="flex items-center gap-2">
