@@ -5,6 +5,7 @@ import {
   Gem,
   ChevronRight,
   X,
+  Phone,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -12,6 +13,9 @@ const NAV_ITEMS = [
   { path: "/admin/dashboard", label: "Dashboard", icon: FileText },
   { path: "/admin/content", label: "Manage Home", icon: FileText },
   // { path: "/admin/images", label: "Media Vault", icon: ImageIcon }, // This is a test route made for image edit and upload and manage
+  { path: "/admin/contact", label: "Manage Contact", icon: Phone },
+  { path: "/admin/about", label: "Manage About Us", icon: Shield },
+  { path: "/admin/ourservices", label: "Manage Our Services", icon: Shield },
   { path: "/admin/profile", label: "Profile & Security", icon: Shield },
 ];
 

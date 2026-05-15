@@ -4,6 +4,9 @@ import LogoutButton from "../LogoutButton";
 
 const LABELS = {
   "/admin/content": "Content Studio",
+  "/admin/contact": "Contact Manage",
+  "/admin/about": "About Manage",
+  "/admin/ourservices": "Services Manage",
   "/admin/images": "Media Vault",
   "/admin/profile": "Profile & Security",
 };

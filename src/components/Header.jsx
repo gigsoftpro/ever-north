@@ -14,6 +14,7 @@ export default function Header() {
   const NavLinks = [
     { label: "Home", route: "/" },
     { label: "About Us", route: "/about" },
+    { label: "Area We Serve", route: "/area-we-serve" },
     { label: "Services", route: "/our-services" },
     { label: "Contact Us", route: "/contact-us" },
   ];
@@ -39,7 +40,7 @@ export default function Header() {
           <img
             src={HeaderData?.logo?.url || logo}
             alt="Ever North"
-            className="h-10 sm:h-18 lg:h-[60px] w-auto lg:mb-4"
+            className="h-10 sm:h-18 lg:h-[80px] w-auto lg:mb-4"
           />
         </a>
 

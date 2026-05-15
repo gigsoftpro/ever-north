@@ -15,6 +15,9 @@ import { StatCard } from "../../components/UI/StatCard";
 import { useAppStore } from "../../adminStore";
 import ImageEditor from "../../components/admin/ImageEditor";
 import AdminHome from "../../components/admin/AdminHome";
+import ContactPagePanel from "../../components/admin/ContactPagePanel";
+import AboutPagePanel from "../../components/admin/AboutPagePanel";
+import RenovationPagePanel from "../../components/admin/RenovationPagePanel";
 
 const STAT_TILES = [
   {
@@ -111,9 +114,13 @@ export default function AdminDashboard() {
             </div>
 
             {/* {(active === "images" || active === "") && <ImageEditor />} */}
-            
             {(active === "dashboard" || active === "") && <AdminHome />}
             {(active === "content" || active === "") && <ContentEditor />}
+            {(active === "contact" || active === "") && <ContactPagePanel />}
+            {(active === "about" || active === "") && <AboutPagePanel />}
+            {(active === "ourservices" || active === "") && (
+              <RenovationPagePanel />
+            )}
 
             {active === "profile" && (
               <ProfileEditor

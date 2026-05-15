@@ -5,6 +5,7 @@ import {
   useState,
   useCallback,
 } from "react";
+import { useLocation } from "react-router-dom";
 import { BaseUrl } from "./Config/BaseUrl";
 
 // ─── Context ──────────────────────────────────────────────────────────────────
@@ -15,12 +16,15 @@ export function SiteDataProvider({ children }) {
   const [siteData, setSiteData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const location = useLocation(); // ← track route changes
 
   const fetchSiteData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch(`${BaseUrl}content/site`);
+      const res = await fetch(`${BaseUrl}content/site`, {
+        cache: "no-store", // ← prevent browser from serving stale cached response
+      });
       const json = await res.json();
       if (json.success) {
         setSiteData(json.data);
@@ -32,11 +36,12 @@ export function SiteDataProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, []); // ← no deps, function itself never changes
 
+  // ── Re-fetch every time the route changes ──────────────────────────────────
   useEffect(() => {
     fetchSiteData();
-  }, [fetchSiteData]);
+  }, [location.pathname, fetchSiteData]); // ← pathname triggers re-fetch on navigation
 
   return (
     <SiteDataContext.Provider
@@ -47,7 +52,7 @@ export function SiteDataProvider({ children }) {
   );
 }
 
-// ─── Hook ──────────────────────────────────────────────────────────────────────
+// ─── Hook ─────────────────────────────────────────────────────────────────────
 export function useSiteData() {
   const ctx = useContext(SiteDataContext);
   if (!ctx) {

@@ -50,7 +50,7 @@ export default function CleaningServices() {
   ];
 
   const displayItems = items?.length
-    ? items.slice(0, 4).map((item, i) => ({
+    ? items.slice(0, 3).map((item, i) => ({
         img: item.image?.url || FALLBACK_IMAGES[i] || img1,
         label: item.label || FALLBACK_ITEMS[i]?.label || `Service ${i + 1}`,
         title: item.title || item.label || FALLBACK_ITEMS[i]?.title || "",
@@ -112,7 +112,6 @@ export default function CleaningServices() {
         </div>
 
         <hr className="border-[#b7a170] mb-10 lg:mb-12" />
-
         <div className="flex flex-col sm:flex-row sm:flex-wrap xl:flex-nowrap gap-y-10 sm:gap-x-8 sm:gap-y-10 xl:gap-x-10 justify-center xl:justify-between">
           {displayItems.map(({ img, label, title, para, description }, idx) => (
             <div
@@ -135,11 +134,9 @@ export default function CleaningServices() {
                   {title}
                 </h3>
 
-                {description && para && (
-                  <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg max-w-[34ch] mx-auto">
-                    {description || para}
-                  </p>
-                )}
+                <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg max-w-[34ch] mx-auto">
+                  {para}
+                </p>
               </div>
 
               <GoldButton className="mt-5">Contact Us</GoldButton>

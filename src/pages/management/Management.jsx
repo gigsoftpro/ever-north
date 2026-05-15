@@ -1,7 +1,7 @@
 import img1 from "../../assets/images/ellipse_22_copy.png";
 import img2 from "../../assets/images/ellipse_22_copy_2_2.png";
 import img3 from "../../assets/images/ellipse_22_copy_3_2.png";
-
+import abtBanner from "../../assets/images/About-banner.jpg";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSiteData } from "../../components/SiteDataContext";
 
@@ -28,6 +28,7 @@ const FALLBACK_ITEMS = [
 const INITIAL_LOAD = 8;
 const LOAD_MORE_COUNT = 4;
 
+// ─── Gold Button ──────────────────────────────────────────────────────────────
 const GoldButton = ({ children, className = "", onClick }) => (
   <button
     onClick={onClick}
@@ -38,7 +39,7 @@ const GoldButton = ({ children, className = "", onClick }) => (
   </button>
 );
 
-/* Skeleton card — same sizing as real card */
+// ─── Skeleton Card ────────────────────────────────────────────────────────────
 const SkeletonCard = () => (
   <div className="w-full flex flex-col items-center text-center min-w-0">
     <div
@@ -55,21 +56,40 @@ const SkeletonCard = () => (
   </div>
 );
 
+// ─── Page Skeleton (full page loading state) ──────────────────────────────────
+const PageSkeleton = () => (
+  <>
+    {/* Banner skeleton */}
+    <section className="relative flex min-h-[600px] items-center overflow-hidden bg-slate-300 animate-pulse">
+      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5">
+        <div className="flex flex-col items-center gap-5">
+          <div className="h-12 w-2/3 bg-slate-400 rounded animate-pulse" />
+          <div className="h-6 w-1/2 bg-slate-400 rounded animate-pulse" />
+          <div className="h-10 w-36 bg-slate-400 rounded animate-pulse" />
+        </div>
+      </div>
+    </section>
+
+    {/* Grid skeleton */}
+    <section className="w-full bg-[#f7f2e8] overflow-hidden">
+      <div className="w-full max-w-[1440px] mx-auto py-16 lg:py-24 px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10">
+          {Array.from({ length: INITIAL_LOAD }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  </>
+);
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 export default function Management() {
-  const { siteData, loading } = useSiteData();
-
-  const meta = siteData?.cleaning?.meta;
-  const rawItems = siteData?.cleaning?.items;
-
-  const sectionTitle = meta?.title || "Property Management & Maintenance";
-  const words = sectionTitle.split(" ");
-  const middle = Math.ceil(words.length / 2);
-  const titleLines = [
-    words.slice(0, middle).join(" "),
-    words.slice(middle).join(" "),
-  ];
+  const { siteData, loading, error, refetch } = useSiteData();
 
   /* ── Build the full resolved list ── */
+  const rawItems = siteData?.cleaning?.items;
+
   const allItems = rawItems?.length
     ? rawItems.map((item, i) => ({
         img:
@@ -103,6 +123,11 @@ export default function Management() {
   const sentinelRef = useRef(null);
   const hasMore = visibleCount < allItems.length;
 
+  // ── Reset visible count when data changes (after re-fetch) ────────────────
+  useEffect(() => {
+    setVisibleCount(INITIAL_LOAD);
+  }, [siteData]);
+
   /* Simulate async "fetch" delay for skeleton effect */
   const loadMore = useCallback(() => {
     if (isFetchingMore || !hasMore) return;
@@ -112,10 +137,9 @@ export default function Management() {
         Math.min(prev + LOAD_MORE_COUNT, allItems.length),
       );
       setIsFetchingMore(false);
-    }, 800); // 800 ms skeleton window
+    }, 800);
   }, [isFetchingMore, hasMore, allItems.length]);
 
-  /* IntersectionObserver on the sentinel div */
   useEffect(() => {
     if (!sentinelRef.current) return;
     const observer = new IntersectionObserver(
@@ -130,56 +154,62 @@ export default function Management() {
 
   const displayedItems = allItems.slice(0, visibleCount);
 
-  /* ── Section-level skeleton (data still loading) ── */
-  if (loading) {
+  // ── Loading state ─────────────────────────────────────────────────────────
+  if (loading) return <PageSkeleton />;
+
+  // ── Error state ───────────────────────────────────────────────────────────
+  if (error) {
     return (
-      <section className="w-full bg-[#f7f2e8] overflow-hidden">
-        <div className="w-full max-w-[1440px] mx-auto py-16 lg:py-24 px-4 sm:px-6 lg:px-8 xl:px-10">
-          <div className="h-10 w-56 sm:w-72 lg:w-80 bg-slate-300 rounded animate-pulse mb-10 md:mb-12" />
-          <hr className="border-[#8f7334] mb-12 lg:mb-16" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10">
-            {Array.from({ length: INITIAL_LOAD }).map((_, i) => (
-              <SkeletonCard key={i} />
-            ))}
-          </div>
-        </div>
+      <section className="min-h-screen w-full bg-[#f7f2e8] flex flex-col items-center justify-center gap-5">
+        <p className="text-red-500 text-lg font-medium text-center px-4">
+          {error}
+        </p>
+        <GoldButton onClick={refetch}>Try Again</GoldButton>
       </section>
     );
   }
 
+  // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <section className="w-full bg-[#f7f2e8] overflow-hidden">
-      <div className="w-full max-w-[1440px] mx-auto py-16 lg:py-24 px-4">
-        {/* ── Header ── */}
-        {/* <div className="flex flex-col md:flex-row md:items-end lg:items-center justify-between gap-6 mb-10 md:mb-12 lg:mb-16">
-          <h2 className="text-[#000000] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.25] max-w-[760px]">
-            {titleLines.map((line, i) => (
-              <span key={i}>
-                {line}
-                {i !== titleLines.length - 1 && <br />}
-              </span>
-            ))}
-          </h2>
+    <>
+      {/* ── Banner ── */}
+      <section className="relative flex min-h-[600px] items-center overflow-hidden text-white">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${abtBanner})` }}
+        />
+        <div className="absolute inset-0 bg-black/40" />
 
-          <GoldButton
-            className="self-start md:self-auto shrink-0"
-            onClick={() => {
-              window.location.href = "/property-management";
-            }}
-          >
-            More Services
-          </GoldButton>
-        </div> */}
+        <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5">
+          <div className="text-center">
+            <h1 className="mb-5 text-4xl font-bold md:text-5xl">
+              Personal Property Management in{" "}
+              <span className="text-[#b7a170] italic font-bold">Ontario</span>
+            </h1>
+            <p className="mx-auto mb-10 max-w-4xl text-xl text-white/90">
+              Delivering trusted property management solutions with innovation,
+              transparency, and long-term value.
+            </p>
+            <a
+              href="#contact"
+              className="inline-block rounded-[2px] bg-gradient-to-t from-[#8f7334] to-[#b7a170] px-[35px] py-[10px] text-lg font-medium text-white transition duration-300 hover:-translate-y-0.5"
+            >
+              Contact Us
+            </a>
+          </div>
+        </div>
+      </section>
 
-        {/* <hr className="border-[#b7a170] mb-10 lg:mb-12" /> */}
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10">
-          {displayedItems.map(
-            ({ img, label, title, para, description }, idx) => (
+      {/* ── Services Grid ── */}
+      <section className="w-full bg-[#f7f2e8] overflow-hidden">
+        <div className="w-full max-w-[1440px] mx-auto py-16 lg:py-24 px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10">
+            {displayedItems.map(({ img, label, title, para }, idx) => (
               <div
                 key={`${label}-${idx}`}
                 className="flex flex-col items-center text-center min-w-0"
               >
+                {/* Circle image */}
                 <div
                   className="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-full bg-white flex items-center justify-center shrink-0"
                   style={{ boxShadow: "0 0 36px 0 rgba(151,126,68,0.22)" }}
@@ -191,41 +221,38 @@ export default function Management() {
                   />
                 </div>
 
+                {/* Text */}
                 <div className="mt-6 w-full min-w-0">
                   <h3 className="text-[#000000] text-xl sm:text-[22px] font-semibold mb-4">
                     {title}
                   </h3>
-                  {description && para && (
+                  {para && (
                     <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg max-w-[34ch] mx-auto">
-                      {description || para}
+                      {para}
                     </p>
                   )}
                 </div>
 
                 <GoldButton className="mt-5">Contact Us</GoldButton>
               </div>
-            ),
+            ))}
+
+            {/* Skeleton placeholders while loading more */}
+            {isFetchingMore &&
+              Array.from({
+                length: Math.min(
+                  LOAD_MORE_COUNT,
+                  allItems.length - visibleCount,
+                ),
+              }).map((_, i) => <SkeletonCard key={`skel-${i}`} />)}
+          </div>
+
+          {/* Intersection sentinel */}
+          {hasMore && (
+            <div ref={sentinelRef} className="h-10 mt-4" aria-hidden="true" />
           )}
-
-          {/* Skeleton cards shown while fetching next batch */}
-          {isFetchingMore &&
-            Array.from({
-              length: Math.min(LOAD_MORE_COUNT, allItems.length - visibleCount),
-            }).map((_, i) => <SkeletonCard key={`skel-${i}`} />)}
         </div>
-
-        {/* ── Sentinel: triggers IntersectionObserver ── */}
-        {hasMore && (
-          <div ref={sentinelRef} className="h-10 mt-4" aria-hidden="true" />
-        )}
-
-        {/* ── End-of-list message ── */}
-        {/* {!hasMore && allItems.length > INITIAL_LOAD && (
-          <p className="text-center text-[#8f7334] font-medium mt-10 text-sm tracking-wide">
-            All {allItems.length} services loaded
-          </p>
-        )} */}
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

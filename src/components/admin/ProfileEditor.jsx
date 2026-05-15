@@ -155,7 +155,7 @@ export default function ProfileEditor() {
   ];
 
   return (
-    <div className="space-y-5 max-w-2xl">
+    <div className="space-y-5">
       {/* ── Profile Card ── */}
       <Card>
         <form onSubmit={saveProfile} className="space-y-5">
