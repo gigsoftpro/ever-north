@@ -31,10 +31,10 @@ const AdminHome = () => {
   ];
 
   return (
-    <div className="bg-[#f8fafc] p-8 font-sans text-slate-800 rounded-2xl">
+    <div className="bg-[#f8fafc] p-4 font-sans text-slate-800 rounded-2xl">
       {/* Header */}
-      <header className="mb-10">
-        <h1 className="text-3xl font-semibold tracking-tight">
+      <header className="mb-4">
+        <h1 className="text-2xl font-semibold tracking-tight">
           Dashboard Overview
         </h1>
         <p className="text-slate-500 mt-2">
@@ -43,7 +43,7 @@ const AdminHome = () => {
       </header>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         {stats.map((stat, index) => (
           <div
             key={index}

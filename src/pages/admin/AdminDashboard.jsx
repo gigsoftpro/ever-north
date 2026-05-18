@@ -9,7 +9,7 @@ import {
 
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import AdminTopbar from "../../components/admin/AdminTopbar";
-import ContentEditor from "../../components/admin/ContentEditor"; // default only — no TEXT_SECTIONS
+import ContentEditor from "../../components/admin/ContentEditor";
 import ProfileEditor from "../../components/admin/ProfileEditor";
 import { StatCard } from "../../components/UI/StatCard";
 import { useAppStore } from "../../adminStore";
@@ -18,6 +18,7 @@ import AdminHome from "../../components/admin/AdminHome";
 import ContactPagePanel from "../../components/admin/ContactPagePanel";
 import AboutPagePanel from "../../components/admin/AboutPagePanel";
 import RenovationPagePanel from "../../components/admin/RenovationPagePanel";
+import ServicesPagePanel from "../../components/admin/RenovationPagePanel";
 
 const STAT_TILES = [
   {
@@ -61,7 +62,6 @@ export default function AdminDashboard() {
   );
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Derive active panel from URL: /admin/content → "content", /admin/profile → "profile"
   const active = location.pathname.replace(/^\/admin\/?/, "") || "content";
 
   const handleLogout = () => {
@@ -96,11 +96,11 @@ export default function AdminDashboard() {
 
           {/* Scrollable content area */}
           <main
-            className="flex-1 overflow-y-auto p-4 space-y-5 rounded-2xl border-gray-300 border-2 mr-3 displaynoscrollbar"
+            className="flex-1 overflow-y-auto p-4 space-y-5 rounded-2xl border-gray-300 border-2 ml-2 lg:ml-0 mr-2" id="displaynoscrollbar"
             style={{ background: "#f0f2f7" }}
           >
             {/* ── Stat tiles ─────────────────────────────────────────────── */}
-            <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            {/* <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
               {STAT_TILES.map((tile) => (
                 <StatCard
                   key={tile.label}
@@ -111,7 +111,7 @@ export default function AdminDashboard() {
                   color={tile.color}
                 />
               ))}
-            </div>
+            </div> */}
 
             {/* {(active === "images" || active === "") && <ImageEditor />} */}
             {(active === "dashboard" || active === "") && <AdminHome />}
@@ -119,7 +119,7 @@ export default function AdminDashboard() {
             {(active === "contact" || active === "") && <ContactPagePanel />}
             {(active === "about" || active === "") && <AboutPagePanel />}
             {(active === "ourservices" || active === "") && (
-              <RenovationPagePanel />
+              <ServicesPagePanel />
             )}
 
             {active === "profile" && (
@@ -134,7 +134,7 @@ export default function AdminDashboard() {
           </main>
 
           {/* Footer */}
-          <footer className="flex-shrink-0 bg-white py-2.5">
+          <footer className="flex-shrink-0 bg-white py-1.5 md:py-2.5">
             <p className="text-center text-xs text-slate-400">
               © Ever North {new Date().getFullYear()} · All rights reserved
             </p>

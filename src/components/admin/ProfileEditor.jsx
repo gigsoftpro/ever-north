@@ -51,8 +51,7 @@ async function apiFetch(path, options = {}) {
 export default function ProfileEditor() {
   const { user, refreshUser } = useAppStore();
 
-  // ── Profile fields ────────────────────────────────────────────────────
-  const [name, setName] = useState(user?.name || "");
+  const [name, setName] = useState(user?.username || "");
   const [email, setEmail] = useState(user?.email || "");
   const [profileStatus, setProfileStatus] = useState({ type: "", message: "" });
   const [profileSaving, setProfileSaving] = useState(false);

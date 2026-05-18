@@ -6,10 +6,11 @@ import Services from "../../components/Services";
 import AreasWeCover from "../../components/Areaswecover";
 import Testimonial from "../../components/Testimonial";
 import ContactForm from "../../components/Contactform";
+import { SiteDataProvider } from "../../components/SiteDataContext";
 
 const Home = () => {
   return (
-    <div className="">
+    <SiteDataProvider>
       <Hero />
       <About />
       <hr className="border-[#e8e4db] my-10" />
@@ -18,7 +19,7 @@ const Home = () => {
       <AreasWeCover />
       <Testimonial />
       <ContactForm />
-    </div>
+    </SiteDataProvider>
   );
 };
 

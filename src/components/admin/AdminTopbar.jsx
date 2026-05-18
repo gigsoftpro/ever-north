@@ -51,7 +51,7 @@ export default function AdminTopbar({ sidebarOpen, setSidebarOpen, onLogout }) {
 
         {/* Right – actions */}
         <div className="flex items-center gap-1.5">
-          <button
+          {/* <button
             className="p-2.5 rounded-xl text-slate-500 hover:bg-amber-50 hover:text-amber-600 transition-all"
             title="Notifications"
           >
@@ -62,7 +62,7 @@ export default function AdminTopbar({ sidebarOpen, setSidebarOpen, onLogout }) {
             title="Settings"
           >
             <Settings size={16} />
-          </button>
+          </button> */}
 
           <div className="w-px h-5 bg-slate-200 mx-1" />
 

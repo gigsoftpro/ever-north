@@ -12,11 +12,6 @@ import {
   X,
   Eye,
   EyeOff,
-  Home,
-  Clock,
-  Building2,
-  Star,
-  HelpCircle,
 } from "lucide-react";
 import { getStoredToken } from "../../services/authApi"; // adjust path as needed
 import { BaseUrl } from "../Config/BaseUrl";
@@ -25,16 +20,7 @@ const SERVICES_API = `${BaseUrl}services`;
 const MEDIA_API = `${BaseUrl}media`;
 const SERVER_ROOT = BaseUrl.replace(/\/api\/?$/, "");
 
-// ─── Tab definitions ──────────────────────────────────────────────────────────
-const TABS = [
-  { key: "intro", label: "Intro / Hero", icon: Home },
-  { key: "short_term", label: "Short-Term PM", icon: Clock },
-  { key: "long_term", label: "Long-Term PM", icon: Building2 },
-  { key: "airbnb", label: "Airbnb Hosting", icon: Star },
-  { key: "faq", label: "FAQ", icon: HelpCircle },
-];
-
-// ─── Tiny shared UI primitives ────────────────────────────────────────────────
+// ─── Shared mini-UI ───────────────────────────────────────────────────────────
 const FL = ({ children }) => (
   <label className="block text-xs font-semibold text-slate-600 mb-1">
     {children}
@@ -59,9 +45,7 @@ function AI({
         onChange={onChange}
         placeholder={placeholder}
         disabled={disabled}
-        className="w-full px-3 py-2.5 text-sm rounded-xl border border-slate-200 bg-white
-          focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400
-          disabled:opacity-50 transition"
+        className="w-full px-3 py-2.5 text-sm rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 disabled:opacity-50 transition"
       />
     </div>
   );
@@ -85,9 +69,7 @@ function AT({
         rows={rows}
         placeholder={placeholder}
         disabled={disabled}
-        className="w-full px-3 py-2.5 text-sm rounded-xl border border-slate-200 bg-white
-          focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400
-          disabled:opacity-50 transition resize-none"
+        className="w-full px-3 py-2.5 text-sm rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 disabled:opacity-50 transition resize-none"
       />
     </div>
   );
@@ -99,8 +81,7 @@ function GB({ children, onClick, disabled, type = "button", className = "" }) {
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold
-        text-white disabled:opacity-50 hover:opacity-90 transition-opacity ${className}`}
+      className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white disabled:opacity-50 hover:opacity-90 transition-opacity ${className}`}
       style={{ background: "linear-gradient(0deg,#8f7334,#b7a170)" }}
     >
       {children}
@@ -113,8 +94,7 @@ function DB({ children, onClick, disabled }) {
     <button
       onClick={onClick}
       disabled={disabled}
-      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold
-        text-white bg-slate-700 hover:bg-slate-800 disabled:opacity-50 transition-colors"
+      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-slate-700 hover:bg-slate-800 disabled:opacity-50 transition-colors"
     >
       {children}
     </button>
@@ -161,7 +141,7 @@ function SCard({ title, subtitle, onSave, saving, status, children }) {
                 </>
               ) : (
                 <>
-                  <Save size={14} /> Save Changes
+                  <Save size={14} /> Save
                 </>
               )}
             </GB>
@@ -173,20 +153,26 @@ function SCard({ title, subtitle, onSave, saving, status, children }) {
   );
 }
 
+function SectionDivider({ label }) {
+  return (
+    <div className="flex items-center gap-3 py-1">
+      <div className="h-px flex-1 bg-slate-200" />
+      <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+        {label}
+      </span>
+      <div className="h-px flex-1 bg-slate-200" />
+    </div>
+  );
+}
+
 function CRow({ children, onEdit, onDelete, onToggle, active = true }) {
   return (
-    <div
-      className="flex items-center gap-3 p-3 rounded-xl border border-slate-100 bg-slate-50
-      hover:border-amber-200 transition group"
-    >
+    <div className="flex items-center gap-3 p-3 rounded-xl border border-slate-100 bg-slate-50 hover:border-amber-200 transition group">
       <div className="flex-1 min-w-0">{children}</div>
       <div className="flex items-center gap-1.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
         {onToggle && (
           <button
             onClick={onToggle}
-            title={
-              active ? "Visible — click to hide" : "Hidden — click to show"
-            }
             className={`p-1.5 rounded-lg ${active ? "text-green-600 hover:bg-green-50" : "text-slate-400 hover:bg-slate-200"}`}
           >
             {active ? <Eye size={14} /> : <EyeOff size={14} />}
@@ -213,14 +199,13 @@ function CRow({ children, onEdit, onDelete, onToggle, active = true }) {
   );
 }
 
-// ─── Hooks ────────────────────────────────────────────────────────────────────
 function useConfirm() {
   const [p, setP] = useState(null);
   const ask = (label, fn) => setP({ label, fn });
   const Modal = p ? (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="bg-white rounded-2xl p-6 shadow-2xl max-w-xs w-full mx-4">
-        <p className="text-sm font-bold text-slate-800 mb-1">Confirm Delete</p>
+        <p className="text-sm font-bold text-slate-800 mb-1">Delete?</p>
         <p className="text-xs text-slate-500 mb-4">{p.label}</p>
         <div className="flex gap-2">
           <button
@@ -267,7 +252,6 @@ function useSave(fn) {
   return { save, saving, status };
 }
 
-// ─── API helpers ──────────────────────────────────────────────────────────────
 async function apiUpload(file, section) {
   const token = getStoredToken();
   const fd = new FormData();
@@ -302,7 +286,6 @@ async function apiFetch(path, opts = {}) {
   return d;
 }
 
-// ─── Image upload slot ────────────────────────────────────────────────────────
 function ImgSlot({ label, value, onUpload, onClear, section = "services" }) {
   const [busy, setBusy] = useState(false);
   const ref = useRef(null);
@@ -322,17 +305,16 @@ function ImgSlot({ label, value, onUpload, onClear, section = "services" }) {
     <div>
       {label && <FL>{label}</FL>}
       <div
-        className={`rounded-xl overflow-hidden border-2 transition-all
-        ${url ? "border-slate-200" : "border-dashed border-slate-200 hover:border-amber-300"}`}
+        className={`rounded-xl overflow-hidden border-2 transition-all ${url ? "border-slate-200" : "border-dashed border-slate-200 hover:border-amber-300"}`}
       >
         {busy ? (
-          <div className="h-36 flex items-center justify-center bg-amber-50 gap-2">
+          <div className="h-32 flex items-center justify-center bg-amber-50 gap-2">
             <Loader2 size={20} className="animate-spin text-amber-500" />
             <span className="text-xs text-slate-500">Uploading…</span>
           </div>
         ) : url ? (
           <div className="relative group">
-            <img src={url} alt={label} className="w-full h-36 object-cover" />
+            <img src={url} alt={label} className="w-full h-32 object-cover" />
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
               <button
                 onClick={() => ref.current?.click()}
@@ -351,15 +333,15 @@ function ImgSlot({ label, value, onUpload, onClear, section = "services" }) {
         ) : (
           <button
             onClick={() => ref.current?.click()}
-            className="w-full h-36 flex flex-col items-center justify-center bg-slate-50 hover:bg-amber-50/50 transition-colors gap-1.5 group"
+            className="w-full h-32 flex flex-col items-center justify-center bg-slate-50 hover:bg-amber-50/50 transition-colors gap-1.5 group"
           >
             <div className="p-2 rounded-xl bg-slate-200 group-hover:bg-amber-100 text-slate-400 group-hover:text-amber-500 transition-all">
               <Upload size={18} />
             </div>
             <p className="text-xs font-medium text-slate-500">
-              {label || "Upload image"}
+              {label || "Upload"}
             </p>
-            <p className="text-[10px] text-slate-400">Click to browse</p>
+            <p className="text-[10px] text-slate-400">Click or drag & drop</p>
           </button>
         )}
       </div>
@@ -377,8 +359,8 @@ function ImgSlot({ label, value, onUpload, onClear, section = "services" }) {
   );
 }
 
-// ─── Why-bullets CRUD ─────────────────────────────────────────────────────────
-function WhyCrudList({ sectionKey, items, setItems }) {
+// ─── Generic Why-Items CRUD per section ──────────────────────────────────────
+function WhyCrudList({ sectionKey, sectionLabel, items, setItems }) {
   const [editing, setEditing] = useState(null);
   const [formErr, setFormErr] = useState("");
   const [saving, setSaving] = useState(false);
@@ -451,10 +433,10 @@ function WhyCrudList({ sectionKey, items, setItems }) {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-            Bullet Points
+            {sectionLabel} — Why Bullet Points
           </p>
           <GB onClick={openNew}>
-            <Plus size={13} /> Add Bullet
+            <Plus size={14} /> Add
           </GB>
         </div>
 
@@ -506,8 +488,8 @@ function WhyCrudList({ sectionKey, items, setItems }) {
         )}
 
         {items.length === 0 && (
-          <p className="text-sm text-slate-400 text-center py-6 border border-dashed border-slate-200 rounded-xl">
-            No bullet points yet — click "Add Bullet" to get started.
+          <p className="text-sm text-slate-400 text-center py-6">
+            No bullet points yet.
           </p>
         )}
         {items.map((item) => (
@@ -518,11 +500,7 @@ function WhyCrudList({ sectionKey, items, setItems }) {
             onEdit={() => openEdit(item)}
             onDelete={() => del(item.id)}
           >
-            <p
-              className={`text-sm ${item.is_active ? "text-slate-800" : "text-slate-400 line-through"}`}
-            >
-              • {item.text}
-            </p>
+            <p className="text-sm text-slate-800">• {item.text}</p>
           </CRow>
         ))}
       </div>
@@ -530,7 +508,7 @@ function WhyCrudList({ sectionKey, items, setItems }) {
   );
 }
 
-// ─── FAQ CRUD ─────────────────────────────────────────────────────────────────
+// ─── FAQ CRUD list ────────────────────────────────────────────────────────────
 function FaqCrudList({ items, setItems }) {
   const [editing, setEditing] = useState(null);
   const [formErr, setFormErr] = useState("");
@@ -601,7 +579,7 @@ function FaqCrudList({ items, setItems }) {
       <div className="space-y-3">
         <div className="flex justify-end">
           <GB onClick={openNew}>
-            <Plus size={13} /> Add FAQ
+            <Plus size={14} /> Add FAQ
           </GB>
         </div>
 
@@ -624,7 +602,7 @@ function FaqCrudList({ items, setItems }) {
             />
             <AT
               label="Answer"
-              rows={5}
+              rows={4}
               value={editing.item.answer}
               onChange={(e) =>
                 setEditing((p) => ({
@@ -663,8 +641,8 @@ function FaqCrudList({ items, setItems }) {
         )}
 
         {items.length === 0 && (
-          <p className="text-sm text-slate-400 text-center py-8 border border-dashed border-slate-200 rounded-xl">
-            No FAQ items yet — click "Add FAQ" to get started.
+          <p className="text-sm text-slate-400 text-center py-6">
+            No FAQ items yet.
           </p>
         )}
         {items.map((item) => (
@@ -676,13 +654,10 @@ function FaqCrudList({ items, setItems }) {
             onDelete={() => del(item.id)}
           >
             <div>
-              <p
-                className={`text-sm font-semibold truncate max-w-[420px]
-                ${item.is_active ? "text-slate-800" : "text-slate-400 line-through"}`}
-              >
+              <p className="text-sm font-semibold text-slate-800 truncate max-w-[360px]">
                 {item.question}
               </p>
-              <p className="text-xs text-slate-400 truncate max-w-[420px] mt-0.5">
+              <p className="text-xs text-slate-400 truncate max-w-[360px]">
                 {item.answer}
               </p>
             </div>
@@ -693,190 +668,8 @@ function FaqCrudList({ items, setItems }) {
   );
 }
 
-// ─── Individual tab panels ────────────────────────────────────────────────────
-
-function IntroTab({ meta, setMeta, onSave, saving, status }) {
-  const M = (k) => ({
-    value: meta[k] ?? "",
-    onChange: (e) => setMeta((p) => ({ ...p, [k]: e.target.value })),
-  });
-  const Img = (k) => ({
-    value: meta[k],
-    onUpload: (m) => setMeta((p) => ({ ...p, [k]: m })),
-    onClear: () => setMeta((p) => ({ ...p, [k]: null })),
-  });
-
-  return (
-    <SCard
-      title="Intro / Hero Section"
-      subtitle="Background image, page headline and the two description paragraphs"
-      onSave={onSave}
-      saving={saving}
-      status={status}
-    >
-      <div className="space-y-5">
-        <ImgSlot label="Hero Background Image" {...Img("intro_image")} />
-        <AI label="Page Title" {...M("intro_title")} />
-        <AT label="Paragraph 1" rows={4} {...M("intro_para_1")} />
-        <AT label="Paragraph 2" rows={2} {...M("intro_para_2")} />
-      </div>
-    </SCard>
-  );
-}
-
-function ServiceTab({
-  sectionKey,
-  sectionName,
-  imgSide,
-  meta,
-  setMeta,
-  onSave,
-  saving,
-  status,
-  whyItems,
-  setWhyItems,
-}) {
-  const M = (k) => ({
-    value: meta[k] ?? "",
-    onChange: (e) => setMeta((p) => ({ ...p, [k]: e.target.value })),
-  });
-  const Img = (k) => ({
-    value: meta[k],
-    onUpload: (m) => setMeta((p) => ({ ...p, [k]: m })),
-    onClear: () => setMeta((p) => ({ ...p, [k]: null })),
-  });
-  const pk = sectionKey;
-
-  return (
-    <div className="space-y-5">
-      {/* ── Text & image card ─────────────────────────── */}
-      <SCard
-        title={`${sectionName} — Content`}
-        subtitle="Title, tagline, description text, CTA button and section image"
-        onSave={onSave}
-        saving={saving}
-        status={status}
-      >
-        <div className="space-y-4">
-          <div className="grid sm:grid-cols-2 gap-4">
-            <AI label="Section Title" {...M(`${pk}_title`)} />
-            <AI label="Italic Tagline" {...M(`${pk}_subtitle`)} />
-          </div>
-          <AT
-            label="Description — leave a blank line between paragraphs"
-            rows={7}
-            {...M(`${pk}_desc`)}
-          />
-          <div className="grid sm:grid-cols-2 gap-4">
-            <AI label="CTA Button Text" {...M(`${pk}_cta_text`)} />
-            <AI label="CTA Button Link" {...M(`${pk}_cta_href`)} />
-          </div>
-          <ImgSlot
-            label={`Section Image (${imgSide} side)`}
-            {...Img(`${pk}_image`)}
-          />
-        </div>
-      </SCard>
-
-      {/* ── Why bullets card ──────────────────────────── */}
-      <SCard
-        title={`${sectionName} — Why Bullet Points`}
-        subtitle={`The checklist displayed under the ${sectionName} section on the public page`}
-      >
-        <div className="space-y-4">
-          <AI label="Bullets Section Heading" {...M(`${pk}_why_title`)} />
-          <div className="border-t border-slate-100 pt-4">
-            <WhyCrudList
-              sectionKey={pk}
-              items={whyItems}
-              setItems={setWhyItems}
-            />
-          </div>
-        </div>
-      </SCard>
-    </div>
-  );
-}
-
-function FaqTab({
-  meta,
-  setMeta,
-  onSave,
-  saving,
-  status,
-  faqItems,
-  setFaqItems,
-}) {
-  const M = (k) => ({
-    value: meta[k] ?? "",
-    onChange: (e) => setMeta((p) => ({ ...p, [k]: e.target.value })),
-  });
-  const Img = (k) => ({
-    value: meta[k],
-    onUpload: (m) => setMeta((p) => ({ ...p, [k]: m })),
-    onClear: () => setMeta((p) => ({ ...p, [k]: null })),
-  });
-
-  return (
-    <div className="space-y-5">
-      {/* ── Section header ────────────────────────────── */}
-      <SCard
-        title="FAQ — Section Header"
-        subtitle="The title and left-side image shown above the accordion on the public page"
-        onSave={onSave}
-        saving={saving}
-        status={status}
-      >
-        <div className="grid sm:grid-cols-2 gap-4">
-          <AI label="Section Title" {...M("faq_title")} />
-          <ImgSlot label="Left-side Image" {...Img("faq_image")} />
-        </div>
-      </SCard>
-
-      {/* ── FAQ items CRUD ────────────────────────────── */}
-      <SCard
-        title="FAQ Items"
-        subtitle="Manage questions & answers — edit, toggle visibility or delete any item"
-      >
-        <FaqCrudList items={faqItems} setItems={setFaqItems} />
-      </SCard>
-    </div>
-  );
-}
-
-// ─── Tab navigation bar ───────────────────────────────────────────────────────
-function TabBar({ active, onChange }) {
-  return (
-    <div className="flex flex-wrap gap-1 bg-slate-100 p-1.5 rounded-2xl mb-6">
-      {TABS.map(({ key, label, icon: Icon }) => {
-        const on = active === key;
-        return (
-          <button
-            key={key}
-            onClick={() => onChange(key)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold
-              flex-1 justify-center whitespace-nowrap transition-all duration-200
-              ${
-                on
-                  ? "bg-white text-slate-900 shadow-sm"
-                  : "text-slate-500 hover:text-slate-800 hover:bg-white/60"
-              }`}
-          >
-            <Icon
-              size={15}
-              className={on ? "text-amber-500" : "text-slate-400"}
-            />
-            {label}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-// ─── Root panel ───────────────────────────────────────────────────────────────
+// ─── Main Panel ───────────────────────────────────────────────────────────────
 export default function ServicesPagePanel() {
-  const [activeTab, setActiveTab] = useState("intro");
   const [meta, setMeta] = useState({});
   const [shortWhy, setShortWhy] = useState([]);
   const [longWhy, setLongWhy] = useState([]);
@@ -906,7 +699,7 @@ export default function ServicesPagePanel() {
     load();
   }, [load]);
 
-  // Single meta save shared by all tabs
+  // ── Meta save ────────────────────────────────────────────────────────────
   const {
     save: saveMeta,
     saving: savingMeta,
@@ -952,21 +745,28 @@ export default function ServicesPagePanel() {
     }, [meta]),
   );
 
-  // ── Loading skeleton ─────────────────────────────────────────────────────
+  const M = (k) => ({
+    value: meta[k] ?? "",
+    onChange: (e) => setMeta((p) => ({ ...p, [k]: e.target.value })),
+  });
+  const Img = (k) => ({
+    value: meta[k],
+    onUpload: (m) => setMeta((p) => ({ ...p, [k]: m })),
+    onClear: () => setMeta((p) => ({ ...p, [k]: null })),
+  });
+
   if (loading)
     return (
       <div className="space-y-4 animate-pulse">
-        <div className="h-14 bg-slate-100 rounded-2xl" />
-        {[...Array(2)].map((_, i) => (
+        {[...Array(5)].map((_, i) => (
           <div
             key={i}
-            className="h-52 bg-white rounded-2xl border border-slate-100"
+            className="h-40 bg-white rounded-2xl border border-slate-100"
           />
         ))}
       </div>
     );
 
-  // ── Fetch error ──────────────────────────────────────────────────────────
   if (fetchErr)
     return (
       <div className="flex items-center gap-2 text-red-600 text-sm p-4 bg-red-50 rounded-xl border border-red-200">
@@ -974,68 +774,194 @@ export default function ServicesPagePanel() {
       </div>
     );
 
-  const commonSaveProps = {
-    onSave: saveMeta,
-    saving: savingMeta,
-    status: statusMeta,
-  };
-
   return (
-    <div>
-      <TabBar active={activeTab} onChange={setActiveTab} />
+    <div className="space-y-4">
+      {/* ── Intro Hero Section ───────────────────────────────────────── */}
+      <SCard
+        title="Intro / Hero Section"
+        subtitle="Page banner headline, description paragraphs and background image"
+        onSave={saveMeta}
+        saving={savingMeta}
+        status={statusMeta}
+      >
+        <div className="space-y-4">
+          <div className="sm:w-1/2">
+            <ImgSlot label="Background Image" {...Img("intro_image")} />
+          </div>
+          <AI label="Page Title" {...M("intro_title")} />
+          <AT label="Paragraph 1" rows={4} {...M("intro_para_1")} />
+          <AT label="Paragraph 2" rows={2} {...M("intro_para_2")} />
+        </div>
+      </SCard>
 
-      {activeTab === "intro" && (
-        <IntroTab meta={meta} setMeta={setMeta} {...commonSaveProps} />
-      )}
+      {/* ── Short-Term PM ─────────────────────────────────────────────── */}
+      <SCard
+        title="Short-Term Property Management"
+        subtitle="Title, subtitle, description, CTA button and section image"
+        onSave={saveMeta}
+        saving={savingMeta}
+        status={statusMeta}
+      >
+        <div className="space-y-4">
+          <div className="grid sm:grid-cols-2 gap-4">
+            <AI label="Section Title" {...M("short_term_title")} />
+            <AI
+              label="Subtitle (italic tagline)"
+              {...M("short_term_subtitle")}
+            />
+          </div>
+          <AT
+            label="Description (use blank line to separate paragraphs)"
+            rows={6}
+            {...M("short_term_desc")}
+          />
+          <AI label="Why Bullets Heading" {...M("short_term_why_title")} />
+          <div className="grid sm:grid-cols-2 gap-4">
+            <AI label="CTA Button Text" {...M("short_term_cta_text")} />
+            <AI label="CTA Button Link" {...M("short_term_cta_href")} />
+          </div>
+          <div className="sm:w-1/2">
+            <ImgSlot
+              label="Section Image (right side)"
+              {...Img("short_term_image")}
+            />
+          </div>
+        </div>
+      </SCard>
 
-      {activeTab === "short_term" && (
-        <ServiceTab
+      {/* Short-Term Why Bullets */}
+      <SCard
+        title="Short-Term PM — Why Bullet Points"
+        subtitle="The checklist shown under the Short-Term section"
+      >
+        <WhyCrudList
           sectionKey="short_term"
-          sectionName="Short-Term PM"
-          imgSide="right"
-          meta={meta}
-          setMeta={setMeta}
-          {...commonSaveProps}
-          whyItems={shortWhy}
-          setWhyItems={setShortWhy}
+          sectionLabel="Short-Term PM"
+          items={shortWhy}
+          setItems={setShortWhy}
         />
-      )}
+      </SCard>
 
-      {activeTab === "long_term" && (
-        <ServiceTab
+      <SectionDivider label="Long-Term Property Management" />
+
+      {/* ── Long-Term PM ──────────────────────────────────────────────── */}
+      <SCard
+        title="Long-Term Property Management"
+        subtitle="Title, subtitle, description, CTA button and section image"
+        onSave={saveMeta}
+        saving={savingMeta}
+        status={statusMeta}
+      >
+        <div className="space-y-4">
+          <div className="grid sm:grid-cols-2 gap-4">
+            <AI label="Section Title" {...M("long_term_title")} />
+            <AI
+              label="Subtitle (italic tagline)"
+              {...M("long_term_subtitle")}
+            />
+          </div>
+          <AT
+            label="Description (use blank line to separate paragraphs)"
+            rows={6}
+            {...M("long_term_desc")}
+          />
+          <AI label="Why Bullets Heading" {...M("long_term_why_title")} />
+          <div className="grid sm:grid-cols-2 gap-4">
+            <AI label="CTA Button Text" {...M("long_term_cta_text")} />
+            <AI label="CTA Button Link" {...M("long_term_cta_href")} />
+          </div>
+          <div className="sm:w-1/2">
+            <ImgSlot
+              label="Section Image (left side)"
+              {...Img("long_term_image")}
+            />
+          </div>
+        </div>
+      </SCard>
+
+      {/* Long-Term Why Bullets */}
+      <SCard
+        title="Long-Term PM — Why Bullet Points"
+        subtitle="The checklist shown under the Long-Term section"
+      >
+        <WhyCrudList
           sectionKey="long_term"
-          sectionName="Long-Term PM"
-          imgSide="left"
-          meta={meta}
-          setMeta={setMeta}
-          {...commonSaveProps}
-          whyItems={longWhy}
-          setWhyItems={setLongWhy}
+          sectionLabel="Long-Term PM"
+          items={longWhy}
+          setItems={setLongWhy}
         />
-      )}
+      </SCard>
 
-      {activeTab === "airbnb" && (
-        <ServiceTab
+      <SectionDivider label="Airbnb Hosting & Co-Hosting" />
+
+      {/* ── Airbnb Hosting ────────────────────────────────────────────── */}
+      <SCard
+        title="Airbnb Hosting & Co-Hosting"
+        subtitle="Title, subtitle, description, CTA button and section image"
+        onSave={saveMeta}
+        saving={savingMeta}
+        status={statusMeta}
+      >
+        <div className="space-y-4">
+          <div className="grid sm:grid-cols-2 gap-4">
+            <AI label="Section Title" {...M("airbnb_title")} />
+            <AI label="Subtitle (italic tagline)" {...M("airbnb_subtitle")} />
+          </div>
+          <AT
+            label="Description (use blank line to separate paragraphs)"
+            rows={6}
+            {...M("airbnb_desc")}
+          />
+          <AI label="Why Bullets Heading" {...M("airbnb_why_title")} />
+          <div className="grid sm:grid-cols-2 gap-4">
+            <AI label="CTA Button Text" {...M("airbnb_cta_text")} />
+            <AI label="CTA Button Link" {...M("airbnb_cta_href")} />
+          </div>
+          <div className="sm:w-1/2">
+            <ImgSlot
+              label="Section Image (right side)"
+              {...Img("airbnb_image")}
+            />
+          </div>
+        </div>
+      </SCard>
+
+      {/* Airbnb Why Bullets */}
+      <SCard
+        title="Airbnb Hosting — Why Bullet Points"
+        subtitle="The checklist shown under the Airbnb section"
+      >
+        <WhyCrudList
           sectionKey="airbnb"
-          sectionName="Airbnb Hosting"
-          imgSide="right"
-          meta={meta}
-          setMeta={setMeta}
-          {...commonSaveProps}
-          whyItems={airbnbWhy}
-          setWhyItems={setAirbnbWhy}
+          sectionLabel="Airbnb Hosting"
+          items={airbnbWhy}
+          setItems={setAirbnbWhy}
         />
-      )}
+      </SCard>
 
-      {activeTab === "faq" && (
-        <FaqTab
-          meta={meta}
-          setMeta={setMeta}
-          {...commonSaveProps}
-          faqItems={faqItems}
-          setFaqItems={setFaqItems}
-        />
-      )}
+      <SectionDivider label="Frequently Asked Questions" />
+
+      {/* ── FAQ Section Header ────────────────────────────────────────── */}
+      <SCard
+        title="FAQ — Section Header"
+        subtitle="Section title and left-side image"
+        onSave={saveMeta}
+        saving={savingMeta}
+        status={statusMeta}
+      >
+        <div className="grid sm:grid-cols-2 gap-4">
+          <AI label="Section Title" {...M("faq_title")} />
+          <ImgSlot label="Left-side Image" {...Img("faq_image")} />
+        </div>
+      </SCard>
+
+      {/* ── FAQ Items CRUD ───────────────────────────────────────────── */}
+      <SCard
+        title="FAQ Items"
+        subtitle="Questions and answers shown in the accordion"
+      >
+        <FaqCrudList items={faqItems} setItems={setFaqItems} />
+      </SCard>
     </div>
   );
 }

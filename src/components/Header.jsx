@@ -111,7 +111,6 @@ export default function Header() {
             />
           </button>
 
-          {/* Desktop nav - unchanged */}
           <div
             className="hidden lg:block"
             style={{
@@ -127,7 +126,7 @@ export default function Header() {
                     <a
                       key={i}
                       href={link.href}
-                      className="relative px-5 lg:px-8 xl:px-10 py-3 text-white font-medium uppercase text-sm tracking-wide hover:text-[#b7a170] transition-colors"
+                      className="relative px-5 lg:px-8 xl:px-10 py-3 text-white font-medium uppercase text-sm tracking-wide hover:text-[#b7a170] transition-colors text-nowrap"
                       style={
                         i < NavLinks.length - 1
                           ? { borderRight: "1px solid #8b6f31" }
@@ -168,7 +167,7 @@ export default function Header() {
       {/* Mobile fly-in nav from left */}
       <aside
         id="mobile-nav"
-        className={`fixed top-0 left-0 z-50 h-full w-[82vw] max-w-[320px] lg:hidden shadow-2xl transform transition-transform duration-500 ease-in-out ${
+        className={`fixed top-0 left-0 z-[999] h-full w-[82vw] max-w-[320px] lg:hidden shadow-2xl transform transition-transform duration-500 ease-in-out bg-[rgba(163,137,82,1)] ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         style={{
@@ -191,7 +190,7 @@ export default function Header() {
                 key={link.route}
                 href={link.route}
                 onClick={() => setMenuOpen(false)}
-                className="block px-5 py-4 text-white font-medium uppercase text-sm tracking-wide hover:text-[#b7a170] transition-colors border-b border-[#8b6f31]/40"
+                className="block px-5 py-4 text-white font-medium uppercase text-sm tracking-wide hover:text-gray-700 transition-colors border-b border-[#8b6f31]/40 duration-800"
               >
                 {link.label}
               </a>

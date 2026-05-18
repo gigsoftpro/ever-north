@@ -78,7 +78,7 @@ export default function App() {
           <Route path="/properties" element={<Home />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/property-management" element={<Management />} />
-          <Route path="/area-we-serve" element={<AreaWeServe />} />
+          <Route path="/area-we-cover" element={<AreaWeServe />} />
           <Route path="*" element={<NotFound />} />
         </Route>
 

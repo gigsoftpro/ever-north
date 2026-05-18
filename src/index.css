@@ -1,1 +1,67 @@
 @import "tailwindcss";
+
+:root {
+  --sb-size: 4px;
+  --sb-radius: 9999px;
+
+  /* Light theme */
+  --sb-track: #f1f5f9;
+  --sb-thumb: #94a3b8;
+  --sb-thumb-hover: #64748b;
+}
+
+.dark-scroll,
+[data-theme="dark"] {
+  /* Dark theme */
+  --sb-track: #0f172a;
+  --sb-thumb: #475569;
+  --sb-thumb-hover: #64748b;
+}
+
+*,
+*::before,
+*::after {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--sb-thumb) var(--sb-track);
+}
+
+::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sb-track);
+  border-radius: var(--sb-radius);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb);
+  border-radius: var(--sb-radius);
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sb-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--sb-track);
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Keeps same width */
+.scrollbar-wide {
+  --sb-size: 4px;
+}
+
+#displaynoscrollbar::-webkit-scrollbar {
+  display: none !important;
+}

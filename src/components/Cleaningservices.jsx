@@ -50,7 +50,7 @@ export default function CleaningServices() {
   ];
 
   const displayItems = items?.length
-    ? items.slice(0, 3).map((item, i) => ({
+    ? items.slice(0, 4).map((item, i) => ({
         img: item.image?.url || FALLBACK_IMAGES[i] || img1,
         label: item.label || FALLBACK_ITEMS[i]?.label || `Service ${i + 1}`,
         title: item.title || item.label || FALLBACK_ITEMS[i]?.title || "",

@@ -2,6 +2,7 @@ import React from "react";
 import ContactPage from "../../components/ContcatPage";
 import { usePageData } from "../../components/hooks/usePageData"; // adjust path if needed
 import abtbann01Fallback from "../../assets/images/abtbann01.jpg";
+import { SiteDataProvider } from "../../components/SiteDataContext";
 
 export default function ContactUs() {
   const { data, loading } = usePageData("contact");
@@ -70,7 +71,9 @@ export default function ContactUs() {
           </div>
 
           {/* ContactPage handles the form + submission to /api/content/contact */}
-          <ContactPage />
+          <SiteDataProvider>
+            <ContactPage />
+          </SiteDataProvider>
         </div>
       </section>
     </div>

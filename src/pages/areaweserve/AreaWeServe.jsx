@@ -1,11 +1,12 @@
 import React from "react";
 import AreasWeCover from "../../components/Areaswecover";
+import { SiteDataProvider } from "../../components/SiteDataContext";
 
 const AreaWeServe = () => {
   return (
-    <div>
+    <SiteDataProvider>
       <AreasWeCover />
-    </div>
+    </SiteDataProvider>
   );
 };
 
