@@ -19,7 +19,7 @@ const FALLBACK_SERVICES = [
       "We handle everything from listing optimization to guest communication, ensuring maximum occupancy and revenue for your property.",
   },
   {
-    title: "Airbnb Management",
+    title: "Hybrid Management",
     description:
       "We handle everything from listing optimization to guest communication, ensuring maximum occupancy and revenue for your property.",
   },

@@ -15,7 +15,7 @@ async function request(endpoint, options = {}) {
   });
 
   const data = await res.json();
-  
+
   if (!res.ok) {
     throw new Error(data.message || "Request failed");
   }
@@ -35,7 +35,7 @@ export function storeToken(token, remember) {
   if (!remember) {
     localStorage.setItem("en_token", token);
     localStorage.setItem("en_remember", "false");
-    localStorage.setItem("en_token_at", String(Date.now()));
+    localStorage.setItem("en_token_at", String(Date.now() + 7 * 24 * 60 * 60 * 1000));
   } else if (remember) {
     localStorage.setItem("en_token", token);
     localStorage.setItem("en_remember", "true");
@@ -62,7 +62,7 @@ export function isTokenExpired() {
 
   const EXPIRY_DAYS = remember === "false" ? 7 : 60;
   const THIRTY_DAYS = EXPIRY_DAYS * (24 * 60 * 60 * 1000);
-
+  
   return Date.now() - Number(at) > THIRTY_DAYS;
 }
 

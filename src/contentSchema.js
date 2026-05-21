@@ -25,7 +25,7 @@ export const defaultContent = {
       {
         title: "Short Term Property Management",
         description:
-          "Maximize your Airbnb and short-term rental income with our full-service management. We handle everything from guest communication to cleaning coordination.",
+          "Maximize your Hybrid and short-term rental income with our full-service management. We handle everything from guest communication to cleaning coordination.",
       },
       {
         title: "Long Term Property Management",
@@ -33,7 +33,7 @@ export const defaultContent = {
           "Full-service solutions for long-term leasing, tenant screening, rent collection, and maintenance.",
       },
       {
-        title: "Airbnb Hosting & Co-Hosting",
+        title: "Hybrid & Co-Hosting",
         description:
           "Hands-on co-hosting support to increase occupancy, improve guest reviews, and streamline operations.",
       },

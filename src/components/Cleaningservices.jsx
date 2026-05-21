@@ -112,34 +112,40 @@ export default function CleaningServices() {
         </div>
 
         <hr className="border-[#b7a170] mb-10 lg:mb-12" />
-        <div className="flex flex-col sm:flex-row sm:flex-wrap xl:flex-nowrap gap-y-10 sm:gap-x-8 sm:gap-y-10 xl:gap-x-10 justify-center xl:justify-between">
-          {displayItems.map(({ img, label, title, para, description }, idx) => (
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-y-10 sm:gap-x-8 sm:gap-y-10 justify-center">
+          {displayItems.map(({ img, label, title, para }, idx) => (
             <div
               key={`${label}-${idx}`}
-              className="w-full max-w-[400px] mx-auto sm:mx-0 sm:basis-[calc((100%-2rem)/2)] sm:max-w-[calc((100%-2rem)/2)] xl:basis-[calc((100%-5rem)/3)] xl:max-w-[calc((100%-5rem)/3)] flex flex-col items-center text-center min-w-0"
+              className="
+        w-full max-w-[47.5%] mx-auto
+        sm:w-[calc((100%-2rem)/2)]
+        flex flex-col items-center text-center bg-[#f1f1f16b] p-[20px] pb-[30px] border border-[#dddddd91] rounded-[12px]
+
+      "
             >
+              {/* Square Image Container */}
               <div
-                className="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-full bg-white flex items-center justify-center shrink-0"
+                className="w-full bg-white flex items-center justify-center overflow-hidden rounded-xl"
                 style={{ boxShadow: "0 0 36px 0 rgba(151,126,68,0.22)" }}
               >
                 <img
                   src={img}
                   alt={label}
-                  className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-full object-cover"
+                  className="h-[350px] w-full object-cover rounded-xl"
                 />
               </div>
 
-              <div className="mt-6 w-full min-w-0">
+              <div className="mt-6 w-full">
                 <h3 className="text-[#000000] text-xl sm:text-[22px] font-semibold mb-4">
                   {title}
                 </h3>
 
-                <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg max-w-[34ch] mx-auto">
+                <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg mx-auto">
                   {para}
                 </p>
               </div>
 
-              <GoldButton className="mt-5">Contact Us</GoldButton>
+              <GoldButton className="mt-5 rounded">Contact Us</GoldButton>
             </div>
           ))}
         </div>

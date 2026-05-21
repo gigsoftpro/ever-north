@@ -16,6 +16,8 @@ const NAV_ITEMS = [
   { path: "/admin/contact", label: "Manage Contact", icon: Phone },
   { path: "/admin/about", label: "Manage About Us", icon: Shield },
   { path: "/admin/ourservices", label: "Manage Our Services", icon: Shield },
+  { path: "/admin/areaswecover", label: "Aras We Cover Manage", icon: Shield },
+  { path: "/admin/service-pages", label: "Services Pages", icon: Shield },
   { path: "/admin/profile", label: "Profile & Security", icon: Shield },
 ];
 

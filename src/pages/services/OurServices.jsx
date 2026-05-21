@@ -119,7 +119,7 @@ const FB_AIRBNB_WHY = [
   "Professional hosting and guest communication assistance",
   "Property oversight designed for smoother operations",
   "Better guest experiences that support stronger reviews",
-  "Dependable support for remote Airbnb owners",
+  "Dependable support for remote Hybrid owners",
   "Consistent standards that improve booking confidence",
 ].map((text, i) => ({ id: i, text }));
 
@@ -128,7 +128,7 @@ const FB_FAQ = [
     id: 1,
     question: "What types of properties does EverNorth manage?",
     answer:
-      "EverNorth manages a wide range of residential properties across Canada, including condos, single-family homes, and multi-unit investment properties. We support short-term rentals, long-term leases, and Airbnb co-hosting arrangements.",
+      "EverNorth manages a wide range of residential properties across Canada, including condos, single-family homes, and multi-unit investment properties. We support short-term rentals, long-term leases, and Hybrid co-hosting arrangements.",
   },
   {
     id: 2,
@@ -147,7 +147,7 @@ const FB_FAQ = [
     question:
       "What is the difference between short-term and long-term property management?",
     answer:
-      "Short-term management focuses on guest turnover, preparation, and occupancy performance — ideal for Airbnb and vacation rental properties. Long-term management focuses on tenant stability, ongoing maintenance coordination, and protecting the long-term value of your investment property.",
+      "Short-term management focuses on guest turnover, preparation, and occupancy performance — ideal for Hybrid and vacation rental properties. Long-term management focuses on tenant stability, ongoing maintenance coordination, and protecting the long-term value of your investment property.",
   },
 ];
 
@@ -217,17 +217,17 @@ export default function OurServices() {
     "Why EverNorth for Long-Term Property Management";
   const longImg = meta.long_term_image?.url || RenovationFallback;
 
-  const airbnbTitle = meta.airbnb_title || "Airbnb Hosting & Co-Hosting";
+  const airbnbTitle = meta.airbnb_title || "Hybrid PM";
   const airbnbSubtitle =
     meta.airbnb_subtitle ||
     "Hosting Support Designed for Better Reviews and Repeat Bookings.";
   const airbnbDesc =
     meta.airbnb_desc ||
-    "A successful Airbnb experience depends on more than location alone. Guests expect clean, organized, comfortable, and professionally managed spaces from the moment they arrive.\n\nEverNorth helps Airbnb hosts across Canada improve guest experiences through professional hosting support, property coordination, presentation management, and day-to-day operational assistance designed to keep properties guest-ready at all times.";
+    "A successful Hybrid experience depends on more than location alone. Guests expect clean, organized, comfortable, and professionally managed spaces from the moment they arrive.\n\nEverNorth helps Hybrid hosts across Canada improve guest experiences through professional hosting support, property coordination, presentation management, and day-to-day operational assistance designed to keep properties guest-ready at all times.";
   const airbnbCtaText = meta.airbnb_cta_text || "Get Hosting Support";
   const airbnbCtaHref = meta.airbnb_cta_href || "#consultation";
   const airbnbWhyTitle =
-    meta.airbnb_why_title || "Why EverNorth for Airbnb Hosting & Co-Hosting";
+    meta.airbnb_why_title || "Why EverNorth for Hybrid PM & Co-Hosting";
   const airbnbImg = meta.airbnb_image?.url || WhoWeAreFallback;
 
   const faqTitle = meta.faq_title || "Frequently Asked Questions";
@@ -410,7 +410,7 @@ export default function OurServices() {
 
       <hr className="mx-auto h-[3px] w-full max-w-[1200px] border-0 bg-[#b8a070]" />
 
-      {/* ── 4. Airbnb Hosting & Co-Hosting ──────────────────────────────── */}
+      {/* ── 4. Hybrid PM & Co-Hosting ──────────────────────────────── */}
       <section className="py-24 bg-white max-w-[1440px] mx-auto">
         <div className="mx-auto px-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
@@ -465,7 +465,7 @@ export default function OurServices() {
             <div>
               <img
                 src={airbnbImg}
-                alt="Airbnb Hosting & Co-Hosting"
+                alt="Hybrid PM"
                 className="w-full rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.1)] object-cover"
               />
             </div>

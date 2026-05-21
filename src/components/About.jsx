@@ -42,14 +42,14 @@ export default function About() {
   }
 
   return (
-    <section className="w-full overflow-hidden py-12 px-4">
+    <section className="w-full overflow-hidden py-12 px-4 mt-10">
       <div className="max-w-[1440px] mx-auto">
         <div className="flex flex-col sm:flex-row sm:flex-wrap xl:flex-nowrap justify-between gap-6 items-stretch">
-          <div className="block w-full sm:w-[calc(50%-12px)] xl:w-[31.9%] xl:flex-shrink-0 rounded-[20px] overflow-hidden min-h-[340px] xl:min-h-0">
+          <div className="block w-full sm:w-[calc(50%-12px)] xl:w-[31.9%] xl:flex-shrink-0 rounded-[20px] overflow-hidden max-h-[530px] xl:min-h-0">
             <img
               src={aboutImageUrl}
               alt="Property"
-              className="w-full h-full object-cover rounded-[20px]"
+              className="w-full h-[100%] object-cover rounded-[20px]"
             />
           </div>
 
@@ -65,17 +65,17 @@ export default function About() {
               {missionBadge}
             </span>
 
-            <p className="text-white text-base xl:text-lg leading-8 xl:leading-9 mb-5">
+            <p className="text-white text-base xl:text-lg leading-8 xl:leading-8 mb-5">
               {missionText1}
             </p>
 
-            <p className="text-white text-base xl:text-lg leading-8 xl:leading-9 opacity-80">
+            <p className="text-white text-base xl:text-lg leading-8 xl:leading-8 opacity-80">
               {missionText2}
             </p>
           </div>
           <div className="w-full sm:w-full xl:w-[31.9%] xl:flex-shrink-0 rounded-[20px] bg-[#f7f2e8] p-6 sm:p-8 xl:p-10">
             <span
-              className="inline-block text-white text-sm rounded-full px-8 py-2 self-start mb-8 xl:mb-10"
+              className="inline-block text-white text-sm rounded-full px-8 py-2 self-start mb-8 xl:mb-8"
               style={{
                 background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)",
               }}
@@ -83,7 +83,7 @@ export default function About() {
               {aboutBadge}
             </span>
 
-            <p className="text-[#303030] text-base xl:text-lg leading-8 xl:leading-9 mb-8 xl:mb-10">
+            <p className="text-[#303030] text-base xl:text-lg leading-8 xl:leading-8 mb-6 xl:mb-6">
               {aboutText1}
             </p>
 

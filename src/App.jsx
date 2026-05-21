@@ -8,21 +8,26 @@ import {
 } from "react-router-dom";
 import { useAppStore } from "./adminStore";
 
+// ── Layout & shared ───────────────────────────────────────────────────────────
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { SiteDataProvider } from "./components/SiteDataContext";
+
+// ── Public pages ──────────────────────────────────────────────────────────────
 import Home from "./pages/home/Home";
 import AboutUs from "./pages/aboutus/AboutUs";
-import AdminLogin from "./pages/admin/AdminLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import NotFound from "./pages/NotFound";
 import ContactUs from "./pages/contact/ContactUs";
 import OurServices from "./pages/services/OurServices";
-import { SiteDataProvider } from "./components/SiteDataContext";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ResetPassword from "./pages/auth/ResetPassword";
+import ServicePage from "./pages/services/ServicePage";
 import Management from "./pages/management/management";
 import AreaWeServe from "./pages/areaweserve/AreaWeServe";
-import ContactPagePanel from "./components/admin/ContactPagePanel";
+import NotFound from "./pages/NotFound";
+
+import AdminLogin from "./pages/admin/AdminLogin";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
+
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 function PublicLayout() {
   return (
@@ -34,6 +39,7 @@ function PublicLayout() {
   );
 }
 
+// ── Loading spinner ───────────────────────────────────────────────────────────
 function SessionLoader() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
@@ -45,6 +51,7 @@ function SessionLoader() {
   );
 }
 
+// ── Route guards ──────────────────────────────────────────────────────────────
 function ProtectedRoute() {
   const { isLoggedIn, authLoading } = useAppStore();
   const location = useLocation();
@@ -66,7 +73,6 @@ function GuestRoute() {
   return isLoggedIn ? <Navigate to="/admin/dashboard" replace /> : <Outlet />;
 }
 
-// ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
   return (
     <BrowserRouter>
@@ -79,25 +85,52 @@ export default function App() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/property-management" element={<Management />} />
           <Route path="/area-we-cover" element={<AreaWeServe />} />
+
+          <Route path="/our-services/:serviceType" element={<ServicePage />} />
+
+          <Route
+            path="/long-term-management"
+            element={
+              <Navigate to="/our-services/long-term-management" replace />
+            }
+          />
+          <Route
+            path="/short-term-management"
+            element={
+              <Navigate to="/our-services/short-term-management" replace />
+            }
+          />
+          <Route
+            path="/hybrid-management"
+            element={<Navigate to="/our-services/hybrid-management" replace />}
+          />
+
           <Route path="*" element={<NotFound />} />
         </Route>
 
         <Route element={<GuestRoute />}>
-        <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/forgot-password" element={<ForgotPassword />} />
           <Route path="/admin/reset-password" element={<ResetPassword />} />
         </Route>
 
         <Route path="/admin" element={<ProtectedRoute />}>
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
+
+          {/* Existing panels */}
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="content" element={<AdminDashboard />} />
           <Route path="contact" element={<AdminDashboard />} />
+          <Route path="areaswecover" element={<AdminDashboard />} />
           <Route path="profile" element={<AdminDashboard />} />
           <Route path="about" element={<AdminDashboard />} />
           <Route path="ourservices" element={<AdminDashboard />} />
-          {/* <Route path="images" element={<AdminDashboard />} /> */}
+
+          {/* NEW: dedicated service pages panel (Long-Term / Short-Term / Hybrid) */}
+          <Route path="service-pages" element={<AdminDashboard />} />
         </Route>
+
+        {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

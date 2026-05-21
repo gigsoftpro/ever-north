@@ -142,30 +142,33 @@ export default function Hero() {
               <div
                 className="absolute inset-0 w-full h-full"
                 style={{
-                  backgroundImage: `url(${ovImg})`,
+                  backgroundImage: `
+                    linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)),
+                    url(${ovImg})
+                  `,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
               />
 
               {/* Content */}
-              <div className="relative z-10 flex-1 flex flex-col items-center justify-start text-center px-4 py-16 sm:py-20 lg:py-28">
-                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-normal leading-tight drop-shadow-md mb-6">
-                  {titleLines.map((line, li) => (
+              <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 py-16 sm:py-20 lg:py-28">
+                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-normal leading-tight drop-shadow-md mb-24">
+                  {/* {titleLines.map((line, li) => (
                     <span key={li}>
                       {line}
                       {li < titleLines.length - 1 && <br />}
                     </span>
-                  ))}
+                  ))} */}
                   {slide.highlighted_word && (
-                    <span className="text-[#b7a170] italic font-bold">
+                    <span className="text-[#fff] italic font-bold">
                       {" "}
                       {slide.highlighted_word}
                     </span>
                   )}
                 </h1>
 
-                {slide.cta_text && (
+                {/* {slide.cta_text && (
                   <button
                     className="font-semibold text-white px-8 py-3  hover:opacity-90 transition-opacity"
                     style={{
@@ -175,7 +178,7 @@ export default function Hero() {
                   >
                     {slide.cta_text}
                   </button>
-                )}
+                )} */}
               </div>
             </div>
           );

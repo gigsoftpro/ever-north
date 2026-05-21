@@ -1,9 +1,4 @@
-// ServicePagePanel.jsx
-// Admin panel for Long-Term PM, Short-Term PM, and Hybrid PM pages.
-// Each page has tabs: Hero | Introduction | Service Cards | Why Choose Us
-// Pages load lazily on first visit and are cached in state.
-
-import { useState, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Save,
   Check,
@@ -17,52 +12,25 @@ import {
   X,
   Eye,
   EyeOff,
-  Building2,
-  Clock,
-  GitMerge,
+  Image,
+  Grid,
+  Settings,
+  MapPin,
 } from "lucide-react";
 import { getStoredToken } from "../../services/authApi";
 import { BaseUrl } from "../Config/BaseUrl";
 
-const API_ROOT = `${BaseUrl}service-pages`;
+const AREAS_API = `${BaseUrl}areas`;
 const MEDIA_API = `${BaseUrl}media`;
 const SERVER_ROOT = BaseUrl.replace(/\/api\/?$/, "");
 
-// ─── Page + Section config ────────────────────────────────────────────────────
-const PAGES = [
-  { key: "long_term", label: "Long-Term PM", icon: Building2 },
-  { key: "short_term", label: "Short-Term PM", icon: Clock },
-  { key: "hybrid", label: "Hybrid PM", icon: GitMerge },
+// ─── Tab config ───────────────────────────────────────────────────────────────
+const TABS = [
+  { key: "banner", label: "Banner", icon: Image },
+  { key: "intro", label: "Intro Section", icon: Grid },
+  { key: "areas", label: "Areas Grid", icon: MapPin },
+  { key: "manage", label: "Management Section", icon: Settings },
 ];
-
-const SECTION_TABS = [
-  { key: "hero", label: "Hero" },
-  { key: "intro", label: "Introduction" },
-  { key: "services", label: "Service Cards" },
-  { key: "why", label: "Why Choose Us" },
-];
-
-const ICON_COLORS = [
-  { value: "gold", label: "Gold" },
-  { value: "green", label: "Green" },
-  { value: "purple", label: "Purple" },
-  { value: "yellow", label: "Yellow" },
-  { value: "red", label: "Red" },
-  { value: "indigo", label: "Indigo" },
-  { value: "blue", label: "Blue" },
-  { value: "amber", label: "Amber" },
-];
-
-const COLOR_SWATCH = {
-  gold: "#b7a170",
-  green: "#16a34a",
-  purple: "#9333ea",
-  yellow: "#ca8a04",
-  red: "#dc2626",
-  indigo: "#4f46e5",
-  blue: "#2563eb",
-  amber: "#b7a170",
-};
 
 // ─── Shared UI primitives ─────────────────────────────────────────────────────
 const FL = ({ children }) => (
@@ -219,8 +187,8 @@ function SCard({ title, subtitle, onSave, saving, status, children }) {
 function CRow({ children, onEdit, onDelete, onToggle, active = true }) {
   return (
     <div
-      className="flex items-center gap-3 p-3 rounded-xl border border-slate-100 bg-slate-50
-      hover:border-amber-200 transition group"
+      className="flex items-center gap-3 p-3 rounded-xl border border-slate-100
+      bg-slate-50 hover:border-amber-200 transition group"
     >
       <div className="flex-1 min-w-0">{children}</div>
       <div className="flex items-center gap-1.5 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -321,7 +289,7 @@ function authHeaders() {
 }
 
 async function apiFetch(path, opts = {}) {
-  const res = await fetch(`${API_ROOT}${path}`, {
+  const res = await fetch(`${AREAS_API}${path}`, {
     headers: {
       "Content-Type": "application/json",
       ...authHeaders(),
@@ -358,11 +326,13 @@ function ImgSlot({
   value,
   onUpload,
   onClear,
-  section = "service-pages",
+  section = "areas",
+  tall = false,
 }) {
   const [busy, setBusy] = useState(false);
   const ref = useRef(null);
   const url = value?.url || (typeof value === "string" ? value : null);
+  const h = tall ? "h-48" : "h-36";
 
   const handle = async (file) => {
     if (!file?.type.startsWith("image/")) return;
@@ -384,13 +354,15 @@ function ImgSlot({
         ${url ? "border-slate-200" : "border-dashed border-slate-200 hover:border-amber-300"}`}
       >
         {busy ? (
-          <div className="h-36 flex items-center justify-center bg-amber-50 gap-2">
+          <div
+            className={`${h} flex items-center justify-center bg-amber-50 gap-2`}
+          >
             <Loader2 size={20} className="animate-spin text-amber-500" />
             <span className="text-xs text-slate-500">Uploading…</span>
           </div>
         ) : url ? (
           <div className="relative group">
-            <img src={url} alt={label} className="w-full h-36 object-cover" />
+            <img src={url} alt={label} className={`w-full ${h} object-cover`} />
             <div
               className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100
               transition-opacity flex items-center justify-center gap-2"
@@ -412,8 +384,8 @@ function ImgSlot({
         ) : (
           <button
             onClick={() => ref.current?.click()}
-            className="w-full h-36 flex flex-col items-center justify-center
-              bg-slate-50 hover:bg-amber-50/50 transition-colors gap-1.5 group"
+            className={`w-full ${h} flex flex-col items-center justify-center
+              bg-slate-50 hover:bg-amber-50/50 transition-colors gap-1.5 group`}
           >
             <div
               className="p-2 rounded-xl bg-slate-200 group-hover:bg-amber-100
@@ -442,44 +414,14 @@ function ImgSlot({
   );
 }
 
-// ─── Icon color picker ────────────────────────────────────────────────────────
-function ColorPicker({ value, onChange }) {
-  return (
-    <div>
-      <FL>Icon Color</FL>
-      <div className="flex flex-wrap gap-2 mt-1">
-        {ICON_COLORS.map(({ value: v, label }) => (
-          <button
-            key={v}
-            type="button"
-            onClick={() => onChange(v)}
-            title={label}
-            className={`w-7 h-7 rounded-full border-2 transition-all
-              ${value === v ? "border-slate-800 scale-110" : "border-transparent hover:scale-105"}`}
-            style={{ backgroundColor: COLOR_SWATCH[v] }}
-          />
-        ))}
-      </div>
-      <p className="text-[10px] text-slate-400 mt-1 capitalize">
-        Selected: {value || "gold"}
-      </p>
-    </div>
-  );
-}
-
-// ─── Service Cards CRUD ───────────────────────────────────────────────────────
-function CardsCrud({ pageKey, cards, setCards }) {
+// ─── Locations CRUD ───────────────────────────────────────────────────────────
+function LocationsCrud({ locations, setLocations }) {
   const [editing, setEditing] = useState(null);
   const [formErr, setFormErr] = useState("");
   const [saving, setSaving] = useState(false);
   const { ask, Modal } = useConfirm();
 
-  const blank = {
-    title: "",
-    description: "",
-    icon_color: "gold",
-    sort_order: cards.length,
-  };
+  const blank = { name: "", description: "", sort_order: locations.length };
   const openNew = () => {
     setEditing({ item: blank });
     setFormErr("");
@@ -490,30 +432,32 @@ function CardsCrud({ pageKey, cards, setCards }) {
   };
 
   const save = async () => {
-    if (!editing.item.title?.trim()) {
-      setFormErr("Title is required.");
+    if (!editing.item.name?.trim()) {
+      setFormErr("Location name is required.");
       return;
     }
     setSaving(true);
     try {
       const payload = {
-        title: editing.item.title,
+        name: editing.item.name,
         description: editing.item.description,
-        icon_color: editing.item.icon_color || "gold",
+        icon_image_id: editing.item.icon_image?.id ?? null,
         sort_order: editing.item.sort_order ?? 0,
       };
       if (editing.item.id) {
-        const r = await apiFetch(`/${pageKey}/cards/${editing.item.id}`, {
+        const r = await apiFetch(`/locations/${editing.item.id}`, {
           method: "PUT",
           body: JSON.stringify(payload),
         });
-        setCards((p) => p.map((x) => (x.id === editing.item.id ? r.data : x)));
+        setLocations((p) =>
+          p.map((x) => (x.id === editing.item.id ? r.data : x)),
+        );
       } else {
-        const r = await apiFetch(`/${pageKey}/cards`, {
+        const r = await apiFetch("/locations", {
           method: "POST",
           body: JSON.stringify(payload),
         });
-        setCards((p) => [...p, r.data]);
+        setLocations((p) => [...p, r.data]);
       }
       setEditing(null);
     } catch (e) {
@@ -524,17 +468,17 @@ function CardsCrud({ pageKey, cards, setCards }) {
   };
 
   const del = (id) =>
-    ask("This card will be permanently deleted.", async () => {
-      await apiFetch(`/${pageKey}/cards/${id}`, { method: "DELETE" });
-      setCards((p) => p.filter((x) => x.id !== id));
+    ask("This location card will be permanently deleted.", async () => {
+      await apiFetch(`/locations/${id}`, { method: "DELETE" });
+      setLocations((p) => p.filter((x) => x.id !== id));
     });
 
   const toggle = async (item) => {
-    const r = await apiFetch(`/${pageKey}/cards/${item.id}`, {
+    const r = await apiFetch(`/locations/${item.id}`, {
       method: "PUT",
       body: JSON.stringify({ is_active: item.is_active ? 0 : 1 }),
     });
-    setCards((p) => p.map((x) => (x.id === item.id ? r.data : x)));
+    setLocations((p) => p.map((x) => (x.id === item.id ? r.data : x)));
   };
 
   return (
@@ -543,33 +487,34 @@ function CardsCrud({ pageKey, cards, setCards }) {
       <div className="space-y-3">
         <div className="flex items-center justify-between mb-1">
           <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-            Feature Cards
+            Location Cards ({locations.length})
           </p>
           <GB onClick={openNew} sm>
-            <Plus size={12} /> Add Card
+            <Plus size={12} /> Add Location
           </GB>
         </div>
 
         {editing && (
           <div className="p-4 rounded-xl border-2 border-amber-200 bg-amber-50 space-y-4">
             <p className="text-xs font-bold text-amber-700">
-              {editing.item.id ? "Edit Card" : "New Card"}
+              {editing.item.id ? "Edit Location" : "New Location"}
             </p>
             {formErr && (
               <p className="text-xs text-red-600 font-medium">{formErr}</p>
             )}
+
             <AI
-              label="Card Title *"
-              value={editing.item.title}
+              label="Location Name *"
+              value={editing.item.name}
               onChange={(e) =>
                 setEditing((p) => ({
-                  item: { ...p.item, title: e.target.value },
+                  item: { ...p.item, name: e.target.value },
                 }))
               }
             />
             <AT
               label="Description"
-              rows={3}
+              rows={4}
               value={editing.item.description}
               onChange={(e) =>
                 setEditing((p) => ({
@@ -578,11 +523,16 @@ function CardsCrud({ pageKey, cards, setCards }) {
               }
             />
             <div className="grid sm:grid-cols-2 gap-4">
-              <ColorPicker
-                value={editing.item.icon_color}
-                onChange={(v) =>
-                  setEditing((p) => ({ item: { ...p.item, icon_color: v } }))
+              <ImgSlot
+                label="Icon Image (optional — defaults to gold map pin)"
+                value={editing.item.icon_image}
+                onUpload={(m) =>
+                  setEditing((p) => ({ item: { ...p.item, icon_image: m } }))
                 }
+                onClear={() =>
+                  setEditing((p) => ({ item: { ...p.item, icon_image: null } }))
+                }
+                section="areas-icons"
               />
               <AI
                 label="Sort Order"
@@ -595,6 +545,7 @@ function CardsCrud({ pageKey, cards, setCards }) {
                 }
               />
             </div>
+
             <div className="flex gap-2 pt-1">
               <GB onClick={save} disabled={saving}>
                 {saving ? (
@@ -614,36 +565,46 @@ function CardsCrud({ pageKey, cards, setCards }) {
           </div>
         )}
 
-        {cards.length === 0 && (
+        {locations.length === 0 && (
           <p className="text-sm text-slate-400 text-center py-8 border border-dashed border-slate-200 rounded-xl">
-            No cards yet — click "Add Card" to get started.
+            No locations yet — click "Add Location" to get started.
           </p>
         )}
-        {cards.map((card) => (
+
+        {locations.map((loc) => (
           <CRow
-            key={card.id}
-            active={!!card.is_active}
-            onToggle={() => toggle(card)}
-            onEdit={() => openEdit(card)}
-            onDelete={() => del(card.id)}
+            key={loc.id}
+            active={!!loc.is_active}
+            onToggle={() => toggle(loc)}
+            onEdit={() => openEdit(loc)}
+            onDelete={() => del(loc.id)}
           >
             <div className="flex items-center gap-3">
-              <div
-                className="w-6 h-6 rounded-full shrink-0"
-                style={{
-                  backgroundColor:
-                    COLOR_SWATCH[card.icon_color] || COLOR_SWATCH.gold,
-                }}
-              />
+              {loc.icon_image?.url ? (
+                <img
+                  src={loc.icon_image.url}
+                  alt={loc.name}
+                  className="w-8 h-8 object-contain rounded"
+                />
+              ) : (
+                <div
+                  className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0"
+                  style={{
+                    background: "linear-gradient(0deg,#8f7334,#b7a170)",
+                  }}
+                >
+                  <MapPin size={14} className="text-white" />
+                </div>
+              )}
               <div className="min-w-0">
                 <p
-                  className={`text-sm font-semibold truncate max-w-[340px]
-                  ${card.is_active ? "text-slate-800" : "text-slate-400 line-through"}`}
+                  className={`text-sm font-semibold truncate max-w-[320px]
+                  ${loc.is_active ? "text-slate-800" : "text-slate-400 line-through"}`}
                 >
-                  {card.title}
+                  {loc.name}
                 </p>
-                <p className="text-xs text-slate-400 truncate max-w-[340px]">
-                  {card.description}
+                <p className="text-xs text-slate-400 truncate max-w-[320px]">
+                  {loc.description}
                 </p>
               </div>
             </div>
@@ -654,15 +615,15 @@ function CardsCrud({ pageKey, cards, setCards }) {
   );
 }
 
-// ─── Why items CRUD ───────────────────────────────────────────────────────────
-function WhyCrud({ pageKey, items, setItems }) {
+// ─── Services bullet CRUD ─────────────────────────────────────────────────────
+function ServicesCrud({ services, setServices }) {
   const [editing, setEditing] = useState(null);
   const [formErr, setFormErr] = useState("");
   const [saving, setSaving] = useState(false);
   const { ask, Modal } = useConfirm();
 
   const openNew = () => {
-    setEditing({ item: { text: "", sort_order: items.length } });
+    setEditing({ item: { text: "", sort_order: services.length } });
     setFormErr("");
   };
   const openEdit = (item) => {
@@ -682,17 +643,19 @@ function WhyCrud({ pageKey, items, setItems }) {
         sort_order: editing.item.sort_order ?? 0,
       };
       if (editing.item.id) {
-        const r = await apiFetch(`/${pageKey}/why-items/${editing.item.id}`, {
+        const r = await apiFetch(`/services/${editing.item.id}`, {
           method: "PUT",
           body: JSON.stringify(payload),
         });
-        setItems((p) => p.map((x) => (x.id === editing.item.id ? r.data : x)));
+        setServices((p) =>
+          p.map((x) => (x.id === editing.item.id ? r.data : x)),
+        );
       } else {
-        const r = await apiFetch(`/${pageKey}/why-items`, {
+        const r = await apiFetch("/services", {
           method: "POST",
           body: JSON.stringify(payload),
         });
-        setItems((p) => [...p, r.data]);
+        setServices((p) => [...p, r.data]);
       }
       setEditing(null);
     } catch (e) {
@@ -703,17 +666,17 @@ function WhyCrud({ pageKey, items, setItems }) {
   };
 
   const del = (id) =>
-    ask("This bullet point will be permanently deleted.", async () => {
-      await apiFetch(`/${pageKey}/why-items/${id}`, { method: "DELETE" });
-      setItems((p) => p.filter((x) => x.id !== id));
+    ask("This service item will be permanently deleted.", async () => {
+      await apiFetch(`/services/${id}`, { method: "DELETE" });
+      setServices((p) => p.filter((x) => x.id !== id));
     });
 
   const toggle = async (item) => {
-    const r = await apiFetch(`/${pageKey}/why-items/${item.id}`, {
+    const r = await apiFetch(`/services/${item.id}`, {
       method: "PUT",
       body: JSON.stringify({ is_active: item.is_active ? 0 : 1 }),
     });
-    setItems((p) => p.map((x) => (x.id === item.id ? r.data : x)));
+    setServices((p) => p.map((x) => (x.id === item.id ? r.data : x)));
   };
 
   return (
@@ -722,23 +685,23 @@ function WhyCrud({ pageKey, items, setItems }) {
       <div className="space-y-3">
         <div className="flex items-center justify-between mb-1">
           <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-            Bullet Points
+            Service Items ({services.length})
           </p>
           <GB onClick={openNew} sm>
-            <Plus size={12} /> Add Bullet
+            <Plus size={12} /> Add Item
           </GB>
         </div>
 
         {editing && (
           <div className="p-4 rounded-xl border-2 border-amber-200 bg-amber-50 space-y-3">
             <p className="text-xs font-bold text-amber-700">
-              {editing.item.id ? "Edit Bullet" : "New Bullet"}
+              {editing.item.id ? "Edit Service Item" : "New Service Item"}
             </p>
             {formErr && (
               <p className="text-xs text-red-600 font-medium">{formErr}</p>
             )}
             <AI
-              label="Bullet Text *"
+              label="Service Text *"
               value={editing.item.text}
               onChange={(e) =>
                 setEditing((p) => ({
@@ -776,23 +739,24 @@ function WhyCrud({ pageKey, items, setItems }) {
           </div>
         )}
 
-        {items.length === 0 && (
+        {services.length === 0 && (
           <p className="text-sm text-slate-400 text-center py-8 border border-dashed border-slate-200 rounded-xl">
-            No bullet points yet — click "Add Bullet" to get started.
+            No service items yet — click "Add Item" to get started.
           </p>
         )}
-        {items.map((item) => (
+
+        {services.map((svc) => (
           <CRow
-            key={item.id}
-            active={!!item.is_active}
-            onToggle={() => toggle(item)}
-            onEdit={() => openEdit(item)}
-            onDelete={() => del(item.id)}
+            key={svc.id}
+            active={!!svc.is_active}
+            onToggle={() => toggle(svc)}
+            onEdit={() => openEdit(svc)}
+            onDelete={() => del(svc.id)}
           >
             <p
-              className={`text-sm ${item.is_active ? "text-slate-800" : "text-slate-400 line-through"}`}
+              className={`text-sm ${svc.is_active ? "text-slate-800" : "text-slate-400 line-through"}`}
             >
-              • {item.text}
+              • {svc.text}
             </p>
           </CRow>
         ))}
@@ -801,22 +765,24 @@ function WhyCrud({ pageKey, items, setItems }) {
   );
 }
 
-// ─── Section tab panels ───────────────────────────────────────────────────────
-function HeroTab({ M, Img, onSave, saving, status }) {
+// ─── Tab panels ───────────────────────────────────────────────────────────────
+function BannerTab({ M, Img, onSave, saving, status }) {
   return (
     <SCard
-      title="Hero Section"
-      subtitle="Background image, main headline and subtitle tagline"
+      title="Banner Section"
+      subtitle="Full-width hero image and the main headline title"
       onSave={onSave}
       saving={saving}
       status={status}
     >
       <div className="space-y-4">
-        <ImgSlot label="Hero Background Image" {...Img("hero_image")} />
-        <div className="grid sm:grid-cols-2 gap-4">
-          <AI label="Page Title" {...M("hero_title")} />
-          <AI label="Subtitle Tagline" {...M("hero_subtitle")} />
-        </div>
+        <ImgSlot
+          label="Banner Background Image"
+          tall
+          {...Img("banner_image")}
+          section="areas-banner"
+        />
+        <AI label="Banner Title" {...M("banner_title")} />
       </div>
     </SCard>
   );
@@ -825,198 +791,185 @@ function HeroTab({ M, Img, onSave, saving, status }) {
 function IntroTab({ M, Img, onSave, saving, status }) {
   return (
     <SCard
-      title="Introduction Section"
-      subtitle="Left-side image, icon card heading and the three body paragraphs"
+      title="Intro / Property Management Section"
+      subtitle="Left-side heading and three description paragraphs, right-side image"
       onSave={onSave}
       saving={saving}
       status={status}
     >
       <div className="space-y-4">
-        <ImgSlot label="Left-side Image" {...Img("intro_image")} />
-        <AI label="Card Heading (optional)" {...M("intro_heading")} />
+        <AI label="Section Heading" {...M("intro_title")} />
         <AT label="Paragraph 1" rows={4} {...M("intro_para_1")} />
-        <AT label="Paragraph 2" rows={3} {...M("intro_para_2")} />
-        <AT label="Paragraph 3" rows={3} {...M("intro_para_3")} />
+        <AT label="Paragraph 2" rows={4} {...M("intro_para_2")} />
+        <AT label="Paragraph 3" rows={4} {...M("intro_para_3")} />
+        <ImgSlot
+          label="Right-side Image"
+          tall
+          {...Img("intro_image")}
+          section="areas-intro"
+        />
       </div>
     </SCard>
   );
 }
 
-function ServicesTab({ M, onSave, saving, status, pageKey, cards, setCards }) {
+function AreasTab({ M, onSave, saving, status, locations, setLocations }) {
   return (
     <div className="space-y-5">
       <SCard
-        title="Service Cards — Section Header"
-        subtitle="Section title, description text and the subheading above the card grid"
+        title="Areas Grid — Section Header"
+        subtitle='The heading shown above the card grid (e.g. "Areas We Proudly Serve")'
+        onSave={onSave}
+        saving={saving}
+        status={status}
+      >
+        <AI label="Section Title" {...M("areas_title")} />
+      </SCard>
+
+      <SCard
+        title="Location Cards"
+        subtitle="The 4-column gold-bordered cards — add, edit, reorder and toggle visibility"
+      >
+        <LocationsCrud locations={locations} setLocations={setLocations} />
+      </SCard>
+    </div>
+  );
+}
+
+function ManageTab({ M, Img, onSave, saving, status, services, setServices }) {
+  return (
+    <div className="space-y-5">
+      <SCard
+        title="Management Solutions — Content"
+        subtitle="Left-side image, heading, description and closing paragraph"
         onSave={onSave}
         saving={saving}
         status={status}
       >
         <div className="space-y-4">
-          <AI label="Section Title" {...M("services_title")} />
-          <AT
-            label="Subtitle / Intro text"
-            rows={3}
-            {...M("services_subtitle")}
+          <ImgSlot
+            label="Left-side Image"
+            tall
+            {...Img("manage_image")}
+            section="areas-manage"
           />
-          <AT
-            label="Description paragraph 1"
-            rows={3}
-            {...M("services_desc_1")}
-          />
-          <AT
-            label="Description paragraph 2 (shown below the grid)"
-            rows={2}
-            {...M("services_desc_2")}
-          />
+          <AI label="Section Heading" {...M("manage_title")} />
+          <AT label="Description Paragraph" rows={4} {...M("manage_desc")} />
           <AI
-            label='Sub-heading (e.g. "We help property owners by:")'
-            {...M("services_sub_heading")}
+            label='Services Sub-heading (e.g. "Our Services Include")'
+            {...M("manage_services_heading")}
+          />
+          <AT
+            label="Closing Paragraph (shown below the bullet list)"
+            rows={3}
+            {...M("manage_closing_para")}
           />
         </div>
       </SCard>
 
       <SCard
-        title="Feature Cards"
-        subtitle="The 6-card grid shown in the services section — add, edit, colour and reorder"
+        title="Service Bullet Items"
+        subtitle="The gold-checkmark list shown in the management section"
       >
-        <CardsCrud pageKey={pageKey} cards={cards} setCards={setCards} />
+        <ServicesCrud services={services} setServices={setServices} />
       </SCard>
     </div>
   );
 }
 
-function WhyTab({
-  M,
-  Img,
-  onSave,
-  saving,
-  status,
-  pageKey,
-  whyItems,
-  setWhyItems,
-}) {
+// ─── Tab bar ──────────────────────────────────────────────────────────────────
+function TabBar({ active, onChange }) {
   return (
-    <div className="space-y-5">
-      <SCard
-        title="Why Choose EverNorth — Content"
-        subtitle="Section image, heading, description and the CTA banner"
-        onSave={onSave}
-        saving={saving}
-        status={status}
-      >
-        <div className="space-y-4">
-          <ImgSlot label="Section Image (left side)" {...Img("why_image")} />
-          <div className="grid sm:grid-cols-2 gap-4">
-            <AI label="Section Title" {...M("why_title")} />
-            <AI
-              label='Bullets Sub-heading (e.g. "Why owners trust us:")'
-              {...M("why_sub_heading")}
+    <div className="flex flex-wrap gap-1 bg-slate-100 p-1.5 rounded-2xl mb-5">
+      {TABS.map(({ key, label, icon: Icon }) => {
+        const on = active === key;
+        return (
+          <button
+            key={key}
+            onClick={() => onChange(key)}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold
+              flex-1 justify-center whitespace-nowrap transition-all duration-200
+              ${
+                on
+                  ? "bg-white text-slate-900 shadow-sm"
+                  : "text-slate-500 hover:text-slate-800 hover:bg-white/60"
+              }`}
+          >
+            <Icon
+              size={15}
+              className={on ? "text-amber-500" : "text-slate-400"}
             />
-          </div>
-          <AT label="Description paragraph" rows={3} {...M("why_desc")} />
-
-          <div className="border-t border-slate-100 pt-4">
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
-              CTA Banner
-            </p>
-            <AT label="Banner Text" rows={2} {...M("cta_text")} />
-            <div className="grid sm:grid-cols-2 gap-4 mt-3">
-              <AI label="Button Label" {...M("cta_btn_text")} />
-              <AI label="Button Link / Href" {...M("cta_btn_href")} />
-            </div>
-          </div>
-        </div>
-      </SCard>
-
-      <SCard
-        title="Why Choose — Bullet Points"
-        subtitle="The gold-checkmark list shown alongside the section image"
-      >
-        <WhyCrud pageKey={pageKey} items={whyItems} setItems={setWhyItems} />
-      </SCard>
+            {label}
+          </button>
+        );
+      })}
     </div>
   );
 }
 
-// ─── Per-page editor (loads lazily) ──────────────────────────────────────────
-function PageEditor({ pageKey }) {
-  const [meta, setMeta] = useState(null);
-  const [cards, setCards] = useState([]);
-  const [whyItems, setWhyItems] = useState([]);
+// ─── Root panel ───────────────────────────────────────────────────────────────
+export default function AreasPagePanel() {
+  const [activeTab, setActiveTab] = useState("banner");
+  const [meta, setMeta] = useState({});
+  const [locations, setLocations] = useState([]);
+  const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fetchErr, setFetchErr] = useState(null);
-  const [section, setSection] = useState("hero");
 
   const load = useCallback(async () => {
     setLoading(true);
     setFetchErr(null);
     try {
-      const d = await apiFetch(`/${pageKey}`);
+      const d = await apiFetch("");
       setMeta(d.data.meta || {});
-      setCards(d.data.cards || []);
-      setWhyItems(d.data.why_items || []);
+      setLocations(d.data.locations || []);
+      setServices(d.data.services || []);
     } catch (e) {
       setFetchErr(e.message);
     } finally {
       setLoading(false);
     }
-  }, [pageKey]);
-
-  // Load on mount
-  useState(() => {
-    load();
   }, []);
-  // useEffect equivalent using a ref trick for lazy mount
-  const loaded = useRef(false);
-  if (!loaded.current) {
-    loaded.current = true;
-    load();
-  }
 
-  // ── Meta save ───────────────────────────────────────────────────────────────
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  // ── Single meta save shared across tabs ─────────────────────────────────────
   const {
     save: saveMeta,
     saving: savingMeta,
     status: statusMeta,
   } = useSave(
     useCallback(async () => {
-      if (!meta) throw new Error("No data loaded");
-      await apiFetch(`/${pageKey}`, {
+      await apiFetch("", {
         method: "PUT",
         body: JSON.stringify({
-          hero_title: meta.hero_title,
-          hero_subtitle: meta.hero_subtitle,
-          hero_image_id: meta.hero_image?.id ?? null,
-          intro_image_id: meta.intro_image?.id ?? null,
-          intro_heading: meta.intro_heading,
+          banner_image_id: meta.banner_image?.id ?? null,
+          banner_title: meta.banner_title,
+          intro_title: meta.intro_title,
           intro_para_1: meta.intro_para_1,
           intro_para_2: meta.intro_para_2,
           intro_para_3: meta.intro_para_3,
-          services_title: meta.services_title,
-          services_subtitle: meta.services_subtitle,
-          services_desc_1: meta.services_desc_1,
-          services_desc_2: meta.services_desc_2,
-          services_sub_heading: meta.services_sub_heading,
-          why_image_id: meta.why_image?.id ?? null,
-          why_title: meta.why_title,
-          why_desc: meta.why_desc,
-          why_sub_heading: meta.why_sub_heading,
-          cta_text: meta.cta_text,
-          cta_btn_text: meta.cta_btn_text,
-          cta_btn_href: meta.cta_btn_href,
+          intro_image_id: meta.intro_image?.id ?? null,
+          areas_title: meta.areas_title,
+          manage_image_id: meta.manage_image?.id ?? null,
+          manage_title: meta.manage_title,
+          manage_desc: meta.manage_desc,
+          manage_services_heading: meta.manage_services_heading,
+          manage_closing_para: meta.manage_closing_para,
         }),
       });
-    }, [meta, pageKey]),
+    }, [meta]),
   );
 
-  // ── Helpers ─────────────────────────────────────────────────────────────────
+  // ── Helpers ──────────────────────────────────────────────────────────────────
   const M = (k) => ({
-    value: meta?.[k] ?? "",
+    value: meta[k] ?? "",
     onChange: (e) => setMeta((p) => ({ ...p, [k]: e.target.value })),
   });
   const Img = (k) => ({
-    value: meta?.[k],
+    value: meta[k],
     onUpload: (m) => setMeta((p) => ({ ...p, [k]: m })),
     onClear: () => setMeta((p) => ({ ...p, [k]: null })),
   });
@@ -1026,119 +979,64 @@ function PageEditor({ pageKey }) {
     status: statusMeta,
   };
 
-  // ── Loading / error ──────────────────────────────────────────────────────────
+  // ── Loading skeleton ─────────────────────────────────────────────────────────
   if (loading)
     return (
-      <div className="space-y-4 animate-pulse mt-2">
-        {[...Array(3)].map((_, i) => (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-14 bg-slate-100 rounded-2xl" />
+        {[...Array(2)].map((_, i) => (
           <div
             key={i}
-            className="h-40 bg-white rounded-2xl border border-slate-100"
+            className="h-48 bg-white rounded-2xl border border-slate-100"
           />
         ))}
       </div>
     );
 
+  // ── Fetch error ──────────────────────────────────────────────────────────────
   if (fetchErr)
     return (
       <div
-        className="flex items-center gap-2 text-red-600 text-sm p-4 mt-2
+        className="flex items-center gap-2 text-red-600 text-sm p-4
         bg-red-50 rounded-xl border border-red-200"
       >
         <AlertCircle size={16} />
         <span>{fetchErr}</span>
-        <button onClick={load} className="ml-auto text-xs underline">
+        <button
+          onClick={load}
+          className="ml-auto text-xs underline font-medium"
+        >
           Retry
         </button>
       </div>
     );
 
   return (
-    <div className="mt-2 space-y-4">
-      {/* Section tab bar */}
-      <div className="flex flex-wrap gap-1 bg-slate-100 p-1.5 rounded-2xl">
-        {SECTION_TABS.map(({ key, label }) => {
-          const on = section === key;
-          return (
-            <button
-              key={key}
-              onClick={() => setSection(key)}
-              className={`flex-1 px-4 py-2 rounded-xl text-sm font-semibold
-                whitespace-nowrap transition-all duration-200
-                ${
-                  on
-                    ? "bg-white text-slate-900 shadow-sm"
-                    : "text-slate-500 hover:text-slate-800 hover:bg-white/60"
-                }`}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
+    <div>
+      <TabBar active={activeTab} onChange={setActiveTab} />
 
-      {/* Section content */}
-      {section === "hero" && <HeroTab M={M} Img={Img} {...saveProps} />}
-      {section === "intro" && <IntroTab M={M} Img={Img} {...saveProps} />}
-      {section === "services" && (
-        <ServicesTab
+      {activeTab === "banner" && <BannerTab M={M} Img={Img} {...saveProps} />}
+
+      {activeTab === "intro" && <IntroTab M={M} Img={Img} {...saveProps} />}
+
+      {activeTab === "areas" && (
+        <AreasTab
           M={M}
           {...saveProps}
-          pageKey={pageKey}
-          cards={cards}
-          setCards={setCards}
+          locations={locations}
+          setLocations={setLocations}
         />
       )}
-      {section === "why" && (
-        <WhyTab
+
+      {activeTab === "manage" && (
+        <ManageTab
           M={M}
           Img={Img}
           {...saveProps}
-          pageKey={pageKey}
-          whyItems={whyItems}
-          setWhyItems={setWhyItems}
+          services={services}
+          setServices={setServices}
         />
       )}
-    </div>
-  );
-}
-
-// ─── Root Panel ───────────────────────────────────────────────────────────────
-export default function ServicePagePanel() {
-  const [activePage, setActivePage] = useState("long_term");
-
-  return (
-    <div>
-      {/* ── Top-level page selector ───────────────────────────────────── */}
-      <div className="flex flex-wrap gap-2 mb-2">
-        {PAGES.map(({ key, label, icon: Icon }) => {
-          const on = activePage === key;
-          return (
-            <button
-              key={key}
-              onClick={() => setActivePage(key)}
-              className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-semibold
-                flex-1 justify-center transition-all duration-200 border-2
-                ${
-                  on
-                    ? "border-amber-400 text-slate-900 shadow-sm"
-                    : "border-transparent bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-800"
-                }`}
-              style={on ? { background: "rgba(183,161,112,0.12)" } : {}}
-            >
-              <Icon
-                size={16}
-                className={on ? "text-amber-600" : "text-slate-400"}
-              />
-              {label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* ── Page editor — lazy-mounted per key ────────────────────────── */}
-      {/* Use key to remount when page switches so each gets its own state */}
-      <PageEditor key={activePage} pageKey={activePage} />
     </div>
   );
 }

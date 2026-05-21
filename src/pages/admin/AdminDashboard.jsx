@@ -19,6 +19,9 @@ import ContactPagePanel from "../../components/admin/ContactPagePanel";
 import AboutPagePanel from "../../components/admin/AboutPagePanel";
 import RenovationPagePanel from "../../components/admin/RenovationPagePanel";
 import ServicesPagePanel from "../../components/admin/RenovationPagePanel";
+import ServicePagePanel from "../../components/admin/Servicespagepanel";
+import AreasWeCover from "../../components/Areaswecover";
+import AreasPagePanel from "../../components/admin/AreasPagePanel";
 
 const STAT_TILES = [
   {
@@ -121,6 +124,13 @@ export default function AdminDashboard() {
             {(active === "ourservices" || active === "") && (
               <ServicesPagePanel />
             )}
+            {(active === "areaswecover" || active === "") && (
+              <AreasPagePanel />
+            )}
+            {(active === "service-pages" || active === "") && (
+              <ServicePagePanel />
+            )}
+            
 
             {active === "profile" && (
               <ProfileEditor

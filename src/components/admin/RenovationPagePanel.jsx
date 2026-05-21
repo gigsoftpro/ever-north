@@ -30,7 +30,7 @@ const TABS = [
   { key: "intro", label: "Intro / Hero", icon: Home },
   { key: "short_term", label: "Short-Term PM", icon: Clock },
   { key: "long_term", label: "Long-Term PM", icon: Building2 },
-  { key: "airbnb", label: "Airbnb Hosting", icon: Star },
+  { key: "airbnb", label: "Hybrid PM", icon: Star },
   { key: "faq", label: "FAQ", icon: HelpCircle },
 ];
 
@@ -1017,7 +1017,7 @@ export default function ServicesPagePanel() {
       {activeTab === "airbnb" && (
         <ServiceTab
           sectionKey="airbnb"
-          sectionName="Airbnb Hosting"
+          sectionName="Hybrid PM"
           imgSide="right"
           meta={meta}
           setMeta={setMeta}
