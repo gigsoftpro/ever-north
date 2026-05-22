@@ -76,7 +76,7 @@ export default function AreasWeCover() {
 
     const interval = setInterval(() => {
       handleNext();
-    }, 3500);
+    }, 1500);
 
     return () => clearInterval(interval);
   }, [currentIndex, cardsToShow, loading, displayAreas.length]);
@@ -169,7 +169,7 @@ export default function AreasWeCover() {
             <div className="overflow-hidden">
               <div
                 ref={sliderRef}
-                className="flex gap-4 sm:gap-5"
+                className="flex gap-5 sm:gap-5"
                 style={{
                   transform: `translateX(-${currentIndex * cardWidth}%)`,
                   transition: isTransitioning
@@ -180,19 +180,19 @@ export default function AreasWeCover() {
                 {duplicatedAreas.map(({ img, label }, i) => (
                   <div
                     key={`${label}-${i}`}
-                    className="relative rounded-[20px] sm:rounded-[40px] overflow-hidden flex-shrink-0"
+                    className="relative rounded-t-[20px] sm:rounded-t-[40px] overflow-hidden flex-shrink-0"
                     style={{
-                      width: `calc(${cardWidth}% - 16px)`,
+                      width: `calc(${cardWidth}% - 20px)`,
                       minHeight: "200px",
                     }}
                   >
                     <img
                       src={img}
                       alt={label}
-                      className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-[20px] sm:rounded-[40px]"
+                      className="w-full h-48 sm:h-56 lg:h-64 object-cover"
                     />
 
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#303030] to-transparent py-4 rounded-b-[20px] sm:rounded-b-[40px]">
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#303030] via-[#303030]/95 to-transparent py-5 rounded-b-[20px] sm:rounded-b-[0px]">
                       <p className="text-white font-semibold text-center uppercase tracking-wide text-sm sm:text-base">
                         {label}
                       </p>

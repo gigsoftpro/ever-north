@@ -249,7 +249,7 @@ export default function OurServices() {
       <section
         className="flex items-center text-white py-24 px-5 min-h-[520px]"
         style={{
-          background: `linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.65)), url(${introImg})`,
+          background: `linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(${introImg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

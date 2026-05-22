@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import shortTermBg from "../assets/images/rectangle_184_copy_7.png";
 import longTermBg from "../assets/images/rectangle_184_copy_8.png";
 import airbnbBg from "../assets/images/rectangle_184_copy_9.png";
@@ -25,19 +26,20 @@ const FALLBACK_SERVICES = [
   },
 ];
 
-const GoldButton = ({ children, className = "" }) => (
+const GoldButton = ({ children, className = "", onClick }) => (
   <button
     className={`inline-flex items-center justify-center whitespace-nowrap font-semibold text-white px-5 sm:px-6 py-3 text-sm sm:text-base hover:opacity-90 transition-opacity ${className}`}
     style={{
       background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)",
     }}
+    onClick={onClick}
   >
     {children}
   </button>
 );
 
 // ── Shared Service Card ────────────────────────────────────────────────────────
-const ServiceCard = ({ service, image, className = "" }) => (
+const ServiceCard = ({ service, image, index, className = "" }) => (
   <div className={`w-full min-w-0 ${className}`}>
     <div
       className="group relative overflow-hidden rounded-[20px] min-h-[360px] sm:min-h-[440px] lg:min-h-[520px] p-6 sm:p-8 lg:p-10 xl:p-12 flex flex-col justify-end"
@@ -57,10 +59,6 @@ const ServiceCard = ({ service, image, className = "" }) => (
         </h3>
       </div>
 
-      {/* 
-        On mobile/tablet: content stays visible
-        On md+ hover devices: content animates in on hover
-      */}
       <div className="relative z-10 mt-3 max-h-[400px] opacity-100 translate-y-0 overflow-hidden transition-all duration-700 ease-in-out md:mt-0 md:max-h-0 md:opacity-0 md:translate-y-10 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:group-hover:max-h-[300px] md:group-hover:mt-2 min-w-0">
         <div className="h-px w-full bg-[#b7a170] mb-4" />
 
@@ -69,10 +67,15 @@ const ServiceCard = ({ service, image, className = "" }) => (
             {service.description}
           </p>
         )}
-
-        <GoldButton className="w-full sm:w-auto sm:min-w-[180px] max-w-full">
-          Contact Us
-        </GoldButton>
+        <a
+          href={`${index == 0 ? "/our-services/short-term-management" : index == 1 ? "our-services/long-term-management" : "our-services/hybrid-management"}`}
+          className={`inline-flex items-center justify-center whitespace-nowrap font-semibold text-white px-5 sm:px-6 py-3 text-sm sm:text-base hover:opacity-90 transition-opacity w-full sm:w-auto sm:min-w-[180px] max-w-full`}
+          style={{
+            background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)",
+          }}
+        >
+          Read More
+        </a>
       </div>
     </div>
   </div>
@@ -80,6 +83,7 @@ const ServiceCard = ({ service, image, className = "" }) => (
 
 export default function Services() {
   const { siteData, loading } = useSiteData();
+  const navigate = useNavigate();
 
   const services = siteData?.services?.length
     ? siteData.services
@@ -116,7 +120,6 @@ export default function Services() {
   return (
     <section className="w-full overflow-hidden">
       <div className="w-full max-w-[1440px] mx-auto py-12 px-4">
-
         {/* Section Title */}
         <h2 className="text-[#000000] text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-center mb-10 lg:mb-12">
           {sectionTitle}
@@ -129,6 +132,7 @@ export default function Services() {
               key={service?.id || index}
               service={service || FALLBACK_SERVICES[index]}
               image={getImage(service, index)}
+              index={index}
               className="w-full sm:basis-[calc((100%-1.5rem)/2)] sm:max-w-[calc((100%-1.5rem)/2)] lg:basis-[calc((100%-4rem)/3)] lg:max-w-[calc((100%-4rem)/3)]"
             />
           ))}
@@ -136,11 +140,16 @@ export default function Services() {
 
         {/* CTA Row */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 my-10 lg:my-12">
-          <GoldButton>{consultationCta}</GoldButton>
+          <GoldButton onClick={() => navigate("/contact-us")}>
+            {consultationCta}
+          </GoldButton>
 
-          <button className="inline-flex items-center justify-center whitespace-nowrap font-semibold text-white px-5 sm:px-6 py-3 text-sm sm:text-base bg-[#303030] hover:bg-[#444] transition-colors w-full sm:w-auto">
+          <a
+            href="tel:9876543210"
+            className="inline-flex items-center justify-center whitespace-nowrap font-semibold text-white px-5 sm:px-6 py-3 text-sm sm:text-base bg-[#303030] hover:bg-[#444] transition-colors w-full sm:w-auto"
+          >
             {callCta}
-          </button>
+          </a>
         </div>
       </div>
     </section>

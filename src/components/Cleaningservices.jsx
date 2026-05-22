@@ -116,14 +116,8 @@ export default function CleaningServices() {
           {displayItems.map(({ img, label, title, para }, idx) => (
             <div
               key={`${label}-${idx}`}
-              className="
-        w-full max-w-[47.5%] mx-auto
-        sm:w-[calc((100%-2rem)/2)]
-        flex flex-col items-center text-center bg-[#f1f1f16b] p-[20px] pb-[30px] border border-[#dddddd91] rounded-[12px]
+              className="w-full md:max-w-[47.5%] mx-auto sm:w-[calc((100%-2rem)/2)] flex flex-col items-center text-center bg-[#f1f1f16b] p-4 md:p-5 pb-7 border border-[#dddddd91] rounded-xl">
 
-      "
-            >
-              {/* Square Image Container */}
               <div
                 className="w-full bg-white flex items-center justify-center overflow-hidden rounded-xl"
                 style={{ boxShadow: "0 0 36px 0 rgba(151,126,68,0.22)" }}
@@ -131,7 +125,7 @@ export default function CleaningServices() {
                 <img
                   src={img}
                   alt={label}
-                  className="h-[350px] w-full object-cover rounded-xl"
+                  className="h-[350px] w-full object-cover rounded-lg"
                 />
               </div>
 
@@ -145,7 +139,14 @@ export default function CleaningServices() {
                 </p>
               </div>
 
-              <GoldButton className="mt-5 rounded">Contact Us</GoldButton>
+              <GoldButton
+                onClick={() => {
+                  window.location.href = "/contact-us";
+                }}
+                className="mt-5 rounded"
+              >
+                Contact Us
+              </GoldButton>
             </div>
           ))}
         </div>

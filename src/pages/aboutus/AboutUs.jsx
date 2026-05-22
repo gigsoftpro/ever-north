@@ -122,7 +122,9 @@ export default function AboutUs() {
       <section className="relative flex min-h-[600px] items-center overflow-hidden text-white">
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-500"
-          style={{ backgroundImage: `url(${bannerBg})` }}
+          style={{
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url(${bannerBg})`,
+          }}
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5">
@@ -152,9 +154,8 @@ export default function AboutUs() {
       </section>
 
       {/* ── 2. About component (home page section — uses SiteDataContext) ── */}
-      <SiteDataProvider>
-        <About />
-      </SiteDataProvider>
+
+      <About />
 
       {/* ── 3. Why Choose ────────────────────────────────────────────────── */}
       <section className="py-20 md:py-[100px]">
@@ -307,9 +308,8 @@ export default function AboutUs() {
       </section>
 
       {/* ── 7. Testimonials ──────────────────────────────────────────────── */}
-      <SiteDataProvider>
-        <Testimonial />
-      </SiteDataProvider>
+
+      <Testimonial />
 
       {/* ── 8. CTA Section ───────────────────────────────────────────────── */}
       <section className="relative overflow-hidden py-20 text-center text-white md:py-[100px]">

@@ -2196,25 +2196,25 @@ function NavPanel({ data: initialData, onSaved }) {
             className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3"
           >
             <div className="flex items-center justify-between gap-3">
-              <div className="grid sm:grid-cols-3 gap-3 flex-1">
+              <div className="grid sm:grid-cols-1 gap-3 flex-1">
                 <AdminInput
                   label="Label"
                   value={link.label}
                   onChange={(e) => update(link.id, "label", e.target.value)}
                 />
-                <AdminInput
+                {/* <AdminInput
                   label="URL / href"
                   value={link.href}
                   onChange={(e) => update(link.id, "href", e.target.value)}
-                />
-                <AdminInput
+                /> */}
+                {/* <AdminInput
                   label="Sort Order"
                   type="number"
                   value={link.sort_order}
                   onChange={(e) =>
                     update(link.id, "sort_order", Number(e.target.value))
                   }
-                />
+                /> */}
               </div>
             </div>
             <div className="flex items-center justify-between">
@@ -2536,10 +2536,10 @@ function ContactContentPanel({ data, onSaved }) {
 }
 
 const TABS = [
-  { id: "hero", label: "Hero", icon: Globe },
   { id: "header", label: "Header", icon: Globe },
   { id: "nav", label: "Nav Links", icon: Globe },
   { id: "footer", label: "Footer", icon: Globe },
+  { id: "hero", label: "Hero", icon: Globe },
   { id: "about", label: "About", icon: Globe },
   { id: "services", label: "Services", icon: Globe },
   { id: "cleaning", label: "Cleaning", icon: Globe },
@@ -2551,7 +2551,7 @@ const TABS = [
 ];
 
 export default function ContentEditor() {
-  const [activeTab, setActiveTab] = useState("hero");
+  const [activeTab, setActiveTab] = useState("header");
   const [siteData, setSiteData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -2603,8 +2603,6 @@ export default function ContentEditor() {
   // Panel router
   const renderPanel = () => {
     switch (activeTab) {
-      case "hero":
-        return <HeroPanel data={siteData?.hero} onSaved={fetchAll} />;
       case "header":
         return <HeaderPanel data={siteData?.header} onSaved={fetchAll} />;
       case "nav":
@@ -2613,6 +2611,8 @@ export default function ContentEditor() {
         );
       case "footer":
         return <FooterPanel data={siteData?.footer} onSaved={fetchAll} />;
+      case "hero":
+        return <HeroPanel data={siteData?.hero} onSaved={fetchAll} />;
       case "about":
         return <AboutPanel data={siteData?.about} onSaved={fetchAll} />;
       case "services":

@@ -28,6 +28,8 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions/TermsAndConditions";
 
 function PublicLayout() {
   return (
@@ -84,7 +86,9 @@ export default function App() {
           <Route path="/properties" element={<Home />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/property-management" element={<Management />} />
-          <Route path="/area-we-cover" element={<AreaWeServe />} />
+          <Route path="/areas-we-cover" element={<AreaWeServe />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
 
           <Route path="/our-services/:serviceType" element={<ServicePage />} />
 

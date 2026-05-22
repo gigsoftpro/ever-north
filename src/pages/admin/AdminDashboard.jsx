@@ -20,7 +20,6 @@ import AboutPagePanel from "../../components/admin/AboutPagePanel";
 import RenovationPagePanel from "../../components/admin/RenovationPagePanel";
 import ServicesPagePanel from "../../components/admin/RenovationPagePanel";
 import ServicePagePanel from "../../components/admin/Servicespagepanel";
-import AreasWeCover from "../../components/Areaswecover";
 import AreasPagePanel from "../../components/admin/AreasPagePanel";
 
 const STAT_TILES = [

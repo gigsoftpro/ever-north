@@ -25,7 +25,9 @@ export default function ContactUs() {
       <section className="relative flex min-h-[520px] items-center overflow-hidden text-white">
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-500"
-          style={{ backgroundImage: `url(${bannerBg})` }}
+          style={{
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url(${bannerBg})`,
+          }}
         />
         <div className="absolute inset-0 bg-black/60" />
 
@@ -71,9 +73,8 @@ export default function ContactUs() {
           </div>
 
           {/* ContactPage handles the form + submission to /api/content/contact */}
-          <SiteDataProvider>
-            <ContactPage />
-          </SiteDataProvider>
+
+          <ContactPage />
         </div>
       </section>
     </div>

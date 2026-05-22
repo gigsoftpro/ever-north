@@ -59,13 +59,13 @@ export default function Footer() {
           <div className="w-full sm:w-[calc(50%-20px)] xl:basis-[16%] min-w-0 flex flex-col gap-2">
             <div className="md:mt-11" />
             <a
-              href="#"
+              href="/terms-and-conditions"
               className="text-white text-sm sm:text-base leading-10 hover:text-[#b7a170] transition-colors"
             >
               Terms &amp; Conditions
             </a>
             <a
-              href="#"
+              href="/privacy-policy"
               className="text-white text-sm sm:text-base leading-10 hover:text-[#b7a170] transition-colors"
             >
               Privacy Policy

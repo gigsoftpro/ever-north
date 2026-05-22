@@ -460,9 +460,7 @@ export default function ServicePage({ pageKey: propKey }) {
                           >
                             <CheckCircle size={14} className="text-white" />
                           </div>
-                          <p className="text-gray-700 font-medium">
-                            {item.text}
-                          </p>
+                          <p className="text-gray-600 text-lg">{item.text}</p>
                         </div>
                       ))}
                     </div>
@@ -520,9 +518,8 @@ export default function ServicePage({ pageKey: propKey }) {
           {error}
         </div>
       )}
-      <SiteDataProvider>
-        <ContactForm />
-      </SiteDataProvider>
+
+      <ContactForm />
     </>
   );
 }

@@ -7,6 +7,7 @@ import IntroFallback from "../../assets/images/construction-img.jpg";
 import ManageFallback from "../../assets/images/who-we-are.jpg";
 import { SiteDataProvider } from "../../components/SiteDataContext";
 import ContactForm from "../../components/Contactform";
+import AreasWeCover from "../../components/AreasWeCover";
 
 function Skel({ className = "h-5 w-full rounded" }) {
   return <div className={`bg-gray-200 animate-pulse ${className}`} />;
@@ -79,7 +80,7 @@ function LocationCard({ location }) {
 }
 
 // ── Main component ─────────────────────────────────────────────────────────────
-export default function AreasWeCover() {
+export default function AreaWeServe() {
   const { data, loading, error } = useAreasData();
 
   const meta = data?.meta || {};
@@ -112,7 +113,9 @@ export default function AreasWeCover() {
       {/* ── 1. Banner ─────────────────────────────────────────────────────── */}
       <section
         className="relative h-[350px] md:h-[500px] lg:h-[500px] bg-cover bg-center"
-        style={{ backgroundImage: `url(${bannerImg})` }}
+        style={{
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),url(${bannerImg})`,
+        }}
       >
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/20" />
@@ -227,11 +230,8 @@ export default function AreasWeCover() {
         </div>
       </section>
 
-      {/* <SiteDataProvider>
-        <AreasWeCover />
-      </SiteDataProvider> */}
 
-      <div className="h-[2px] w-full max-w-[1220px] mx-auto bg-[#b8a070]" />
+      <AreasWeCover />
 
       <section className="py-20 bg-white">
         <div className="max-w-[1440px] mx-auto px-5">
@@ -318,10 +318,7 @@ export default function AreasWeCover() {
           </div>
         </div>
       </section>
-
-      <SiteDataProvider>
         <ContactForm />
-      </SiteDataProvider>
       {error && (
         <div
           className="fixed bottom-4 right-4 bg-red-50 border border-red-200 text-red-600
