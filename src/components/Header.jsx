@@ -152,9 +152,9 @@ export default function Header() {
           backgroundPosition: "center",
         }}
       >
-        <div className="mx-auto flex w-full max-w-[1440px] items-center lg:items-end xl:items-center gap-4 px-4">
+        <div className="pt-2 mx-auto flex w-full max-w-[1440px] items-center lg:items-end xl:items-center gap-4 px-4">
           {/* Logo */}
-          <a href="/" className="shrink-0 py-2 lg:py-4 xl:py-0">
+          <a href="/" className="shrink-0 py-2 lg:py-4 xl:py-0 mb-1">
             <img
               src={HeaderData?.logo?.url || logo}
               alt="Ever North"

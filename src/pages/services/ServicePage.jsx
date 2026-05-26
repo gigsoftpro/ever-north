@@ -236,10 +236,10 @@ export default function ServicePage({ pageKey: propKey }) {
             </div>
           ) : (
             <>
-              <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
+              <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
                 {heroTitle}
               </h1>
-              <p className="text-xl text-amber-50 max-w-3xl mx-auto">
+              <p className="text-md md:text-xl text-amber-50 max-w-3xl mx-auto">
                 {heroSubtitle}
               </p>
             </>
@@ -248,7 +248,7 @@ export default function ServicePage({ pageKey: propKey }) {
       </section>
 
       {/* ── 2. Introduction ─────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-start">
             {/* Image */}
@@ -316,7 +316,7 @@ export default function ServicePage({ pageKey: propKey }) {
       </section>
 
       {/* ── 3. Services / Features section ──────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-100">
+      <section className="py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gray-100">
         <div className="max-w-[1440px] mx-auto">
           <div className="text-center mb-10">
             {loading ? (
@@ -331,17 +331,17 @@ export default function ServicePage({ pageKey: propKey }) {
                   {servicesTitle}
                 </h2>
                 {servicesSubtitle && (
-                  <p className="text-lg text-gray-600 max-w-4xl mx-auto mb-3">
+                  <p className="text-md md:text-lg text-gray-600 max-w-4xl mx-auto mb-3">
                     {servicesSubtitle}
                   </p>
                 )}
                 {servicesDesc1 && (
-                  <p className="text-lg text-gray-600 max-w-4xl mx-auto mb-3">
+                  <p className="text-md md:text-lg text-gray-600 max-w-4xl mx-auto mb-3">
                     {servicesDesc1}
                   </p>
                 )}
                 {servicesDesc2 && (
-                  <p className="text-lg text-gray-600 max-w-4xl mx-auto mb-4">
+                  <p className="text-md md:text-lg text-gray-600 max-w-4xl mx-auto mb-4">
                     {servicesDesc2}
                   </p>
                 )}
@@ -355,7 +355,7 @@ export default function ServicePage({ pageKey: propKey }) {
           </div>
 
           {/* Cards grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
             {loading ? (
               [...Array(6)].map((_, i) => (
                 <div
@@ -395,7 +395,7 @@ export default function ServicePage({ pageKey: propKey }) {
           {/* Optional bottom note */}
           {!loading && servicesDesc2 && cards.length > 0 && (
             <div className="mt-12 text-center">
-              <p className="text-xl text-gray-700 font-medium">
+              <p className="text-md md:text-xl text-gray-700 font-medium">
                 {servicesDesc2}
               </p>
             </div>
@@ -404,7 +404,7 @@ export default function ServicePage({ pageKey: propKey }) {
       </section>
 
       {/* ── 4. Why Choose EverNorth ──────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-[1440px] mx-auto">
           {/* 2-col: image + bullets */}
           <div className="flex flex-col md:flex-row gap-10 mb-16">

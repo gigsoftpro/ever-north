@@ -72,7 +72,7 @@ export default function Testimonial() {
             <Stars count={current.rating ?? 5} />
 
             {/* Quote */}
-            <blockquote className="text-[#303030] text-xl sm:text-2xl lg:text-[28px] italic font-semibold leading-9 transition-all duration-500">
+            <blockquote className="text-[#303030] text-lg sm:text-2xl lg:text-[28px] italic font-semibold leading-9 transition-all duration-500">
               "{current.quote}"
             </blockquote>
 
@@ -82,7 +82,7 @@ export default function Testimonial() {
             </p>
 
             {/* Dot navigation */}
-            <div className="flex justify-center gap-8 mt-12">
+            <div className="flex justify-center gap-5 mt-12">
               {testimonials.map((_, i) => (
                 <button
                   key={i}

@@ -139,7 +139,7 @@ export default function AboutUs() {
               <h1 className="mb-5 text-4xl font-bold md:text-5xl">
                 {bannerTitle}
               </h1>
-              <p className="mx-auto mb-10 max-w-4xl text-xl text-white/90">
+              <p className="mx-auto mb-10 max-w-4xl text-md md:text-xl text-white/90">
                 {bannerSub}
               </p>
               <a
@@ -158,7 +158,7 @@ export default function AboutUs() {
       <About />
 
       {/* ── 3. Why Choose ────────────────────────────────────────────────── */}
-      <section className="py-20 md:py-[100px]">
+      <section className="py-14 md:py-[100px]">
         <div className="mx-auto max-w-[1440px] px-5">
           <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-[60px]">
             <div>
@@ -178,7 +178,7 @@ export default function AboutUs() {
                 </div>
               ) : (
                 <>
-                  <h2 className="mb-[25px] text-4xl leading-none text-[#1a1a1a]">
+                  <h2 className="mb-[25px] text-3xl md:text-4xl font-medium leading-[1.25] md:leading-[1.3] text-[#1a1a1a] text-center md:text-start">
                     {whyTitle}
                   </h2>
                   <ul className="space-y-5">
@@ -202,7 +202,7 @@ export default function AboutUs() {
       </section>
 
       {/* ── 4. Who We Are ────────────────────────────────────────────────── */}
-      <section className="bg-[#faf8f3] py-20 md:py-[100px]">
+      <section className="bg-[#faf8f3] py-16 md:py-[100px]">
         <div className="mx-auto max-w-[1440px] px-5">
           {loading ? (
             <div className="space-y-6 animate-pulse">
@@ -212,7 +212,7 @@ export default function AboutUs() {
             </div>
           ) : (
             <>
-              <h2 className="mb-[10px] text-center text-4xl leading-none text-[#1a1a1a] md:text-[2.5rem]">
+              <h2 className="mb-[14px] text-center text-3xl md:text-4xl font-medium leading-none text-[#1a1a1a] md:text-[2.5rem]">
                 {whoHeading}
               </h2>
               <div className="mx-auto mb-0 max-w-4xl text-center text-lg leading-8 text-[#555555] md:max-w-[80%]">
@@ -249,12 +249,12 @@ export default function AboutUs() {
       </section>
 
       {/* ── 5. Core Values ───────────────────────────────────────────────── */}
-      <section className="py-20 md:py-[100px]">
+      <section className="py-16 md:py-[100px]">
         <div className="mx-auto max-w-[1440px] px-5">
           {loading ? (
             <Skel className="h-10 w-1/3 mx-auto mb-10" />
           ) : (
-            <h2 className="mb-10 text-center text-4xl text-[#1a1a1a] md:text-[2.5rem]">
+            <h2 className="mb-10 text-center text-3xl md:text-4xl font-medium text-[#1a1a1a] md:text-[2.5rem]">
               {coreValuesHead}
             </h2>
           )}
@@ -269,7 +269,7 @@ export default function AboutUs() {
                   <div className="mb-5 text-[2.5rem] text-[#d4af37]">
                     {val.emoji}
                   </div>
-                  <h3 className="mb-[5px] text-[1.3rem] text-[#1a1a1a]">
+                  <h3 className="mb-[5px] text-[1.3rem] text-[#1a1a1a] font-medium">
                     {val.title}
                   </h3>
                   <p className="text-[0.95rem] text-[#666666]">
@@ -283,7 +283,7 @@ export default function AboutUs() {
 
       {/* ── 6. Stats banner ──────────────────────────────────────────────── */}
       <section
-        className="relative overflow-hidden py-20 text-white md:py-[100px]"
+        className="relative overflow-hidden py-16 text-white md:py-[100px]"
         style={{ backgroundImage: `url(${ctaBg})` }}
       >
         <div
@@ -292,12 +292,12 @@ export default function AboutUs() {
         />
         <div className="absolute inset-0 bg-black/70" />
         <div className="relative z-10 mx-auto max-w-[1440px] px-5">
-          <div className="grid grid-cols-1 gap-10 text-center md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-0 md:gap-10 text-center md:grid-cols-2 xl:grid-cols-4">
             {bannerStats
               .filter((s) => s.is_active !== 0)
               .map((stat, i) => (
                 <div key={stat.id || i} className="p-[30px]">
-                  <div className="mb-[5px] text-5xl font-bold text-[#d4af37]">
+                  <div className="mb-[5px] text-4xl md:text-5xl font-bold text-[#d4af37]">
                     {stat.value}
                   </div>
                   <div className="text-lg text-white/90">{stat.label}</div>
@@ -328,8 +328,8 @@ export default function AboutUs() {
             </div>
           ) : (
             <>
-              <h2 className="mb-5 text-4xl md:text-[2.5rem]">{ctaHeading}</h2>
-              <p className="mb-10 text-xl text-white/90">{ctaDesc}</p>
+              <h2 className="mb-5 text-3xl md:text-4xl font-medium md:text-[2.5rem]">{ctaHeading}</h2>
+              <p className="mb-10 text-lg md:text-xl text-white/90">{ctaDesc}</p>
               <div className="flex flex-col items-center justify-center gap-5 sm:flex-row">
                 <a
                   href={ctaBtn1Href}

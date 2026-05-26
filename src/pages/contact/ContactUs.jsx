@@ -39,10 +39,10 @@ export default function ContactUs() {
             </div>
           ) : (
             <div className="text-center">
-              <h1 className="mb-5 text-4xl font-bold md:text-5xl">
+              <h1 className="mb-5 text-4xl font-semibold md:text-5xl">
                 {bannerTitle}
               </h1>
-              <p className="mx-auto mb-10 max-w-4xl text-xl text-white/90">
+              <p className="mx-auto mb-10 max-w-4xl text-md md:text-xl text-white/90">
                 {bannerSub}
               </p>
             </div>

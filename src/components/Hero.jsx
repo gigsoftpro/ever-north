@@ -153,20 +153,20 @@ export default function Hero() {
 
               {/* Content */}
               <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 py-16 sm:py-20 lg:py-28">
-                <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-normal leading-tight drop-shadow-md mb-24">
+                {/* <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-normal leading-tight drop-shadow-md mb-24"> */}
                   {/* {titleLines.map((line, li) => (
                     <span key={li}>
                       {line}
                       {li < titleLines.length - 1 && <br />}
                     </span>
                   ))} */}
-                  {slide.highlighted_word && (
+                  {/* {slide.highlighted_word && (
                     <span className="text-[#fff] italic font-bold">
                       {" "}
                       {slide.highlighted_word}
                     </span>
-                  )}
-                </h1>
+                  )} */}
+                {/* </h1> */}
 
                 {/* {slide.cta_text && (
                   <button

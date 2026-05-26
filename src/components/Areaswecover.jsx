@@ -133,7 +133,7 @@ export default function AreasWeCover() {
     >
       {/* Heading */}
       <div className="px-4 max-w-[1440px] mx-auto">
-        <div className="mb-10">
+        <div className="mb-12">
           {loading ? (
             <>
               <div className="h-14 bg-white/20 rounded animate-pulse w-80 mb-3" />
@@ -141,7 +141,7 @@ export default function AreasWeCover() {
             </>
           ) : (
             <>
-              <h2 className="text-white text-4xl sm:text-5xl lg:text-6xl font-light mb-2">
+              <h2 className="text-white text-4xl sm:text-5xl lg:text-5xl font-normal mb-3 text-center sm:text-left">
                 {heading}
               </h2>
 
@@ -192,7 +192,7 @@ export default function AreasWeCover() {
                       className="w-full h-48 sm:h-56 lg:h-64 object-cover"
                     />
 
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#303030] via-[#303030]/95 to-transparent py-5 rounded-b-[20px] sm:rounded-b-[0px]">
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#303030] via-[#303030]/95 to-transparent py-5 rounded-b-[0px] sm:rounded-b-[0px]">
                       <p className="text-white font-semibold text-center uppercase tracking-wide text-sm sm:text-base">
                         {label}
                       </p>

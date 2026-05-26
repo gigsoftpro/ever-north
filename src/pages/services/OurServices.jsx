@@ -268,10 +268,10 @@ export default function OurServices() {
                 <h1 className="text-3xl md:text-5xl leading-normal mb-7 font-bold">
                   {introTitle}
                 </h1>
-                <p className="text-lg mb-5 opacity-90 leading-relaxed">
+                <p className="text-md md:text-lg mb-5 opacity-90 leading-relaxed">
                   {introPara1}
                 </p>
-                <p className="text-lg opacity-80 leading-relaxed">
+                <p className="text-md md:text-lg opacity-80 leading-relaxed">
                   {introPara2}
                 </p>
               </>
@@ -281,11 +281,11 @@ export default function OurServices() {
       </section>
 
       {/* ── 2. Short-Term Property Management ───────────────────────────── */}
-      <section className="py-24 bg-white max-w-[1440px] mx-auto">
+      <section className="py-16 md:py-24 bg-white max-w-[1440px] mx-auto">
         <div className="mx-auto px-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
             {/* Content */}
-            <div>
+            <div className="order-2 md:order-1">
               {loading ? (
                 <div className="space-y-4 animate-pulse">
                   <Skel className="h-4 w-28 rounded" />
@@ -301,7 +301,7 @@ export default function OurServices() {
               ) : (
                 <>
                   <Tag />
-                  <h2 className="text-3xl md:text-4xl leading-normal mt-2 mb-2 text-gray-900 font-semibold">
+                  <h2 className="text-2xl md:text-4xl leading-normal mt-2 mb-2 text-gray-900 font-semibold">
                     {shortTitle}
                   </h2>
                   <p
@@ -332,7 +332,7 @@ export default function OurServices() {
               )}
             </div>
             {/* Image */}
-            <div>
+            <div className="order-1 md:order-2">
               <img
                 src={shortImg}
                 alt="Short-Term Property Management"
@@ -346,9 +346,9 @@ export default function OurServices() {
       <hr className="mx-auto h-[3px] w-full max-w-[1200px] border-0 bg-[#b8a070]" />
 
       {/* ── 3. Long-Term Property Management ────────────────────────────── */}
-      <section className="py-24 bg-gray-50/60 max-w-[1440px] mx-auto">
+      <section className="py-16 md:py-24 bg-gray-50/60 max-w-[1440px] mx-auto">
         <div className="mx-auto px-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
             {/* Image (left) */}
             <div>
               <img
@@ -374,7 +374,7 @@ export default function OurServices() {
               ) : (
                 <>
                   <Tag />
-                  <h2 className="text-3xl md:text-4xl leading-normal mt-2 mb-2 text-gray-900 font-semibold">
+                  <h2 className="text-2xl md:text-4xl leading-normal mt-2 mb-2 text-gray-900 font-semibold">
                     {longTitle}
                   </h2>
                   <p
@@ -411,11 +411,11 @@ export default function OurServices() {
       <hr className="mx-auto h-[3px] w-full max-w-[1200px] border-0 bg-[#b8a070]" />
 
       {/* ── 4. Hybrid PM & Co-Hosting ──────────────────────────────── */}
-      <section className="py-24 bg-white max-w-[1440px] mx-auto">
+      <section className="py-16 md:py-24 bg-white max-w-[1440px] mx-auto">
         <div className="mx-auto px-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
             {/* Content (left) */}
-            <div>
+            <div className="order-2 md:order-1">
               {loading ? (
                 <div className="space-y-4 animate-pulse">
                   <Skel className="h-4 w-28 rounded" />
@@ -431,7 +431,7 @@ export default function OurServices() {
               ) : (
                 <>
                   <Tag />
-                  <h2 className="text-3xl md:text-4xl leading-normal mt-2 mb-2 text-gray-900 font-semibold">
+                  <h2 className="text-2xl md:text-4xl leading-normal mt-2 mb-2 text-gray-900 font-semibold">
                     {airbnbTitle}
                   </h2>
                   <p
@@ -462,7 +462,7 @@ export default function OurServices() {
               )}
             </div>
             {/* Image (right) */}
-            <div>
+            <div className="order-1 md:order-2">
               <img
                 src={airbnbImg}
                 alt="Hybrid PM"
@@ -475,18 +475,18 @@ export default function OurServices() {
       <hr className="mx-auto h-[3px] w-full max-w-[1200px] border-0 bg-[#b8a070]" />
 
       {/* ── 5. FAQ ──────────────────────────────────────────────────────── */}
-      <section className="py-20 bg-white max-w-[1440px] mx-auto">
+      <section className="py-12 lg:py-20 bg-white max-w-[1440px] mx-auto">
         <div className="mx-auto px-5">
           {loading ? (
             <Skel className="h-10 w-1/2 mx-auto rounded mb-12" />
           ) : (
-            <h2 className="text-center text-4xl leading-normal mb-12 text-gray-900 font-semibold">
+            <h2 className="text-center text-3xl lg:text-4xl leading-9 mb-10 text-gray-900 font-semibold">
               {faqTitle}
             </h2>
           )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start">
             {/* Image */}
-            <div className="h-full">
+            <div className="h-[350px]">
               <img
                 src={faqImg}
                 alt="FAQ"

@@ -125,7 +125,7 @@ export default function AreaWeServe() {
           {loading ? (
             <Skel className="h-14 w-64 md:w-96 mx-auto rounded-lg bg-white/20" />
           ) : (
-            <h1 className="text-4xl md:text-7xl font-bold mb-5">
+            <h1 className="text-4xl md:text-5xl font-semibold mb-5">
               {bannerTitle}
             </h1>
           )}
@@ -134,13 +134,13 @@ export default function AreaWeServe() {
 
       {/* ── 2. Intro / Property Management Section ───────────────────────── */}
       <section
-        className="py-20"
+        className="py-16 lg:py-20"
         style={{ backgroundColor: "rgba(245,245,245,0.48)" }}
       >
         <div className="max-w-[1440px] mx-auto px-5">
           <div className="flex flex-col lg:flex-row gap-10 items-center">
             {/* Left — text */}
-            <div className="w-full lg:w-1/2 px-5">
+            <div className="w-full lg:w-1/2 px-0 px-md-5">
               {loading ? (
                 <div className="space-y-4 animate-pulse">
                   <Skel className="h-8 w-3/4 rounded" />
@@ -190,7 +190,7 @@ export default function AreaWeServe() {
       </section>
 
       {/* ── 3. Areas Grid Section ────────────────────────────────────────── */}
-      <section className="pt-0 pb-20 md:py-20 bg-white">
+      <section className="py-16 md:py-20 bg-white">
         <div className="max-w-[1440px] mx-auto px-5">
           {/* Heading */}
           <div className="text-center mb-14">
@@ -233,7 +233,7 @@ export default function AreaWeServe() {
 
       <AreasWeCover />
 
-      <section className="py-20 bg-white">
+      <section className="py-16 lg:py-20 bg-white">
         <div className="max-w-[1440px] mx-auto px-5">
           <div className="flex flex-col lg:flex-row gap-10 items-center">
             {/* Left — image */}
@@ -244,7 +244,7 @@ export default function AreaWeServe() {
                 <img
                   src={manageImg}
                   alt="Management Solutions"
-                  className="w-full h-[600px] object-cover rounded-lg"
+                  className="w-full h-[350px] md:h-[480px] lg:h-[600px] object-cover rounded-lg"
                 />
               )}
             </div>
@@ -275,7 +275,7 @@ export default function AreaWeServe() {
                   )}
 
                   {manageServHd && (
-                    <h3 className="text-xl font-normal mb-4 mt-4 text-gray-900">
+                    <h3 className="text-xl font-medium mb-4 mt-4 text-gray-900">
                       {manageServHd}
                     </h3>
                   )}

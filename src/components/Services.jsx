@@ -42,15 +42,16 @@ const GoldButton = ({ children, className = "", onClick }) => (
 const ServiceCard = ({ service, image, index, className = "" }) => (
   <div className={`w-full min-w-0 ${className}`}>
     <div
-      className="group relative overflow-hidden rounded-[20px] min-h-[360px] sm:min-h-[440px] lg:min-h-[520px] p-6 sm:p-8 lg:p-10 xl:p-12 flex flex-col justify-end"
+      className="group relative overflow-hidden rounded-[20px] min-h-[360px] sm:min-h-[440px] lg:min-h-[520px] p-7 sm:p-8 lg:p-10 xl:p-12 flex flex-col justify-end"
       style={{
         backgroundImage: `url(${image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
+      <div className="absolute inset-0 bg-black/40 transition-all duration-700 ease-in-out md-none"></div>
       {/* Bottom Gradient */}
-      <div className="absolute inset-x-0 bottom-0 h-[60%] sm:h-[52%] group-hover:h-[100%] transform transition-all duration-700 ease-in-out  bg-gradient-to-t from-black/90 via-black/40 group-hover:bg-black/15" />
+      <div className="absolute inset-x-0 bottom-0 h-full sm:h-[52%] group-hover:h-full transform transition-all duration-700 ease-in-out bg-gradient-to-t from-black/90 via-black/40 group-hover:bg-black/15" />
 
       {/* Title */}
       <div className="relative z-10 transform transition-all duration-700 ease-in-out md:group-hover:-translate-y-4 min-w-0">
@@ -63,7 +64,7 @@ const ServiceCard = ({ service, image, index, className = "" }) => (
         <div className="h-px w-full bg-[#b7a170] mb-4" />
 
         {service.description && (
-          <p className="text-white text-sm sm:text-base lg:text-lg leading-7 sm:leading-8 opacity-90 mb-4 break-words">
+          <p className="text-white text-sm sm:text-base lg:text-lg leading-6 sm:leading-7 opacity-90 mb-8 break-words">
             {service.description}
           </p>
         )}
@@ -119,9 +120,9 @@ export default function Services() {
 
   return (
     <section className="w-full overflow-hidden">
-      <div className="w-full max-w-[1440px] mx-auto py-12 px-4">
+      <div className="w-full max-w-[1440px] mx-auto py-4 md:py-12 px-4">
         {/* Section Title */}
-        <h2 className="text-[#000000] text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-center mb-10 lg:mb-12">
+        <h2 className="text-[#000000] text-3xl sm:text-4xl lg:text-5xl xl:text-5xl font-normal text-center mb-10 lg:mb-12">
           {sectionTitle}
         </h2>
 
@@ -146,7 +147,7 @@ export default function Services() {
 
           <a
             href="tel:9876543210"
-            className="inline-flex items-center justify-center whitespace-nowrap font-semibold text-white px-5 sm:px-6 py-3 text-sm sm:text-base bg-[#303030] hover:bg-[#444] transition-colors w-full sm:w-auto"
+            className="inline-flex items-center justify-center whitespace-nowrap font-semibold text-white px-10 sm:px-10 py-3 text-sm sm:text-base bg-[#303030] hover:bg-[#444] transition-colors sm:w-auto"
           >
             {callCta}
           </a>

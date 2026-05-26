@@ -80,7 +80,7 @@ export default function ContactForm() {
   };
 
   const inputClass =
-    "w-full bg-[#f3f3f3] rounded-[15px] text-[#848484] text-base sm:text-lg px-5 sm:px-6 py-3.5 sm:py-4 outline-none focus:ring-2 focus:ring-[#b7a170] transition-all placeholder-[#848484] disabled:opacity-60";
+    "w-full bg-[#f3f3f3] rounded-[10px] md:rounded-[12px] text-[#848484] text-base sm:text-lg px-5 sm:px-6 py-2.5 sm:py-4 outline-none focus:ring-2 focus:ring-[#b7a170] transition-all placeholder-[#848484] disabled:opacity-60";
 
   const isLoading = status === STATUS.LOADING;
 
@@ -96,7 +96,7 @@ export default function ContactForm() {
       <div className="w-full max-w-[1440px] mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10 xl:gap-16">
           {/* ── Left: heading block ── */}
-          <div className="w-full lg:w-[30%] xl:w-[32%] text-white shrink-0">
+          <div className="w-full lg:w-[30%] xl:w-[32%] text-white shrink-0 text-center lg:text-start">
             {siteLoading ? (
               <div className="space-y-3 animate-pulse">
                 <div className="h-10 bg-white/20 rounded-lg w-3/4" />
@@ -106,10 +106,10 @@ export default function ContactForm() {
               </div>
             ) : (
               <>
-                <h2 className="text-4xl sm:text-5xl xl:text-7xl font-semibold leading-tight mb-6 whitespace-pre-line">
+                <h2 className="text-3xl sm:text-5xl xl:text-5xl font-semibold leading-tight mb-5 whitespace-pre-line">
                   {heading}
                 </h2>
-                <p className="text-base sm:text-lg xl:text-xl font-semibold leading-8 max-w-[392px] opacity-90">
+                <p className="text-base sm:text-lg xl:text-xl font-semibold leading-7 max-w-full lg:max-w-[392px] opacity-90">
                   {subheading}
                 </p>
               </>
@@ -117,8 +117,8 @@ export default function ContactForm() {
           </div>
 
           {/* ── Right: form card ── */}
-          <div className="w-full lg:flex-1 lg:min-w-0 bg-white rounded-[30px] sm:rounded-[40px] p-6 sm:p-10 xl:p-12">
-            <h3 className="text-[#303030] text-2xl sm:text-3xl font-normal mb-8">
+          <div className="w-full lg:flex-1 lg:min-w-0 bg-white rounded-[30px] sm:rounded-[40px] p-7 sm:p-10 xl:p-12">
+            <h3 className="text-[#303030] text-xl sm:text-3xl font-medium mb-6 md:mb-8 mt-1 text-center lg:text-start">
               Leave Us A Message
             </h3>
 
@@ -134,7 +134,7 @@ export default function ContactForm() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5 text-center flex flex-col lg:block">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <input
                   type="text"
@@ -193,7 +193,7 @@ export default function ContactForm() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="font-semibold text-white text-sm tracking-widest uppercase px-8 py-3.5 hover:opacity-90 transition-opacity rounded-sm mt-4 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="mb-1 font-semibold text-white text-sm tracking-widest uppercase px-8 py-3.5 hover:opacity-90 transition-opacity rounded-sm mt-4 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 style={{
                   background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)",
                 }}

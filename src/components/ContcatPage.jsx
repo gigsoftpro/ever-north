@@ -106,7 +106,7 @@ export default function ContactPage() {
               </div>
             ) : (
               <>
-                <h2 className="text-4xl sm:text-5xl xl:text-7xl font-semibold leading-tight mb-6 whitespace-pre-line">
+                <h2 className="text-4xl sm:text-5xl xl:text-5xl font-semibold leading-tight mb-6 whitespace-pre-line">
                   {heading}
                 </h2>
                 <p className="text-base sm:text-lg xl:text-xl font-semibold leading-8 max-w-[392px] opacity-90">

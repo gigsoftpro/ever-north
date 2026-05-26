@@ -307,7 +307,7 @@ export default function TermsAndConditions() {
             className="mt-10 rounded-2xl p-8 text-center"
             style={{ background: GOLD_GRADIENT }}
           >
-            <h3 className="text-xl font-bold text-white mb-2">Contact Us</h3>
+            <h3 className="text-3xl font-bold text-white mb-2">Contact Us</h3>
             <p className="text-white/90 mb-5 leading-relaxed">
               Questions regarding these Terms may be directed to EverNorth
               Property Management.
