@@ -116,29 +116,30 @@ export default function CleaningServices() {
           {displayItems.map(({ img, label, title, para }, idx) => (
             <div
               key={`${label}-${idx}`}
-              className="w-full md:max-w-[47.5%] mx-auto sm:w-[calc((100%-2rem)/2)] flex flex-col items-center text-center bg-[#f1f1f16b] p-4 md:p-5 pb-7 border border-[#dddddd91] rounded-xl"
+              className="w-full md:max-w-[47.5%] mx-auto sm:w-[calc((100%-2rem)/2)] flex flex-col items-center justify-between text-center bg-[#f1f1f16b] p-4 md:p-8 border border-[#dddddd91] rounded-xl"
             >
-              <div
-                className="w-full bg-white flex items-center justify-center overflow-hidden rounded-xl"
-                style={{ boxShadow: "0 0 36px 0 rgba(151,126,68,0.22)" }}
-              >
-                <img
-                  src={img}
-                  alt={label}
-                  className="h-[350px] w-full object-cover rounded-lg"
-                />
+              <div>
+                <div
+                  className="w-full bg-white flex items-center justify-center overflow-hidden rounded-xl"
+                  style={{ boxShadow: "0 0 36px 0 rgba(151,126,68,0.22)" }}
+                >
+                  <img
+                    src={img}
+                    alt={label}
+                    className="h-[350px] w-full object-cover rounded-lg"
+                  />
+                </div>
+
+                <div className="mt-6 w-full">
+                  <h3 className="text-[#000000] text-xl sm:text-[22px] font-semibold mb-4">
+                    {title}
+                  </h3>
+
+                  <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg mx-auto">
+                    {para}
+                  </p>
+                </div>
               </div>
-
-              <div className="mt-6 w-full">
-                <h3 className="text-[#000000] text-xl sm:text-[22px] font-semibold mb-4">
-                  {title}
-                </h3>
-
-                <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg mx-auto">
-                  {para}
-                </p>
-              </div>
-
               <GoldButton
                 onClick={() => {
                   window.location.href = "/contact-us";
