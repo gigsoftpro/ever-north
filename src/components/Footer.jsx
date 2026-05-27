@@ -17,7 +17,7 @@ export default function Footer() {
       className="hidden xl:block absolute right-0 top-1/2 -translate-y-1/2 h-[75%] w-auto opacity-80 pointer-events-none"
     />
 
-    <div className="relative flex flex-col md:flex-row sm:flex-wrap xl:flex-nowrap gap-8 sm:gap-10 xl:gap-12 items-center md:items-start text-center md:text-left">
+    <div className="relative flex flex-col md:flex-row xl:flex-nowrap gap-8 sm:gap-10 xl:gap-12 items-center md:items-start text-center md:text-left">
       {/* Brand Column */}
       <div className="w-full md:w-[calc(50%-20px)] xl:flex-1 min-w-0 flex flex-col items-center md:items-start">
         <img
@@ -27,7 +27,7 @@ export default function Footer() {
             footerLogo
           }
           alt="Ever North"
-          className="h-16 sm:h-[81px] w-auto mb-6"
+          className="h-16 sm:h-[81px] w-auto mb-6 object-contain"
         />
         <p className="text-white text-sm sm:text-base leading-7">
           {FooterData?.description || content?.footer?.description}
@@ -47,7 +47,7 @@ export default function Footer() {
                 <li key={index}>
                   <a
                     href={link?.href}
-                    className="text-white text-sm sm:text-base leading-8 hover:text-[#b7a170] transition-colors"
+                    className="text-white text-sm sm:text-base leading-6 md:leading-8 hover:text-[#b7a170] transition-colors"
                   >
                     {link?.label}
                   </a>

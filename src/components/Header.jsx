@@ -6,6 +6,8 @@ import searchIcon from "../assets/images/search_2.png";
 import headerBg from "../assets/images/rectangle_188.jpg";
 import { useSiteData } from "./SiteDataContext";
 import { ChevronDown } from "lucide-react";
+import { BaseUrl } from "./Config/BaseUrl";
+
 
 // ─── Fallback nav (used if backend hasn't loaded yet) ───────────────────────
 const FALLBACK_NAV_LINKS = [

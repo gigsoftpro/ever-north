@@ -482,7 +482,7 @@ export default function ServicePage({ pageKey: propKey }) {
               style={{ background: GOLD_GRADIENT }}
             >
               {ctaText && (
-                <p className="text-2xl sm:text-3xl font-bold text-white mb-4 leading-snug">
+                <p className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-snug">
                   {ctaText}
                 </p>
               )}
