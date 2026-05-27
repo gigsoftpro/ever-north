@@ -187,9 +187,9 @@ export default function Hero() {
         />
         <div className="relative z-10 flex-1 flex flex-col items-center justify-start text-center px-4 py-16">
           <div className="space-y-4 w-full max-w-lg animate-pulse">
-            <div className="h-12 bg-white/20 rounded-lg mx-auto w-3/4" />
-            <div className="h-12 bg-white/20 rounded-lg mx-auto w-1/2" />
-            <div className="h-10 bg-white/20 rounded mx-auto w-32 mt-6" />
+            <div className="h-12 rounded-lg mx-auto w-3/4" />
+            <div className="h-12 rounded-lg mx-auto w-1/2" />
+            <div className="h-10 rounded mx-auto w-32 mt-6" />
           </div>
         </div>
       </section>
