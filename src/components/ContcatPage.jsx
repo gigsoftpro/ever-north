@@ -18,7 +18,7 @@ const STATUS = {
   ERROR: "error",
 };
 
-export default function ContactPage() {
+export default function ContactPage({ desc }) {
   const { siteData, loading: siteLoading } = useSiteData();
   const contact = siteData?.contact;
 
@@ -109,8 +109,8 @@ export default function ContactPage() {
                 <h2 className="text-4xl sm:text-5xl xl:text-5xl font-semibold leading-tight mb-6 whitespace-pre-line">
                   {heading}
                 </h2>
-                <p className="text-base sm:text-lg xl:text-xl font-semibold leading-8 max-w-[392px] opacity-90">
-                  {subheading}
+                <p className="text-base sm:text-lg xl:text-xl font-medium leading-8 max-w-[392px] opacity-90">
+                  {desc || subheading}
                 </p>
               </>
             )}

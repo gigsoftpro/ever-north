@@ -22,7 +22,7 @@ export default function ContactUs() {
   return (
     <div>
       {/* ── Hero Banner ──────────────────────────────────────────────────── */}
-      <section className="relative flex min-h-[520px] items-center overflow-hidden text-white">
+      {/* <section className="relative flex min-h-[520px] items-center overflow-hidden text-white">
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-500"
           style={{
@@ -48,12 +48,12 @@ export default function ContactUs() {
             </div>
           )}
         </div>
-      </section>
+      </section> */}
 
       {/* ── Contact Form Section ─────────────────────────────────────────── */}
-      <section className="bg-[#faf8f3] pt-20" id="contact-form">
+      <section className="bg-[#faf8f3]">
         <div className="mx-auto">
-          <div className="mb-12 text-center px-4">
+          {/* <div className="mb-12 text-center px-4">
             {loading ? (
               <div className="space-y-3 animate-pulse max-w-2xl mx-auto">
                 <div className="h-10 bg-slate-200 rounded w-1/2 mx-auto" />
@@ -70,11 +70,11 @@ export default function ContactUs() {
                 </p>
               </>
             )}
-          </div>
+          </div> */}
 
           {/* ContactPage handles the form + submission to /api/content/contact */}
 
-          <ContactPage />
+          <ContactPage desc={sectionDesc} />
         </div>
       </section>
     </div>
