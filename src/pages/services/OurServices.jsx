@@ -346,7 +346,7 @@ export default function OurServices() {
       <hr className="mx-auto h-[3px] w-full max-w-[1200px] border-0 bg-[#b8a070]" />
 
       {/* ── 3. Long-Term Property Management ────────────────────────────── */}
-      <section className="py-16 md:py-24 bg-gray-50/60 max-w-[1440px] mx-auto">
+      <section className="py-16 md:py-24 max-w-[1440px] mx-auto">
         <div className="mx-auto px-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
             {/* Image (left) */}

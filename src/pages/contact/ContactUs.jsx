@@ -26,7 +26,7 @@ export default function ContactUs() {
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-500"
           style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url(${bannerBg})`,
+            backgroundImage: `linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1)), url(${bannerBg})`,
           }}
         />
         <div className="absolute inset-0 bg-black/60" />

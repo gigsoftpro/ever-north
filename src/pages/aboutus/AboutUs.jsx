@@ -159,7 +159,7 @@ export default function AboutUs() {
 
       {/* ── 3. Why Choose ────────────────────────────────────────────────── */}
       <section className="py-14 md:py-[100px]">
-        <div className="mx-auto max-w-[1440px] px-5">
+        <div className="mx-auto max-w-[1440px] mx-auto py-4 md:py-12 px-4">
           <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-[60px]">
             <div>
               <img

@@ -19,7 +19,7 @@ import AboutUs from "./pages/aboutus/AboutUs";
 import ContactUs from "./pages/contact/ContactUs";
 import OurServices from "./pages/services/OurServices";
 import ServicePage from "./pages/services/ServicePage";
-import Management from "./pages/management/management";
+import Management from "./pages/management/Management";
 import AreaWeServe from "./pages/areaweserve/AreaWeServe";
 import NotFound from "./pages/NotFound";
 
