@@ -297,7 +297,7 @@ export default function OurServices() {
                   {[...Array(7)].map((_, i) => (
                     <Skel key={i} className="h-5 w-full rounded" />
                   ))}
-                  <Skel className="h-12 w-44 rounded-sm" />
+                  <Skel className="h-12 w-44 " />
                 </div>
               ) : (
                 <>
@@ -324,7 +324,7 @@ export default function OurServices() {
                   </div>
                   <a
                     href={shortCtaHref}
-                    className="inline-block text-white py-3.5 px-9 rounded-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+                    className="inline-block text-white py-3.5 px-9  font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
                     style={GOLD_BTN}
                   >
                     {shortCtaText}
@@ -370,7 +370,7 @@ export default function OurServices() {
                   {[...Array(7)].map((_, i) => (
                     <Skel key={i} className="h-5 w-full rounded" />
                   ))}
-                  <Skel className="h-12 w-44 rounded-sm" />
+                  <Skel className="h-12 w-44 " />
                 </div>
               ) : (
                 <>
@@ -397,7 +397,7 @@ export default function OurServices() {
                   </div>
                   <a
                     href={longCtaHref}
-                    className="inline-block text-white py-3.5 px-9 rounded-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+                    className="inline-block text-white py-3.5 px-9  font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
                     style={GOLD_BTN}
                   >
                     {longCtaText}
@@ -427,7 +427,7 @@ export default function OurServices() {
                   {[...Array(7)].map((_, i) => (
                     <Skel key={i} className="h-5 w-full rounded" />
                   ))}
-                  <Skel className="h-12 w-44 rounded-sm" />
+                  <Skel className="h-12 w-44 " />
                 </div>
               ) : (
                 <>
@@ -454,7 +454,7 @@ export default function OurServices() {
                   </div>
                   <a
                     href={airbnbCtaHref}
-                    className="inline-block text-white py-3.5 px-9 rounded-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+                    className="inline-block text-white py-3.5 px-9  font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
                     style={GOLD_BTN}
                   >
                     {airbnbCtaText}

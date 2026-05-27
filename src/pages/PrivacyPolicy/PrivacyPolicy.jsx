@@ -9,10 +9,11 @@ const SECTIONS = [
     title: "Information We Collect",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-4">
+        <p className="text-slate-600 leading-relaxed pb-2">
           We may collect information that you voluntarily provide, including:
         </p>
-        <ul className="space-y-2 mb-6">
+
+        <ul className="space-y-2 mb-2 ml-4">
           {[
             "Full name",
             "Email address",
@@ -31,11 +32,13 @@ const SECTIONS = [
             </li>
           ))}
         </ul>
-        <p className="text-slate-600 leading-relaxed mb-4">
+
+        <p className="text-slate-600 leading-relaxed pb-2 mt-4">
           We may also collect limited technical information automatically,
           including:
         </p>
-        <ul className="space-y-2">
+
+        <ul className="space-y-2 ml-4">
           {[
             "IP address",
             "Browser type",
@@ -55,15 +58,17 @@ const SECTIONS = [
       </>
     ),
   },
+
   {
     id: "how-we-use",
     title: "How We Use Your Information",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-4">
+        <p className="text-slate-600 leading-relaxed pb-2">
           We use the collected information to:
         </p>
-        <ul className="space-y-2 mb-5">
+
+        <ul className="space-y-2 mb-5 ml-4">
           {[
             "Respond to inquiries and requests",
             "Provide property management services",
@@ -81,26 +86,30 @@ const SECTIONS = [
             </li>
           ))}
         </ul>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           We only collect information necessary to support our business
           operations.
         </p>
       </>
     ),
   },
+
   {
     id: "cookies",
     title: "Cookies and Tracking Technologies",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-4">
+        <p className="text-slate-600 leading-relaxed pb-2">
           Our website may use cookies and similar technologies to improve
           functionality and understand website usage.
         </p>
-        <p className="text-slate-600 leading-relaxed mb-4">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           Cookies may help us:
         </p>
-        <ul className="space-y-2 mb-5">
+
+        <ul className="space-y-2 mb-5 ml-4">
           {[
             "Analyze website traffic",
             "Improve site performance",
@@ -115,24 +124,28 @@ const SECTIONS = [
             </li>
           ))}
         </ul>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           Users can adjust browser settings to disable cookies if preferred.
         </p>
       </>
     ),
   },
+
   {
     id: "information-sharing",
     title: "Information Sharing",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-4">
+        <p className="text-slate-600 leading-relaxed pb-2">
           EverNorth does not sell or rent personal information.
         </p>
-        <p className="text-slate-600 leading-relaxed mb-4">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           We may share information only when necessary with:
         </p>
-        <ul className="space-y-2 mb-5">
+
+        <ul className="space-y-2 mb-5 ml-4">
           {[
             "Service providers supporting our operations",
             "Contractors involved in service delivery",
@@ -147,66 +160,74 @@ const SECTIONS = [
             </li>
           ))}
         </ul>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           Any third-party support providers are expected to handle information
           responsibly.
         </p>
       </>
     ),
   },
+
   {
     id: "data-protection",
     title: "Data Protection",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-4">
+        <p className="text-slate-600 leading-relaxed pb-2">
           We take reasonable administrative and technical measures to protect
           personal information from unauthorized access, disclosure, or misuse.
         </p>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           However, no internet transmission or storage system can be guaranteed
           as completely secure.
         </p>
       </>
     ),
   },
+
   {
     id: "third-party-links",
     title: "Third-Party Links",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-4">
+        <p className="text-slate-600 leading-relaxed pb-2">
           Our website may contain links to external websites. EverNorth is not
           responsible for the content, security, or privacy practices of
           external websites.
         </p>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           Users should review external privacy policies separately.
         </p>
       </>
     ),
   },
+
   {
     id: "data-retention",
     title: "Data Retention",
     content: (
-      <p className="text-slate-600 leading-relaxed">
+      <p className="text-slate-600 leading-relaxed pb-2">
         We retain information only as long as necessary for business,
         operational, and legal purposes. When information is no longer required,
         we take reasonable steps to securely remove or delete it.
       </p>
     ),
   },
+
   {
     id: "your-rights",
     title: "Your Rights",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-4">
+        <p className="text-slate-600 leading-relaxed pb-2">
           Depending on applicable Canadian privacy laws, you may have the right
           to:
         </p>
-        <ul className="space-y-2 mb-5">
+
+        <ul className="space-y-2 mb-5 ml-4">
           {[
             "Request access to your personal information",
             "Request corrections to inaccurate information",
@@ -222,17 +243,19 @@ const SECTIONS = [
             </li>
           ))}
         </ul>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           Requests may be submitted through our contact information.
         </p>
       </>
     ),
   },
+
   {
     id: "policy-updates",
     title: "Policy Updates",
     content: (
-      <p className="text-slate-600 leading-relaxed">
+      <p className="text-slate-600 leading-relaxed pb-2">
         EverNorth may update this Privacy Policy periodically. Updates will
         become effective upon publication on this website.
       </p>
@@ -253,7 +276,6 @@ export default function PrivacyPolicy() {
           background: `linear-gradient(135deg, #1a1a1a 0%, #2d2416 50%, #1a1a1a 100%)`,
         }}
       >
-
         <div className="relative z-10 w-full max-w-[1440px] mx-auto px-5 pb-12">
           {/* Breadcrumb */}
           <div
@@ -321,13 +343,11 @@ export default function PrivacyPolicy() {
       <section className="bg-white py-14">
         <div className="max-w-[1440px] mx-auto px-5">
           {/* Sections */}
-          <div className="space-y-10">
+          <div className="space-y-5">
             {SECTIONS.map((section, index) => (
               <div key={section.id} id={section.id} className="scroll-mt-24">
                 {/* Section divider */}
-                {index > 0 && (
-                  <div className="h-px w-full bg-slate-100 mb-10" />
-                )}
+                {index > 0 && <div className="h-px w-full bg-slate-100 mb-6" />}
 
                 {/* Heading */}
                 <div className="flex items-start gap-3 mb-5">
@@ -343,7 +363,7 @@ export default function PrivacyPolicy() {
                 </div>
 
                 {/* Content */}
-                <div className="pl-10">{section.content}</div>
+                <div>{section.content}</div>
               </div>
             ))}
           </div>

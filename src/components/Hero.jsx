@@ -245,8 +245,8 @@ export default function Hero() {
         }}
       >
         {slides.map((slide, i) => {
-          const bgImg = slide.bg_image?.url || heroBg;
-          const ovImg = slide.overlay_image?.url || heroOverlay;
+          const bgImg = slide.bg_image?.url;
+          const ovImg = slide.overlay_image?.url;
           const titleLines = splitTitle(slide.title);
 
           return (

@@ -193,7 +193,7 @@ export default function ContactForm() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="mb-1 font-semibold text-white text-sm tracking-widest uppercase px-8 py-3.5 hover:opacity-90 transition-opacity rounded-sm mt-4 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="mb-1 font-semibold text-white text-sm tracking-widest uppercase px-8 py-3.5 hover:opacity-90 transition-opacity  mt-4 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 style={{
                   background: "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)",
                 }}

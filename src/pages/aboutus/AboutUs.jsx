@@ -132,7 +132,7 @@ export default function AboutUs() {
             <div className="text-center space-y-4 animate-pulse max-w-3xl mx-auto">
               <Skel className="h-14 w-3/4 mx-auto" />
               <Skel className="h-6 w-2/3 mx-auto" />
-              <Skel className="h-10 w-32 mx-auto rounded-sm" />
+              <Skel className="h-10 w-32 mx-auto " />
             </div>
           ) : (
             <div className="text-center">

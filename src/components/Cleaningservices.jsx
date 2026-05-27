@@ -144,7 +144,7 @@ export default function CleaningServices() {
                 onClick={() => {
                   window.location.href = "/contact-us";
                 }}
-                className="mt-5 rounded"
+                className="mt-5"
               >
                 Contact Us
               </GoldButton>

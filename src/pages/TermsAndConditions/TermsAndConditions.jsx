@@ -9,14 +9,16 @@ const SECTIONS = [
     title: "Website Use",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-4">
+        <p className="text-slate-600 leading-relaxed pb-2">
           This website is intended to provide information about our property
           management services.
         </p>
-        <p className="text-slate-600 leading-relaxed mb-4">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           Users agree not to:
         </p>
-        <ul className="space-y-2 mb-5">
+
+        <ul className="space-y-2 mb-5 ml-4">
           {[
             "Use the website unlawfully",
             "Attempt unauthorized access",
@@ -32,70 +34,80 @@ const SECTIONS = [
             </li>
           ))}
         </ul>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           We reserve the right to restrict access if misuse occurs.
         </p>
       </>
     ),
   },
+
   {
     id: "service-information",
     title: "Service Information",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-3">
+        <p className="text-slate-600 leading-relaxed pb-2">
           Information presented on this website is provided for general
           informational purposes.
         </p>
-        <p className="text-slate-600 leading-relaxed mb-3">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           Service availability, scope, and pricing may change without notice.
         </p>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           Submitting an inquiry does not create a contractual relationship.
         </p>
       </>
     ),
   },
+
   {
     id: "property-management-services",
     title: "Property Management Services",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-3">
+        <p className="text-slate-600 leading-relaxed pb-2">
           Specific services provided by EverNorth are governed by separate
           agreements between EverNorth and the client.
         </p>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           Service details, responsibilities, timelines, and fees will be
           outlined within those agreements.
         </p>
       </>
     ),
   },
+
   {
     id: "accuracy",
     title: "Accuracy of Information",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-3">
+        <p className="text-slate-600 leading-relaxed pb-2">
           We aim to keep website content accurate and updated; however, we do
           not guarantee completeness or uninterrupted availability.
         </p>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           Users should confirm details directly with our team.
         </p>
       </>
     ),
   },
+
   {
     id: "intellectual-property",
     title: "Intellectual Property",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-4">
+        <p className="text-slate-600 leading-relaxed pb-2">
           All website content, including:
         </p>
-        <ul className="space-y-2 mb-5">
+
+        <ul className="space-y-2 mb-5 ml-4">
           {[
             "Text",
             "Branding",
@@ -113,37 +125,42 @@ const SECTIONS = [
             </li>
           ))}
         </ul>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           is owned or licensed by EverNorth and may not be copied, reproduced,
           or distributed without written permission.
         </p>
       </>
     ),
   },
+
   {
     id: "third-party",
     title: "Third-Party Services and Links",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-3">
+        <p className="text-slate-600 leading-relaxed pb-2">
           Our website may reference third-party platforms or websites.
         </p>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           EverNorth is not responsible for external content, policies, or
           availability.
         </p>
       </>
     ),
   },
+
   {
     id: "limitation-of-liability",
     title: "Limitation of Liability",
     content: (
       <>
-        <p className="text-slate-600 leading-relaxed mb-4">
+        <p className="text-slate-600 leading-relaxed pb-2">
           EverNorth will not be liable for:
         </p>
-        <ul className="space-y-2 mb-5">
+
+        <ul className="space-y-2 mb-5 ml-4">
           {[
             "Website interruptions",
             "Technical issues",
@@ -159,38 +176,42 @@ const SECTIONS = [
             </li>
           ))}
         </ul>
-        <p className="text-slate-600 leading-relaxed">
+
+        <p className="text-slate-600 leading-relaxed pb-2">
           Use of this website is at your own discretion.
         </p>
       </>
     ),
   },
+
   {
     id: "indemnification",
     title: "Indemnification",
     content: (
-      <p className="text-slate-600 leading-relaxed">
+      <p className="text-slate-600 leading-relaxed pb-2">
         Users agree to indemnify and hold EverNorth harmless against claims,
         liabilities, damages, or expenses arising from misuse of the website or
         violation of these Terms.
       </p>
     ),
   },
+
   {
     id: "governing-law",
     title: "Governing Law",
     content: (
-      <p className="text-slate-600 leading-relaxed">
+      <p className="text-slate-600 leading-relaxed pb-2">
         These Terms &amp; Conditions shall be governed by applicable laws of
         Canada and the Province where services are provided.
       </p>
     ),
   },
+
   {
     id: "changes",
     title: "Changes to Terms",
     content: (
-      <p className="text-slate-600 leading-relaxed">
+      <p className="text-slate-600 leading-relaxed pb-2">
         EverNorth reserves the right to modify these Terms at any time.
         Continued use of the website indicates acceptance of updated terms.
       </p>
@@ -212,7 +233,6 @@ export default function TermsAndConditions() {
             "linear-gradient(135deg, #1a1a1a 0%, #2d2416 50%, #1a1a1a 100%)",
         }}
       >
-
         <div className="relative z-10 w-full max-w-[1440px] mx-auto px-5 pb-12">
           {/* Breadcrumb */}
           <div
@@ -274,16 +294,16 @@ export default function TermsAndConditions() {
       <section className="bg-white py-14">
         <div className="max-w-[1440px] mx-auto px-5">
           {/* Sections */}
-          <div className="space-y-10">
+          <div className="space-y-5">
             {SECTIONS.map((section, index) => (
               <div key={section.id} id={section.id} className="scroll-mt-24">
                 {/* Divider */}
                 {index > 0 && (
-                  <div className="h-px w-full bg-slate-100 mb-10" />
+                  <div className="h-px w-full bg-slate-100 mb-4" />
                 )}
 
                 {/* Heading */}
-                <div className="flex items-start gap-3 mb-5">
+                <div className="flex items-start gap-3 mb-4">
                   {/* <div
                     className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold text-white"
                     style={{ background: GOLD_GRADIENT }}
@@ -296,7 +316,7 @@ export default function TermsAndConditions() {
                 </div>
 
                 {/* Content */}
-                <div className="pl-10">{section.content}</div>
+                <div className="">{section.content}</div>
               </div>
             ))}
           </div>

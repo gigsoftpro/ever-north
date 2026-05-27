@@ -65,3 +65,8 @@
 #displaynoscrollbar::-webkit-scrollbar {
   display: none !important;
 }
+
+
+a,button{
+  cursor: pointer;
+}
