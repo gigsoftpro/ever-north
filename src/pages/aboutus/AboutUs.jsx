@@ -144,7 +144,7 @@ export default function AboutUs() {
               </p>
               <a
                 href={bannerCtaHref}
-                className="inline-block rounded-[2px] bg-gradient-to-t from-[#8f7334] to-[#b7a170] px-[35px] py-[10px] text-lg font-medium text-white transition duration-300 hover:-translate-y-0.5"
+                className="inline-block bg-gradient-to-t from-[#8f7334] to-[#b7a170] px-[35px] py-[10px] text-lg font-medium text-white transition duration-300 hover:-translate-y-0.5"
               >
                 {bannerCtaText}
               </a>
@@ -333,13 +333,13 @@ export default function AboutUs() {
               <div className="flex flex-col items-center justify-center gap-5 sm:flex-row">
                 <a
                   href={ctaBtn1Href}
-                  className="rounded-[3px] bg-gradient-to-t from-[#8f7334] to-[#b7a170] px-[35px] py-3 font-semibold text-white transition duration-300 hover:-translate-y-0.5"
+                  className="bg-gradient-to-t from-[#8f7334] to-[#b7a170] px-[35px] py-3 font-semibold text-white transition duration-300 hover:-translate-y-0.5"
                 >
                   {ctaBtn1Text}
                 </a>
                 <a
                   href={ctaBtn2Href}
-                  className="rounded-[3px] bg-black px-[35px] py-3 font-semibold text-white transition duration-300 hover:-translate-y-0.5"
+                  className="bg-black px-[35px] py-3 font-semibold text-white transition duration-300 hover:-translate-y-0.5"
                 >
                   {ctaBtn2Text}
                 </a>

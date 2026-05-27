@@ -335,7 +335,7 @@ export default function TermsAndConditions() {
             <div className="inline-flex flex-col sm:flex-row gap-3 items-center">
               <Link
                 to="/contact-us"
-                className="bg-white px-7 py-3 rounded-lg font-semibold transition-colors hover:bg-gray-100 shadow text-sm"
+                className="bg-white px-7 py-3 font-semibold transition-colors hover:bg-gray-100 shadow text-sm"
                 style={{ color: "rgb(143,115,52)" }}
               >
                 Contact EverNorth

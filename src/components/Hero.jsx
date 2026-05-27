@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import heroBg from "../assets/images/rectangle_9_copy.jpg";
-import heroOverlay from "../assets/images/rectangle_189.png";
+// import heroBg from "../assets/images/rectangle_9_copy.jpg";
+// import heroOverlay from "../assets/images/rectangle_189.png";
 import { useSiteData } from "./SiteDataContext";
 
 const SLIDE_INTERVAL = 5000;
@@ -174,7 +174,6 @@ export default function Hero() {
       <section
         className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[500px] flex flex-col"
         style={{
-          backgroundImage: `url(${heroBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -182,7 +181,6 @@ export default function Hero() {
         <div
           className="absolute inset-0 w-full h-full"
           style={{
-            backgroundImage: `url(${heroOverlay})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -204,7 +202,6 @@ export default function Hero() {
       <section
         className="relative w-full min-h-[30vh] sm:min-h-[70vh] lg:min-h-[808px] flex flex-col"
         style={{
-          backgroundImage: `url(${heroBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -212,7 +209,6 @@ export default function Hero() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `url(${heroOverlay})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}

@@ -9,8 +9,8 @@ export default function Footer() {
   const FooterData = siteData?.footer;
 
   return (
-    <footer className="bg-[#2c2c2c] text-white">
-  <div className="max-w-[1440px] mx-auto pt-14 pb-6 relative px-4">
+    <footer className="bg-[#2c2c2c] relative text-white">
+  <div className="max-w-[1440px] mx-auto pt-14 pb-6 px-4">
     <img
       src={footerBuilding}
       alt="building"

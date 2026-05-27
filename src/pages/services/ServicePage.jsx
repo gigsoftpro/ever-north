@@ -86,7 +86,7 @@ const PAGE_DEFAULTS = {
     ctaText:
       "We believe strong property management creates stronger investment performance over time.",
     ctaBtnText: "Get Started Today",
-    ctaBtnHref: "#contact",
+    ctaBtnHref: "/contact",
   },
   short_term: {
     heroTitle: "Short-Term Property Management",
@@ -104,7 +104,7 @@ const PAGE_DEFAULTS = {
     ctaText:
       "We understand what modern guests expect and what property owners need to operate successfully.",
     ctaBtnText: "Book a Consultation",
-    ctaBtnHref: "#contact",
+    ctaBtnHref: "/contact",
   },
   hybrid: {
     heroTitle: "Hybrid Property Management",
@@ -121,7 +121,7 @@ const PAGE_DEFAULTS = {
     ctaText:
       "We focus on creating smooth operations that support both guest satisfaction and long-term investment success.",
     ctaBtnText: "Get Started Today",
-    ctaBtnHref: "#contact",
+    ctaBtnHref: "/contact",
   },
 };
 
@@ -489,7 +489,7 @@ export default function ServicePage({ pageKey: propKey }) {
               {ctaBtnText && (
                 <a
                   href={ctaBtnHref}
-                  className="inline-block mt-6 bg-white px-8 py-4 rounded-lg font-semibold
+                  className="inline-block mt-6 bg-white px-8 py-4 font-semibold
                     hover:bg-gray-100 transition-colors shadow-lg"
                   style={{ color: "rgb(143,115,52)" }}
                 >
