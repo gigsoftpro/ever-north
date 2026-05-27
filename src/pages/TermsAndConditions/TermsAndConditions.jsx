@@ -322,7 +322,7 @@ export default function TermsAndConditions() {
           </div>
 
           {/* ── Contact block ───────────────────────────────────────────── */}
-          <div className="mt-14 h-px w-full bg-slate-100" />
+          <div className="mt-8 h-px w-full bg-slate-100" />
           <div
             className="mt-10 rounded-2xl p-8 text-center"
             style={{ background: GOLD_GRADIENT }}
