@@ -221,11 +221,12 @@ export default function ServicePage({ pageKey: propKey }) {
     <>
       {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
       <section
-        className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 min-h-[500px] md:min-h-[650px] flex items-center"
+        className="flex items-center text-white py-24 px-5 min-h-[520px] bg-cover"
         style={{
-          background: `linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${heroImg})`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(${heroImg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       >
         <div className="max-w-[1440px] mx-auto w-full text-center justify-center pb-4">

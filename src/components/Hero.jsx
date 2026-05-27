@@ -12,50 +12,163 @@ function splitTitle(title) {
   return [words.slice(0, mid).join(" "), words.slice(mid).join(" ")];
 }
 
+// ── Arrow icons ───────────────────────────────────────────────────────────────
+function ChevronLeft() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="w-6 h-6"
+    >
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  );
+}
+function ChevronRight() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="w-6 h-6"
+    >
+      <polyline points="9 18 15 12 9 6" />
+    </svg>
+  );
+}
+
 export default function Hero() {
   const { siteData, loading } = useSiteData();
   const [current, setCurrent] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
   const timerRef = useRef(null);
+  const trackRef = useRef(null); // the sliding div
 
-  // siteData.hero is now an array of slides
+  // Touch / mouse drag state
+  const dragStart = useRef(null); // { x, y, time }
+  const isDragging = useRef(false);
+
   const slides = siteData?.hero ?? [];
   const count = slides.length;
 
+  // ── Navigate to a specific slide ──────────────────────────────────────────
   const goTo = useCallback(
     (idx) => {
-      if (idx === current || transitioning) return;
+      if (transitioning) return;
+      const safeIdx = (idx + count) % count;
       setTransitioning(true);
-      setCurrent(idx);
+      setCurrent(safeIdx);
       setTimeout(() => setTransitioning(false), 700);
     },
-    [current, transitioning],
+    [count, transitioning],
   );
 
-  const advance = useCallback(() => {
-    setCurrent((prev) => {
-      const next = (prev + 1) % count;
-      return next;
-    });
+  const prev = useCallback(() => goTo(current - 1), [current, goTo]);
+  const next = useCallback(() => goTo(current + 1), [current, goTo]);
+
+  // ── Auto-advance ──────────────────────────────────────────────────────────
+  const resetTimer = useCallback(() => {
+    clearInterval(timerRef.current);
+    if (count > 1) {
+      timerRef.current = setInterval(() => {
+        setCurrent((p) => (p + 1) % count);
+      }, SLIDE_INTERVAL);
+    }
   }, [count]);
 
-  // Auto-advance
   useEffect(() => {
-    if (count <= 1) return;
-    timerRef.current = setInterval(advance, SLIDE_INTERVAL);
+    resetTimer();
     return () => clearInterval(timerRef.current);
-  }, [count, advance]);
+  }, [resetTimer]);
 
-  // Reset timer when user clicks a dot
+  // ── Dot click ─────────────────────────────────────────────────────────────
   const handleDot = (idx) => {
-    clearInterval(timerRef.current);
     goTo(idx);
-    if (count > 1) {
-      timerRef.current = setInterval(advance, SLIDE_INTERVAL);
-    }
+    resetTimer();
   };
 
-  // ── Loading skeleton ───────────────────────────────────────────────────────
+  // ── Arrow click ───────────────────────────────────────────────────────────
+  const handlePrev = () => {
+    prev();
+    resetTimer();
+  };
+  const handleNext = () => {
+    next();
+    resetTimer();
+  };
+
+  // ── Touch events ─────────────────────────────────────────────────────────
+  const onTouchStart = (e) => {
+    const t = e.touches[0];
+    dragStart.current = { x: t.clientX, y: t.clientY, time: Date.now() };
+    isDragging.current = true;
+  };
+  const onTouchEnd = (e) => {
+    if (!isDragging.current || !dragStart.current) return;
+    isDragging.current = false;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - dragStart.current.x;
+    const dy = Math.abs(t.clientY - dragStart.current.y);
+    const dt = Date.now() - dragStart.current.time;
+    // Swipe: horizontal movement > 40px, faster than 500ms, more horizontal than vertical
+    if (Math.abs(dx) > 40 && dy < 80 && dt < 500) {
+      dx < 0 ? handleNext() : handlePrev();
+    }
+    dragStart.current = null;
+  };
+
+  // ── Mouse drag ────────────────────────────────────────────────────────────
+  const onMouseDown = (e) => {
+    dragStart.current = { x: e.clientX, y: e.clientY, time: Date.now() };
+    isDragging.current = true;
+  };
+  const onMouseUp = (e) => {
+    if (!isDragging.current || !dragStart.current) return;
+    isDragging.current = false;
+    const dx = e.clientX - dragStart.current.x;
+    const dt = Date.now() - dragStart.current.time;
+    if (Math.abs(dx) > 50 && dt < 500) {
+      dx < 0 ? handleNext() : handlePrev();
+    }
+    dragStart.current = null;
+  };
+  const onMouseLeave = () => {
+    isDragging.current = false;
+    dragStart.current = null;
+  };
+
+  // ── Wheel scroll (horizontal or vertical) ────────────────────────────────
+  const wheelLock = useRef(false);
+  const onWheel = (e) => {
+    if (wheelLock.current) return;
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (Math.abs(delta) < 30) return;
+    wheelLock.current = true;
+    delta > 0 ? handleNext() : handlePrev();
+    setTimeout(() => {
+      wheelLock.current = false;
+    }, 900); // debounce one slide at a time
+  };
+
+  // ── Keyboard ─────────────────────────────────────────────────────────────
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") handleNext();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [current, transitioning]); // eslint-disable-line
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Loading skeleton
   if (loading) {
     return (
       <section
@@ -85,7 +198,7 @@ export default function Hero() {
     );
   }
 
-  // ── No slides fallback ─────────────────────────────────────────────────────
+  // No slides fallback
   if (count === 0) {
     return (
       <section
@@ -111,11 +224,20 @@ export default function Hero() {
     );
   }
 
-  // ── Carousel ───────────────────────────────────────────────────────────────
+  // ── Carousel ──────────────────────────────────────────────────────────────
   return (
-    <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[600px] overflow-hidden">
-      {/* Slide track */}
+    <section
+      className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[600px] overflow-hidden select-none"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onMouseLeave={onMouseLeave}
+      onWheel={onWheel}
+    >
+      {/* ── Slide track ────────────────────────────────────────────────────── */}
       <div
+        ref={trackRef}
         className="flex h-full w-full transition-transform duration-700 ease-in-out"
         style={{
           transform: `translateX(-${current * 100}%)`,
@@ -138,14 +260,11 @@ export default function Hero() {
               }}
               aria-hidden={i !== current}
             >
-              {/* Overlay image */}
+              {/* Overlay */}
               <div
                 className="absolute inset-0 w-full h-full"
                 style={{
-                  backgroundImage: `
-                    linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)),
-                    url(${ovImg})
-                  `,
+                  backgroundImage: `linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)), url(${ovImg})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -153,38 +272,57 @@ export default function Hero() {
 
               {/* Content */}
               <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 py-16 sm:py-20 lg:py-28">
-                {/* <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-normal leading-tight drop-shadow-md mb-24"> */}
-                  {/* {titleLines.map((line, li) => (
-                    <span key={li}>
-                      {line}
-                      {li < titleLines.length - 1 && <br />}
-                    </span>
-                  ))} */}
-                  {/* {slide.highlighted_word && (
-                    <span className="text-[#fff] italic font-bold">
-                      {" "}
-                      {slide.highlighted_word}
-                    </span>
-                  )} */}
-                {/* </h1> */}
-
-                {/* {slide.cta_text && (
-                  <button
-                    className="font-semibold text-white px-8 py-3  hover:opacity-90 transition-opacity"
-                    style={{
-                      background:
-                        "linear-gradient(0deg, #8f7334 0%, #b7a170 100%)",
-                    }}
-                  >
-                    {slide.cta_text}
-                  </button>
-                )} */}
+                {/* Uncomment title / CTA when ready */}
               </div>
             </div>
           );
         })}
       </div>
 
+      {/* ── Prev / Next arrow buttons ───────────────────────────────────────── */}
+      {count > 1 && (
+        <>
+          <button
+            onClick={handlePrev}
+            aria-label="Previous slide"
+            className="
+              absolute left-4 top-1/2 -translate-y-1/2 z-20
+              w-11 h-11 rounded-full
+              flex items-center justify-center
+              bg-black/40 hover:bg-black/60
+              text-white
+              backdrop-blur-sm
+              border border-white/20
+              transition-all duration-200
+              hover:scale-110
+              focus:outline-none focus:ring-2 focus:ring-white/50
+            "
+          >
+            <ChevronLeft />
+          </button>
+
+          <button
+            onClick={handleNext}
+            aria-label="Next slide"
+            className="
+              absolute right-4 top-1/2 -translate-y-1/2 z-20
+              w-11 h-11 rounded-full
+              flex items-center justify-center
+              bg-black/40 hover:bg-black/60
+              text-white
+              backdrop-blur-sm
+              border border-white/20
+              transition-all duration-200
+              hover:scale-110
+              focus:outline-none focus:ring-2 focus:ring-white/50
+            "
+          >
+            <ChevronRight />
+          </button>
+        </>
+      )}
+
+      {/* ── Dot indicators ──────────────────────────────────────────────────── */}
       {count > 1 && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
           {slides.map((_, i) => (
@@ -192,9 +330,12 @@ export default function Hero() {
               key={i}
               onClick={() => handleDot(i)}
               aria-label={`Go to slide ${i + 1}`}
-              className="w-4 h-4 rounded-full border-2 border-white transition-all duration-300 focus:outline-none"
+              className="rounded-full border-2 border-white transition-all duration-300 focus:outline-none"
               style={{
-                backgroundColor: i === current ? "#b7a170" : "rgba(0,0,0,0.75)",
+                width: i === current ? "28px" : "14px",
+                height: "14px",
+                backgroundColor: i === current ? "#b7a170" : "rgba(0,0,0,0.6)",
+                borderRadius: i === current ? "7px" : "50%",
               }}
             />
           ))}

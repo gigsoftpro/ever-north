@@ -247,11 +247,12 @@ export default function OurServices() {
     <>
       {/* ── 1. Intro Hero ───────────────────────────────────────────────── */}
       <section
-        className="flex items-center text-white py-24 px-5 min-h-[520px]"
+        className="flex items-center text-white py-24 px-5 min-h-[520px] bg-no-repeat"
         style={{
           background: `linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(${introImg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          backgroundRepeat:'no-repeat',
         }}
       >
         <div className="w-full max-w-[1440px] mx-auto px-5">

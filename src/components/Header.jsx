@@ -162,9 +162,9 @@ export default function Header() {
             />
           </a>
 
-          <div className="ml-auto flex min-w-0 flex-1 flex-col items-end gap-2 mt-2">
+          <div className="ml-auto flex min-w-0 flex-1 flex-col items-end gap-2 mt-0 lg:mt-2">
             {/* ── Contact info row (desktop) ── */}
-            <div className="hidden w-full items-center justify-end gap-5 min-[1180px]:flex xl:gap-7">
+            <div className="hidden lg:flex w-full items-center justify-end gap-5 min-[1180px]:flex xl:gap-7">
               <div className="flex items-center gap-3">
                 <img
                   src={phoneIcon}
