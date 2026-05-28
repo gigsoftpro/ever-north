@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import contactBgFallback from "../assets/images/rectangle_30_copy_2.jpg";
+import contactBgFallback from "../assets/images/rectangle_30_copy_2.jpg";
 import { BaseUrl } from "./Config/BaseUrl";
 import { useSiteData } from "./SiteDataContext";
 
@@ -27,7 +27,7 @@ export default function ContactPage({ desc }) {
   const [errMsg, setErrMsg] = useState("");
 
   // ── Dynamic content with fallbacks ────────────────────────────────────────
-  const bgImage = contact?.bg_image?.url;
+  const bgImage = contact?.bg_image?.url || contactBgFallback;
   const heading = contact?.heading || "Want more information?";
   const subheading =
     contact?.subheading ||
