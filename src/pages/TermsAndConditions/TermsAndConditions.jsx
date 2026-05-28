@@ -299,7 +299,7 @@ export default function TermsAndConditions() {
               <div key={section.id} id={section.id} className="scroll-mt-24">
                 {/* Divider */}
                 {index > 0 && (
-                  <div className="h-px w-full bg-slate-100 mb-4" />
+                  <div className="h-px w-full bg-slate-100 mb-6" />
                 )}
 
                 {/* Heading */}

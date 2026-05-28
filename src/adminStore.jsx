@@ -24,9 +24,8 @@ export function AppProvider({ children }) {
   const [content, setContent] = useState(defaultContent);
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true); // hydrating session
+  const [authLoading, setAuthLoading] = useState(true);
 
-  /* ── Hydrate session on mount ──────────────────────────────────────────── */
   useEffect(() => {
     const savedContent = localStorage.getItem(STORAGE_KEYS.content);
     if (savedContent) {
@@ -43,7 +42,6 @@ export function AppProvider({ children }) {
       return;
     }
 
-    // Validate token with server
     apiMe()
       .then(({ admin }) => {
         setUser(admin);
@@ -55,7 +53,6 @@ export function AppProvider({ children }) {
       .finally(() => setAuthLoading(false));
   }, []);
 
-  /* ── Content ───────────────────────────────────────────────────────────── */
   const persistContent = useCallback((next) => {
     setContent(next);
     localStorage.setItem(STORAGE_KEYS.content, JSON.stringify(next));
@@ -66,12 +63,6 @@ export function AppProvider({ children }) {
     [persistContent],
   );
 
-  /* ── Auth ──────────────────────────────────────────────────────────────── */
-
-  /**
-   * login(identifier, password, rememberMe)
-   * Returns { success, message }
-   */
   const login = useCallback(
     async (identifier, password, rememberMe = false) => {
       try {
@@ -95,10 +86,6 @@ export function AppProvider({ children }) {
     setIsLoggedIn(false);
   }, []);
 
-  /**
-   * changePassword(currentPassword, newPassword)
-   * Returns { success, message }
-   */
   const changePassword = useCallback(async (currentPassword, newPassword) => {
     try {
       await apiChangePassword(currentPassword, newPassword);
@@ -111,9 +98,6 @@ export function AppProvider({ children }) {
     }
   }, []);
 
-  /**
-   * Refresh user from server (useful after profile edits)
-   */
   const refreshUser = useCallback(async () => {
     try {
       const { admin } = await apiMe();
@@ -123,14 +107,11 @@ export function AppProvider({ children }) {
     }
   }, [logout]);
 
-  /* ── Context value ─────────────────────────────────────────────────────── */
   const value = useMemo(
     () => ({
-      // content
       content,
       persistContent,
       resetContent,
-      // auth
       user,
       isLoggedIn,
       authLoading,

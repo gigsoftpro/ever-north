@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import areaBg from "../assets/images/vector_smart_object_copy.png";
+// import areaBg from "../assets/images/vector_smart_object_copy.png";
 import saubleBeach from "../assets/images/rectangle_178.png";
 import left from "../assets/images/left.png";
 import right from "../assets/images/right.png";
@@ -126,7 +126,7 @@ export default function AreasWeCover() {
     <section
       className="w-full bg-[#303030] pb-16 sm:pb-20 lg:pb-28 py-20 overflow-hidden"
       style={{
-        backgroundImage: `url(${areaBg})`,
+        // backgroundImage: `url(${areaBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

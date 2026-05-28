@@ -350,7 +350,7 @@ export default function PrivacyPolicy() {
                 {index > 0 && <div className="h-px w-full bg-slate-100 mb-6" />}
 
                 {/* Heading */}
-                <div className="flex items-start gap-3 mb-5">
+                <div className="flex items-start gap-3 mb-4">
                   {/* <div
                     className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold text-white"
                     style={{ background: GOLD_GRADIENT }}

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -41,6 +42,15 @@ function PublicLayout() {
   );
 }
 
+// Scroll to top whenever the route changes (clean landing after search nav).
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [pathname]);
+  return null;
+}
+
 // ── Loading spinner ───────────────────────────────────────────────────────────
 function SessionLoader() {
   return (
@@ -78,6 +88,7 @@ function GuestRoute() {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
@@ -88,7 +99,10 @@ export default function App() {
           <Route path="/property-management" element={<Management />} />
           <Route path="/areas-we-cover" element={<AreaWeServe />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route
+            path="/terms-and-conditions"
+            element={<TermsAndConditions />}
+          />
 
           <Route path="/our-services/:serviceType" element={<ServicePage />} />
 
@@ -133,9 +147,6 @@ export default function App() {
           {/* NEW: dedicated service pages panel (Long-Term / Short-Term / Hybrid) */}
           <Route path="service-pages" element={<AdminDashboard />} />
         </Route>
-
-        {/* Catch-all */}
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

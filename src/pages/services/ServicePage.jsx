@@ -375,7 +375,7 @@ export default function ServicePage({ pageKey: propKey }) {
                   className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow"
                 >
                   <CardIcon card={card} index={idx} />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  <h3 className="text-xl font-semibold text-gray-900">
                     {card.title}
                   </h3>
                   {card.description && (
@@ -482,14 +482,14 @@ export default function ServicePage({ pageKey: propKey }) {
               style={{ background: GOLD_GRADIENT }}
             >
               {ctaText && (
-                <p className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-snug">
+                <p className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-snug  w-full lg:w-[80%] mx-auto">
                   {ctaText}
                 </p>
               )}
               {ctaBtnText && (
                 <a
                   href={ctaBtnHref}
-                  className="inline-block mt-6 bg-white px-8 py-4 font-semibold
+                  className="inline-block mt-6 bg-white px-6 py-3 font-semibold
                     hover:bg-gray-100 transition-colors shadow-lg"
                   style={{ color: "rgb(143,115,52)" }}
                 >

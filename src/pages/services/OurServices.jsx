@@ -196,8 +196,8 @@ export default function OurServices() {
   const shortDesc =
     meta.short_term_desc ||
     "Managing a short-term rental takes more than simply handing over the keys. Cleanliness, guest communication, property presentation, maintenance coordination, and fast issue resolution all play a critical role in keeping your property performing consistently.\n\nEverNorth helps property owners across Canada manage short-term rentals with dependable operational support designed to improve guest satisfaction, occupancy rates, and long-term property value. From guest-ready preparation to ongoing property oversight, we help simplify the day-to-day demands of short-term property ownership.";
-  const shortCtaText = meta.short_term_cta_text || "Book a Free Consultation";
-  const shortCtaHref = meta.short_term_cta_href || "#consultation";
+  const shortCtaText = "Contact Us";
+  const shortCtaHref = "/contact-us";
   const shortWhyTitle =
     meta.short_term_why_title ||
     "Why EverNorth for Short-Term Property Management";
@@ -210,8 +210,8 @@ export default function OurServices() {
   const longDesc =
     meta.long_term_desc ||
     "Owning a rental property should create long-term opportunities, not ongoing stress. Consistent maintenance, dependable oversight, and professional coordination are essential to protecting your investment and keeping your property operating smoothly year-round.\n\nEverNorth provides long-term property management services across Canada designed to help landlords and property owners maintain professionally managed, tenant-ready properties that support long-term value and stability.";
-  const longCtaText = meta.long_term_cta_text || "Schedule a Consultation";
-  const longCtaHref = meta.long_term_cta_href || "#consultation";
+  const longCtaText = "Contact US";
+  const longCtaHref = "/contact-us";
   const longWhyTitle =
     meta.long_term_why_title ||
     "Why EverNorth for Long-Term Property Management";
@@ -224,8 +224,8 @@ export default function OurServices() {
   const airbnbDesc =
     meta.airbnb_desc ||
     "A successful Hybrid experience depends on more than location alone. Guests expect clean, organized, comfortable, and professionally managed spaces from the moment they arrive.\n\nEverNorth helps Hybrid hosts across Canada improve guest experiences through professional hosting support, property coordination, presentation management, and day-to-day operational assistance designed to keep properties guest-ready at all times.";
-  const airbnbCtaText = meta.airbnb_cta_text || "Get Hosting Support";
-  const airbnbCtaHref = meta.airbnb_cta_href || "#consultation";
+  const airbnbCtaText = "Contcst Us";
+  const airbnbCtaHref = "/contact-us";
   const airbnbWhyTitle =
     meta.airbnb_why_title || "Why EverNorth for Hybrid PM & Co-Hosting";
   const airbnbImg = meta.airbnb_image?.url || WhoWeAreFallback;
@@ -247,7 +247,7 @@ export default function OurServices() {
     <>
       {/* ── 1. Intro Hero ───────────────────────────────────────────────── */}
       <section
-        className="flex items-center text-white py-24 px-5 min-h-[520px] bg-no-repeat"
+        className="flex items-center text-white py-24 px-5 min-h-[520px] bg-no-repeat relative"
         style={{
           background: `linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(${introImg})`,
           backgroundSize: "cover",
@@ -255,7 +255,8 @@ export default function OurServices() {
           backgroundRepeat:'no-repeat',
         }}
       >
-        <div className="w-full max-w-[1440px] mx-auto px-5">
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="w-full max-w-[1440px] mx-auto px-5 z-9">
           <div className="text-center max-w-[900px] mx-auto">
             {loading ? (
               <div className="space-y-4 animate-pulse">

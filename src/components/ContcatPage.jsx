@@ -1,5 +1,5 @@
 import { useState } from "react";
-import contactBgFallback from "../assets/images/rectangle_30_copy_2.jpg";
+// import contactBgFallback from "../assets/images/rectangle_30_copy_2.jpg";
 import { BaseUrl } from "./Config/BaseUrl";
 import { useSiteData } from "./SiteDataContext";
 
@@ -27,7 +27,7 @@ export default function ContactPage({ desc }) {
   const [errMsg, setErrMsg] = useState("");
 
   // ── Dynamic content with fallbacks ────────────────────────────────────────
-  const bgImage = contact?.bg_image?.url || contactBgFallback;
+  const bgImage = contact?.bg_image?.url;
   const heading = contact?.heading || "Want more information?";
   const subheading =
     contact?.subheading ||
@@ -168,15 +168,29 @@ export default function ContactPage({ desc }) {
                   disabled={isLoading}
                   className={inputClass}
                 />
-                <input
-                  type="text"
+                <select
                   name="subject"
-                  placeholder="Subject"
                   value={form.subject}
                   onChange={handleChange}
                   disabled={isLoading}
                   className={inputClass}
-                />
+                  required
+                >
+                  <option value="">Select your option</option>
+                  <option value="short-term-property-management">
+                    Short term property management
+                  </option>
+                  <option value="long-term-property-management">
+                    Long term property management
+                  </option>
+                  <option value="hybrid-property-management">
+                    Hybrid property management
+                  </option>
+                  {/* <option value="vacation-rental-management">
+                    Vacation rental management
+                  </option> */}
+                  {/* <option value="other-subject">Your subject</option> */}
+                </select>
               </div>
 
               <textarea

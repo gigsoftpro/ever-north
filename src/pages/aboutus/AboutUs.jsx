@@ -339,7 +339,7 @@ export default function AboutUs() {
                 </a>
                 <a
                   href={ctaBtn2Href}
-                  className="bg-black px-[35px] py-3 font-semibold text-white transition duration-300 hover:-translate-y-0.5"
+                  className="border border-1 bg-black px-[35px] py-3 font-semibold text-white transition duration-300 hover:-translate-y-0.5"
                 >
                   {ctaBtn2Text}
                 </a>
