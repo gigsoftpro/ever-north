@@ -160,17 +160,17 @@ export default function Hero() {
 
       {/* ── Content ─────────────────────────────────────────────────────── */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
-        {slide.title && (
+        {/* {slide.title && (
           <h1 className="text-white text-3xl sm:text-5xl lg:text-6xl font-bold max-w-5xl leading-tight">
             {slide.title}
           </h1>
-        )}
+        )} */}
 
-        {slide.subtitle && (
+        {/* {slide.subtitle && (
           <p className="text-white/90 mt-5 text-base sm:text-lg max-w-2xl">
             {slide.subtitle}
           </p>
-        )}
+        )} */}
 
         {slide.button_text && slide.button_link && (
           <a
