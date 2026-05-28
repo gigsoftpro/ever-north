@@ -225,13 +225,10 @@ export default function Hero() {
               }}
               aria-hidden={i !== current}
             >
-              {/* Dark overlay */}
               <div className="absolute inset-0 bg-black/40" />
 
-              {/* Content */}
               <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 py-16 sm:py-20 lg:py-28">
-                {/* Title + highlighted word */}
-                {(slide.title || slide.highlighted_word) && (
+                {/* {(slide.title || slide.highlighted_word) && (
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6 drop-shadow-lg max-w-3xl">
                     {slide.title && <span>{slide.title} </span>}
                     {slide.highlighted_word && (
@@ -240,14 +237,13 @@ export default function Hero() {
                       </span>
                     )}
                   </h1>
-                )}
+                )} */}
 
-                {/* CTA button */}
-                {slide.cta_text && (
+                {/* {slide.cta_text && (
                   <button className="mt-2 px-8 py-3 text-base font-semibold text-white rounded-full border-2 border-white/80 hover:bg-white hover:text-gray-900 transition-all duration-200 backdrop-blur-sm">
                     {slide.cta_text}
                   </button>
-                )}
+                )} */}
               </div>
             </div>
           );

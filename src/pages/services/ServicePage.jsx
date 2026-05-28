@@ -455,11 +455,12 @@ export default function ServicePage({ pageKey: propKey }) {
                     <div className="space-y-3">
                       {whyItems.map((item) => (
                         <div key={item.id} className="flex items-start gap-3">
-                          <div
-                            className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5"
-                            style={{ background: GOLD_GRADIENT }}
-                          >
-                            <CheckCircle size={14} className="text-white" />
+                          <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5">
+                            <CheckCircle
+                              size={18}
+                              className="shrink-0 mt-0.5"
+                              style={{ color: "#b7a170" }}
+                            />
                           </div>
                           <p className="text-gray-600 text-lg">{item.text}</p>
                         </div>
@@ -475,7 +476,6 @@ export default function ServicePage({ pageKey: propKey }) {
             </div>
           </div>
 
-          {/* CTA Banner */}
           {!loading && (ctaText || ctaBtnText) && (
             <div
               className="rounded-2xl p-8 sm:p-12 text-center"

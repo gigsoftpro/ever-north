@@ -230,7 +230,6 @@ export default function AreaWeServe() {
         </div>
       </section>
 
-
       <AreasWeCover />
 
       <section className="py-16 lg:py-20 bg-white">
@@ -284,21 +283,11 @@ export default function AreaWeServe() {
                     <ul className="space-y-1 mb-4">
                       {services.map((svc) => (
                         <li key={svc.id} className="flex items-start gap-2">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="2"
-                            stroke="currentColor"
-                            className="w-6 h-6 mt-[2px] flex-shrink-0"
-                            style={{ color: "#ab935e" }}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
+                          <CheckCircle
+                            size={18}
+                            className="shrink-0 mt-0.5"
+                            style={{ color: "#b7a170" }}
+                          />
                           <span className="text-gray-700 text-base">
                             {svc.text}
                           </span>
@@ -318,7 +307,7 @@ export default function AreaWeServe() {
           </div>
         </div>
       </section>
-        <ContactForm />
+      <ContactForm />
       {error && (
         <div
           className="fixed bottom-4 right-4 bg-red-50 border border-red-200 text-red-600
