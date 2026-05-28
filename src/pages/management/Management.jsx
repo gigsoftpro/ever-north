@@ -203,34 +203,35 @@ export default function Management() {
       {/* ── Services Grid ── */}
       <section className="w-full bg-[#f7f2e8] overflow-hidden">
         <div className="w-full max-w-[1440px] mx-auto py-16 lg:py-24 px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-y-10 sm:gap-x-8 sm:gap-y-10 justify-center">
             {displayedItems.map(({ img, label, title, para }, idx) => (
               <div
                 key={`${label}-${idx}`}
-                className="flex flex-col items-center text-center min-w-0"
+                className="w-full md:max-w-[47.5%] mx-auto sm:w-[calc((100%-2rem)/2)] flex flex-col items-center justify-between text-center bg-[#f1f1f16b] p-4 md:p-8 border border-[#dddddd91] rounded-xl"
               >
-                {/* Circle image */}
-                <div
-                  className="w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-full bg-white flex items-center justify-center shrink-0"
-                  style={{ boxShadow: "0 0 36px 0 rgba(151,126,68,0.22)" }}
-                >
-                  <img
-                    src={img}
-                    alt={label}
-                    className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-full object-cover"
-                  />
-                </div>
+                <div className="w-full">
+                  <div
+                    className="w-full bg-white flex items-center justify-center overflow-hidden rounded-xl"
+                    style={{ boxShadow: "0 0 36px 0 rgba(151,126,68,0.22)" }}
+                  >
+                    <img
+                      src={img}
+                      alt={label}
+                      className="h-[350px] w-full object-cover rounded-lg"
+                    />
+                  </div>
 
-                {/* Text */}
-                <div className="mt-6 w-full min-w-0">
-                  <h3 className="text-[#000000] text-xl sm:text-[22px] font-semibold mb-4">
-                    {title}
-                  </h3>
-                  {para && (
-                    <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg max-w-[34ch] mx-auto">
-                      {para}
-                    </p>
-                  )}
+                  {/* Text */}
+                  <div className="mt-6 w-full min-w-0">
+                    <h3 className="text-[#000000] text-xl sm:text-[22px] font-semibold mb-4">
+                      {title}
+                    </h3>
+                    {para && (
+                      <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg max-w-[34ch] mx-auto">
+                        {para}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 <GoldButton className="mt-5">Contact Us</GoldButton>
