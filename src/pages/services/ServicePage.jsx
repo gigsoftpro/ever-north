@@ -331,11 +331,11 @@ export default function ServicePage({ pageKey: propKey }) {
                 <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
                   {servicesTitle}
                 </h2>
-                {servicesSubtitle && (
+                {/* {servicesSubtitle && (
                   <p className="text-md md:text-lg text-gray-600 max-w-4xl mx-auto mb-3">
                     {servicesSubtitle}
                   </p>
-                )}
+                )} */}
                 {servicesDesc1 && (
                   <p className="text-md md:text-lg text-gray-600 max-w-4xl mx-auto mb-3">
                     {servicesDesc1}
