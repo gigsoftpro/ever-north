@@ -192,7 +192,7 @@ export default function Management() {
             </p>
             <a
               href="/contact-us"
-              className="inline-block rounded-[2px] bg-gradient-to-t from-[#8f7334] to-[#b7a170] px-[35px] py-[10px] text-lg font-medium text-white transition duration-300 hover:-translate-y-0.5"
+              className="inline-block bg-gradient-to-t from-[#8f7334] to-[#b7a170] px-[35px] py-[10px] text-lg font-medium text-white transition duration-300 hover:-translate-y-0.5"
             >
               Contact Us
             </a>
@@ -227,7 +227,7 @@ export default function Management() {
                       {title}
                     </h3>
                     {para && (
-                      <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg max-w-[34ch] mx-auto">
+                      <p className="text-[#000000] font-medium leading-7 sm:leading-8 text-base sm:text-lg w-full md:max-w-[74ch] mx-auto">
                         {para}
                       </p>
                     )}
