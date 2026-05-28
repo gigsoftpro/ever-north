@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-// import heroBg from "../assets/images/rectangle_9_copy.jpg";
-// import heroOverlay from "../assets/images/rectangle_189.png";
 import { useSiteData } from "./SiteDataContext";
+import { BaseUrl } from "./Config/BaseUrl";
 
 const SLIDE_INTERVAL = 5000;
 
@@ -47,15 +46,36 @@ function ChevronRight() {
 export default function Hero() {
   const { siteData, loading } = useSiteData();
   const [current, setCurrent] = useState(0);
+  const [slidesData, setSlidesData] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
   const timerRef = useRef(null);
-  const trackRef = useRef(null); // the sliding div
+  const trackRef = useRef(null);
 
   // Touch / mouse drag state
-  const dragStart = useRef(null); // { x, y, time }
+  const dragStart = useRef(null);
   const isDragging = useRef(false);
 
-  const slides = siteData?.hero ?? [];
+  useEffect(() => {
+    const fetchSiteData = async () => {
+      try {
+        const res = await fetch(`${BaseUrl}content/hero`);
+        const json = await res.json();
+        if (json.success) {
+          setSlidesData(json.data);
+          //
+        } else {
+          //
+        }
+      } catch (err) {
+        //
+      } finally {
+        //
+      }
+    };
+    fetchSiteData();
+  }, []);
+
+  const slides = slidesData ?? [];
   const count = slides.length;
 
   // ── Navigate to a specific slide ──────────────────────────────────────────
@@ -275,7 +295,6 @@ export default function Hero() {
         })}
       </div>
 
-      {/* ── Prev / Next arrow buttons ───────────────────────────────────────── */}
       {count > 1 && (
         <>
           <button

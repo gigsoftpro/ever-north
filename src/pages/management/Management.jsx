@@ -191,7 +191,7 @@ export default function Management() {
               transparency, and long-term value.
             </p>
             <a
-              href="#contact"
+              href="/contact-us"
               className="inline-block rounded-[2px] bg-gradient-to-t from-[#8f7334] to-[#b7a170] px-[35px] py-[10px] text-lg font-medium text-white transition duration-300 hover:-translate-y-0.5"
             >
               Contact Us

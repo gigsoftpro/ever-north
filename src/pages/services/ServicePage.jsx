@@ -237,7 +237,7 @@ export default function ServicePage({ pageKey: propKey }) {
             </div>
           ) : (
             <>
-              <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
+              <h1 className="text-4xl sm:text-5xl font-semibold text-white mb-4 leading-tight">
                 {heroTitle}
               </h1>
               <p className="text-md md:text-xl text-amber-50 max-w-3xl mx-auto">
@@ -253,14 +253,14 @@ export default function ServicePage({ pageKey: propKey }) {
         <div className="max-w-[1440px] mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-start">
             {/* Image */}
-            <div className="bg-white rounded-2xl overflow-hidden">
+            <div className="bg-white rounded-2xl overflow-hidden h-full">
               {loading ? (
                 <Skel className="w-full h-72 rounded-2xl" />
               ) : (
                 <img
                   src={introImg}
                   alt={heroTitle}
-                  className="w-full h-auto rounded-2xl object-cover"
+                  className="w-full h-full rounded-2xl object-cover"
                 />
               )}
             </div>
@@ -290,7 +290,7 @@ export default function ServicePage({ pageKey: propKey }) {
               ) : (
                 <>
                   {introHeading && (
-                    <h2 className="text-2xl font-bold text-gray-900 mb-5">
+                    <h2 className="text-2xl font-semibold text-gray-900 mb-5">
                       {introHeading}
                     </h2>
                   )}
@@ -328,7 +328,7 @@ export default function ServicePage({ pageKey: propKey }) {
               </div>
             ) : (
               <>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-4">
                   {servicesTitle}
                 </h2>
                 {/* {servicesSubtitle && (
@@ -437,7 +437,7 @@ export default function ServicePage({ pageKey: propKey }) {
                 </div>
               ) : (
                 <>
-                  <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                  <h2 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-4">
                     {whyTitle}
                   </h2>
                   {whyDesc && (
@@ -482,7 +482,7 @@ export default function ServicePage({ pageKey: propKey }) {
               style={{ background: GOLD_GRADIENT }}
             >
               {ctaText && (
-                <p className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-snug  w-full lg:w-[80%] mx-auto">
+                <p className="text-2xl sm:text-3xl font-semibold text-white mb-2 leading-snug  w-full lg:w-[80%] mx-auto">
                   {ctaText}
                 </p>
               )}

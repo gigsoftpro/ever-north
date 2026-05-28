@@ -622,7 +622,7 @@ export default function Header() {
                         link.href === "/our-services" ||
                         link.label === "Services";
                       const isLast = i === navLinks.length - 1;
-                      const sharedCls = `whitespace-nowrap py-4 text-[12px] font-medium uppercase tracking-[0.14em] text-white transition-colors hover:text-[#fff] xl:text-sm 2xl:text-[15px] px-[14px] xl:px-5 ${!isLast ? "border-r border-[#8b6f31]/70" : ""}`;
+                      const sharedCls = `whitespace-nowrap py-4 text-[12px] font-medium uppercase text-white transition-colors hover:text-[#fff] xl:text-sm 2xl:text-[15px] px-[14px] xl:px-5 ${!isLast ? "border-r border-[#8b6f31]/70" : ""}`;
 
                       if (isServices) {
                         return (
@@ -660,7 +660,7 @@ export default function Header() {
                   {/* ── Desktop Search ── */}
                   <div className="ml-2 flex items-center gap-3 border-l border-[#8b6f31]/70 pl-[clamp(12px,22px,22px)]">
                     <div ref={searchContainerRef} className="relative">
-                      <div className="border-b border-gray-100 transition-colors duration-200 focus-within:border-white flex items-center gap-2">
+                      <div className="border-gray-100 transition-colors duration-200 focus-within:border-white flex items-center gap-2">
                         <input
                           value={searchQuery}
                           onChange={handleSearchChange}
