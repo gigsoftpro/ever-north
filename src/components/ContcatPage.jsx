@@ -168,29 +168,15 @@ export default function ContactPage({ desc }) {
                   disabled={isLoading}
                   className={inputClass}
                 />
-                <select
+                <input
+                  type="text"
                   name="subject"
+                  placeholder="Subject"
                   value={form.subject}
                   onChange={handleChange}
                   disabled={isLoading}
                   className={inputClass}
-                  required
-                >
-                  <option value="">Select your option</option>
-                  <option value="short-term-property-management">
-                    Short term property management
-                  </option>
-                  <option value="long-term-property-management">
-                    Long term property management
-                  </option>
-                  <option value="hybrid-property-management">
-                    Hybrid property management
-                  </option>
-                  {/* <option value="vacation-rental-management">
-                    Vacation rental management
-                  </option> */}
-                  {/* <option value="other-subject">Your subject</option> */}
-                </select>
+                />
               </div>
 
               <textarea

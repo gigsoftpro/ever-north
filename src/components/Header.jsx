@@ -406,7 +406,6 @@ export default function Header() {
         const el = searchContainerRef.current;
         if (!el) return;
         const r = el.getBoundingClientRect();
-        console.log(r);
         setSearchPos((prev) => {
           const next = {
             top: r.bottom + 6,
