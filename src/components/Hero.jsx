@@ -2,6 +2,8 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useSiteData } from "./SiteDataContext";
 import { BaseUrl } from "./Config/BaseUrl";
 
+const heroData = `${BaseUrl}content/hero`
+
 const SLIDE_INTERVAL = 5000;
 
 function splitTitle(title) {
@@ -46,36 +48,15 @@ function ChevronRight() {
 export default function Hero() {
   const { siteData, loading } = useSiteData();
   const [current, setCurrent] = useState(0);
-  const [slidesData, setSlidesData] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
   const timerRef = useRef(null);
-  const trackRef = useRef(null);
+  const trackRef = useRef(null); // the sliding div
 
   // Touch / mouse drag state
-  const dragStart = useRef(null);
+  const dragStart = useRef(null); // { x, y, time }
   const isDragging = useRef(false);
 
-  useEffect(() => {
-    const fetchSiteData = async () => {
-      try {
-        const res = await fetch(`${BaseUrl}content/hero`);
-        const json = await res.json();
-        if (json.success) {
-          setSlidesData(json.data);
-          //
-        } else {
-          //
-        }
-      } catch (err) {
-        //
-      } finally {
-        //
-      }
-    };
-    fetchSiteData();
-  }, []);
-
-  const slides = slidesData ?? [];
+  const slides = siteData?.hero ?? [];
   const count = slides.length;
 
   // ── Navigate to a specific slide ──────────────────────────────────────────
