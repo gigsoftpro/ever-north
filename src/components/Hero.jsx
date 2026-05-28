@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useSiteData } from "./SiteDataContext";
 import { BaseUrl } from "./Config/BaseUrl";
 
-const heroData = `${BaseUrl}content/hero`
+const heroData = `${BaseUrl}content/hero`;
 
 const SLIDE_INTERVAL = 5000;
 
@@ -49,17 +49,32 @@ export default function Hero() {
   const { siteData, loading } = useSiteData();
   const [current, setCurrent] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
+  const [carouselData, setCarouselData] = useState(false);
   const timerRef = useRef(null);
   const trackRef = useRef(null); // the sliding div
 
-  // Touch / mouse drag state
   const dragStart = useRef(null); // { x, y, time }
   const isDragging = useRef(false);
 
-  const slides = siteData?.hero ?? [];
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const res = await fetch(`${BaseUrl}content/hero`);
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        const data = await res.json();
+        setCarouselData(data.data);
+      } catch (err) {
+        console.error("Failed to fetch content:", err);
+      }
+    };
+    fetchContent();
+  }, []);
+
+  const slides = carouselData ?? siteData?.hero ?? [];
   const count = slides.length;
 
-  // ── Navigate to a specific slide ──────────────────────────────────────────
   const goTo = useCallback(
     (idx) => {
       if (transitioning) return;

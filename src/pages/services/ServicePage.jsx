@@ -408,7 +408,7 @@ export default function ServicePage({ pageKey: propKey }) {
       <section className="py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-[1440px] mx-auto">
           {/* 2-col: image + bullets */}
-          <div className="flex flex-col md:flex-row gap-10 mb-16">
+          <div className="flex flex-col md:flex-row gap-10 items-center mb-16">
             {/* Image */}
             <div className="md:w-5/12 shrink-0">
               {loading ? (
