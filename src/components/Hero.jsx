@@ -2,16 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useSiteData } from "./SiteDataContext";
 import { BaseUrl } from "./Config/BaseUrl";
 
-const heroData = `${BaseUrl}content/hero`;
-
 const SLIDE_INTERVAL = 5000;
-
-function splitTitle(title) {
-  if (!title) return ["", ""];
-  const words = title.trim().split(/\s+/);
-  const mid = Math.ceil(words.length / 2);
-  return [words.slice(0, mid).join(" "), words.slice(mid).join(" ")];
-}
 
 // ── Arrow icons ───────────────────────────────────────────────────────────────
 function ChevronLeft() {
@@ -49,30 +40,32 @@ export default function Hero() {
   const { siteData, loading } = useSiteData();
   const [current, setCurrent] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
-  const [carouselData, setCarouselData] = useState(false);
+  const [carouselData, setCarouselData] = useState(null); // ← FIX: was false
   const timerRef = useRef(null);
-  const trackRef = useRef(null); // the sliding div
+  const trackRef = useRef(null);
 
-  const dragStart = useRef(null); // { x, y, time }
+  const dragStart = useRef(null);
   const isDragging = useRef(false);
 
   useEffect(() => {
     const fetchContent = async () => {
       try {
         const res = await fetch(`${BaseUrl}content/hero`);
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
         const data = await res.json();
-        setCarouselData(data.data);
+        // ← FIX: guard — only store if actually an array
+        setCarouselData(Array.isArray(data.data) ? data.data : []);
       } catch (err) {
         console.error("Failed to fetch content:", err);
+        setCarouselData([]); // ← FIX: don't leave null forever on error
       }
     };
     fetchContent();
   }, []);
 
-  const slides = carouselData ?? siteData?.hero ?? [];
+  // ← FIX: always guarantee an array, null falls through to siteData or []
+  const raw = carouselData ?? siteData?.hero ?? [];
+  const slides = Array.isArray(raw) ? raw : [];
   const count = slides.length;
 
   const goTo = useCallback(
@@ -104,13 +97,10 @@ export default function Hero() {
     return () => clearInterval(timerRef.current);
   }, [resetTimer]);
 
-  // ── Dot click ─────────────────────────────────────────────────────────────
   const handleDot = (idx) => {
     goTo(idx);
     resetTimer();
   };
-
-  // ── Arrow click ───────────────────────────────────────────────────────────
   const handlePrev = () => {
     prev();
     resetTimer();
@@ -120,7 +110,7 @@ export default function Hero() {
     resetTimer();
   };
 
-  // ── Touch events ─────────────────────────────────────────────────────────
+  // ── Touch ─────────────────────────────────────────────────────────────────
   const onTouchStart = (e) => {
     const t = e.touches[0];
     dragStart.current = { x: t.clientX, y: t.clientY, time: Date.now() };
@@ -133,10 +123,8 @@ export default function Hero() {
     const dx = t.clientX - dragStart.current.x;
     const dy = Math.abs(t.clientY - dragStart.current.y);
     const dt = Date.now() - dragStart.current.time;
-    // Swipe: horizontal movement > 40px, faster than 500ms, more horizontal than vertical
-    if (Math.abs(dx) > 40 && dy < 80 && dt < 500) {
+    if (Math.abs(dx) > 40 && dy < 80 && dt < 500)
       dx < 0 ? handleNext() : handlePrev();
-    }
     dragStart.current = null;
   };
 
@@ -150,9 +138,7 @@ export default function Hero() {
     isDragging.current = false;
     const dx = e.clientX - dragStart.current.x;
     const dt = Date.now() - dragStart.current.time;
-    if (Math.abs(dx) > 50 && dt < 500) {
-      dx < 0 ? handleNext() : handlePrev();
-    }
+    if (Math.abs(dx) > 50 && dt < 500) dx < 0 ? handleNext() : handlePrev();
     dragStart.current = null;
   };
   const onMouseLeave = () => {
@@ -160,7 +146,7 @@ export default function Hero() {
     dragStart.current = null;
   };
 
-  // ── Wheel scroll (horizontal or vertical) ────────────────────────────────
+  // ── Wheel ─────────────────────────────────────────────────────────────────
   const wheelLock = useRef(false);
   const onWheel = (e) => {
     if (wheelLock.current) return;
@@ -170,7 +156,7 @@ export default function Hero() {
     delta > 0 ? handleNext() : handlePrev();
     setTimeout(() => {
       wheelLock.current = false;
-    }, 900); // debounce one slide at a time
+    }, 900);
   };
 
   // ── Keyboard ─────────────────────────────────────────────────────────────
@@ -183,55 +169,24 @@ export default function Hero() {
     return () => window.removeEventListener("keydown", handler);
   }, [current, transitioning]); // eslint-disable-line
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // Loading skeleton
+  // ── Loading skeleton ──────────────────────────────────────────────────────
   if (loading) {
     return (
-      <section
-        className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[500px] flex flex-col"
-        style={{
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div
-          className="absolute inset-0 w-full h-full"
-          style={{
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-start text-center px-4 py-16">
-          <div className="space-y-4 w-full max-w-lg animate-pulse">
-            <div className="h-12 rounded-lg mx-auto w-3/4" />
-            <div className="h-12 rounded-lg mx-auto w-1/2" />
-            <div className="h-10 rounded mx-auto w-32 mt-6" />
-          </div>
+      <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[600px] bg-gray-200 animate-pulse flex items-center justify-center">
+        <div className="space-y-4 w-full max-w-lg text-center px-4">
+          <div className="h-12 bg-gray-300 rounded-lg mx-auto w-3/4" />
+          <div className="h-12 bg-gray-300 rounded-lg mx-auto w-1/2" />
+          <div className="h-10 bg-gray-300 rounded mx-auto w-32 mt-6" />
         </div>
       </section>
     );
   }
 
-  // No slides fallback
+  // ── No slides fallback ────────────────────────────────────────────────────
   if (count === 0) {
     return (
-      <section
-        className="relative w-full min-h-[30vh] sm:min-h-[70vh] lg:min-h-[808px] flex flex-col"
-        style={{
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <div className="relative z-10 flex-1 flex items-center justify-center">
-          <p className="text-white/60 text-sm">No hero slides configured.</p>
-        </div>
+      <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[600px] bg-gray-900 flex items-center justify-center">
+        <p className="text-white/60 text-sm">No hero slides configured.</p>
       </section>
     );
   }
@@ -247,7 +202,7 @@ export default function Hero() {
       onMouseLeave={onMouseLeave}
       onWheel={onWheel}
     >
-      {/* ── Slide track ────────────────────────────────────────────────────── */}
+      {/* ── Slide track ──────────────────────────────────────────────────── */}
       <div
         ref={trackRef}
         className="flex h-full w-full transition-transform duration-700 ease-in-out"
@@ -258,82 +213,68 @@ export default function Hero() {
       >
         {slides.map((slide, i) => {
           const bgImg = slide.bg_image?.url;
-          const ovImg = slide.overlay_image?.url;
-          const titleLines = splitTitle(slide.title);
 
           return (
             <div
               key={slide.id ?? i}
               className="relative flex-shrink-0 w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[600px] flex flex-col"
               style={{
-                backgroundImage: `url(${bgImg})`,
+                backgroundImage: bgImg ? `url(${bgImg})` : undefined,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
               aria-hidden={i !== current}
             >
-              {/* Overlay */}
-              <div
-                className="absolute inset-0 w-full h-full"
-                style={{
-                  backgroundImage: `linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)), url(${ovImg})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              />
+              {/* Dark overlay */}
+              <div className="absolute inset-0 bg-black/40" />
 
               {/* Content */}
               <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 py-16 sm:py-20 lg:py-28">
-                {/* Uncomment title / CTA when ready */}
+                {/* Title + highlighted word */}
+                {(slide.title || slide.highlighted_word) && (
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6 drop-shadow-lg max-w-3xl">
+                    {slide.title && <span>{slide.title} </span>}
+                    {slide.highlighted_word && (
+                      <span style={{ color: "#b7a170" }}>
+                        {slide.highlighted_word}
+                      </span>
+                    )}
+                  </h1>
+                )}
+
+                {/* CTA button */}
+                {slide.cta_text && (
+                  <button className="mt-2 px-8 py-3 text-base font-semibold text-white rounded-full border-2 border-white/80 hover:bg-white hover:text-gray-900 transition-all duration-200 backdrop-blur-sm">
+                    {slide.cta_text}
+                  </button>
+                )}
               </div>
             </div>
           );
         })}
       </div>
 
+      {/* ── Prev / Next arrows ───────────────────────────────────────────── */}
       {count > 1 && (
         <>
           <button
             onClick={handlePrev}
             aria-label="Previous slide"
-            className="
-              absolute left-4 top-1/2 -translate-y-1/2 z-20
-              w-11 h-11 rounded-full
-              flex items-center justify-center
-              bg-black/40 hover:bg-black/60
-              text-white
-              backdrop-blur-sm
-              border border-white/20
-              transition-all duration-200
-              hover:scale-110
-              focus:outline-none focus:ring-2 focus:ring-white/50
-            "
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full flex items-center justify-center bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm border border-white/20 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
           >
             <ChevronLeft />
           </button>
-
           <button
             onClick={handleNext}
             aria-label="Next slide"
-            className="
-              absolute right-4 top-1/2 -translate-y-1/2 z-20
-              w-11 h-11 rounded-full
-              flex items-center justify-center
-              bg-black/40 hover:bg-black/60
-              text-white
-              backdrop-blur-sm
-              border border-white/20
-              transition-all duration-200
-              hover:scale-110
-              focus:outline-none focus:ring-2 focus:ring-white/50
-            "
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full flex items-center justify-center bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm border border-white/20 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
           >
             <ChevronRight />
           </button>
         </>
       )}
 
-      {/* ── Dot indicators ──────────────────────────────────────────────────── */}
+      {/* ── Dot indicators ───────────────────────────────────────────────── */}
       {count > 1 && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
           {slides.map((_, i) => (
