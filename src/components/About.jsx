@@ -43,7 +43,7 @@ export default function About() {
 
   return (
     <section className="w-full overflow-hidden py-6 py-md-12 px-4 mt-10">
-      <div className="max-w-[1440px] mx-auto mx-auto py-4 md:py-12 px-4">
+      <div className="max-w-[1440px] mx-auto mx-auto py-4 md:py-12 px-0 md:px-4">
         <div className="flex flex-col sm:flex-row sm:flex-wrap xl:flex-nowrap justify-between gap-6 items-stretch">
           <div className="block w-full sm:w-[calc(50%-12px)] xl:w-[31.9%] xl:flex-shrink-0 rounded-[20px] overflow-hidden max-h-[400px] sm:max-h-[530px] xl:min-h-0">
             <img
