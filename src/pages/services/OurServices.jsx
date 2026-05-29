@@ -33,7 +33,7 @@ function WhyList({ items, loading }) {
             className="shrink-0 mt-0.5"
             style={{ color: "#b7a170" }}
           />
-          <span className="text-gray-600 text-base leading-snug">
+          <span className="text-gray-600 text-base leading-snug text-lg">
             {item.text ?? item}
           </span>
         </li>
